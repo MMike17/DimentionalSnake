@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
 	{
 		// TODO : Init managers
 
-		terrainManager.Init();
+		terrainManager.Init(snake.transform);
 		scoreManager.Init();
 	}
 
