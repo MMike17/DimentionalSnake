@@ -3,6 +3,8 @@ using UnityEngine;
 /// <summary>Entry point of the game flow</summary>
 public class GameManager : MonoBehaviour
 {
+	const string SAVE_FILE_NAME = "save";
+
 	[Header("Settings")]
 	public float initialHighscore;
 
@@ -19,6 +21,7 @@ public class GameManager : MonoBehaviour
 
 	void Awake()
 	{
+		LoadLocalData();
 		InitManagers();
 		SubscribePlayerInput();
 
@@ -31,6 +34,14 @@ public class GameManager : MonoBehaviour
 				// TODO : Implemente game over
 			}
 		);
+	}
+
+	void LoadLocalData()
+	{
+		if(DataManager.DoesFileExists(SAVE_FILE_NAME))
+			playerData = DataManager.LoadObjectAtPath<PlayerData>(SAVE_FILE_NAME);
+		else
+			playerData = new PlayerData();
 	}
 
 	void InitManagers()

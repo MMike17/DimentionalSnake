@@ -4,5 +4,12 @@ using System;
 [Serializable]
 public class PlayerData
 {
-	public int highscore, playerMoney;
+	public float highscore;
+	public int playerMoney;
+
+	public PlayerData()
+	{
+		highscore = 0;
+		playerMoney = 0;
+	}
 }
