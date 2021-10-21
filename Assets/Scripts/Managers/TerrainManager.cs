@@ -55,11 +55,8 @@ public class TerrainManager : BaseBehaviour
 
 	float GetDistanceFromPlayer(Transform chunk)
 	{
-		Vector3 playerPos = player.position;
-		playerPos.x = 0;
-		playerPos.y = 0;
-
-		return Vector3.Distance(playerPos, chunk.position);
+		float zDifference = player.position.z - chunk.position.z;
+		return zDifference > 0 ? zDifference : 0;
 	}
 
 	public void SpawnChunk(int difficulty)
