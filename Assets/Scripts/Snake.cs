@@ -14,7 +14,7 @@ public class Snake : BaseBehaviour
 	[Header("Scene references")]
 	public GameObject piecePrefab;
 
-	List<GameObject> snakePieces;
+	List<GameObject> spawnedPieces;
 	Vector3 targetPos;
 	float minX, maxX, smoothMinX, smoothMaxX, currentSpeed;
 
@@ -23,7 +23,7 @@ public class Snake : BaseBehaviour
 		this.minX = minX;
 		this.maxX = maxX;
 
-		snakePieces = new List<GameObject>();
+		spawnedPieces = new List<GameObject>();
 
 		float range = maxX - minX;
 		smoothMinX = minX + range * smoothingPercent;
@@ -32,7 +32,16 @@ public class Snake : BaseBehaviour
 		targetPos = transform.position;
 		currentSpeed = 0;
 
-		// TODO : spawn initial snake pieces manualy
+		// spawning initial pieces
+		Vector3 position = transform.position;
+
+		for (int i = 0; i < minSnakeLength; i++)
+		{
+			position -= Vector3.forward * zPieceDistanceFromCore;
+			GameObject snakePiece = Instantiate(piecePrefab, position, Quaternion.identity);
+
+			spawnedPieces.Add(snakePiece);
+		}
 
 		InitInternal();
 	}
@@ -55,15 +64,15 @@ public class Snake : BaseBehaviour
 
 	void SpawnSnakePiece()
 	{
-		Transform lastPiece = snakePieces[snakePieces.Count - 1].transform;
+		Transform lastPiece = spawnedPieces[spawnedPieces.Count - 1].transform;
 
 		float pieceZPos = lastPiece.position.z - zPieceDistanceFromCore;
-		float xOffset = lastPiece.position.x - snakePieces[snakePieces.Count - 2].transform.position.x;
+		float xOffset = lastPiece.position.x - spawnedPieces[spawnedPieces.Count - 2].transform.position.x;
 
 		Vector3 spawnPos = new Vector3(lastPiece.position.x + xOffset, 0, pieceZPos);
 
 		GameObject spawnedPiece = Instantiate(piecePrefab, spawnPos, Quaternion.identity);
-		snakePieces.Add(spawnedPiece);
+		spawnedPieces.Add(spawnedPiece);
 	}
 
 	void OnTriggerEnter(Collider other)
