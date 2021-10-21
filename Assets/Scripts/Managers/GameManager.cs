@@ -1,18 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>Entry point of the game flow</summary>
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	[Header("Managers")]
+	public TerrainManager terrainManager;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	[Header("Uniques")]
+	public Snake snake;
+
+	void Awake()
+	{
+		InitManagers();
+
+		snake.Init();
+	}
+
+	void InitManagers()
+	{
+		// TODO : Init managers
+		terrainManager.Init();
+	}
 }
