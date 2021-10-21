@@ -10,18 +10,17 @@ public class TerrainGenerator : BaseBehaviour
 
 	[Header("Scene references")]
 	public TerrainChunk[] terrainChunks;
-	public Transform spawnPoint;
-
-	Vector3 spawnPos => new Vector3(0, 0, spawnPoint.position.z);
 
 	List<Transform> spawnedChunks;
 	List<int> lastSpawnedChunks;
 	Func<Transform, float> GetDistanceFromPlayer;
+	Func<Vector3> GetSpawnPoint;
 	float deleteDistance;
 
-	public void Init(float deleteDistance, Func<Transform, float> getDistanceFromPlayer)
+	public void Init(float deleteDistance, Func<Vector3> getSpawnPoint, Func<Transform, float> getDistanceFromPlayer)
 	{
 		this.deleteDistance = deleteDistance;
+		GetSpawnPoint = getSpawnPoint;
 		GetDistanceFromPlayer = getDistanceFromPlayer;
 
 		lastSpawnedChunks = new List<int>();
@@ -76,7 +75,7 @@ public class TerrainGenerator : BaseBehaviour
 			lastSpawnedChunks.RemoveAt(0);
 
 		// spawn terrain chunk
-		Transform spawnedChunk = Instantiate(terrainChunks[chunkIndex].terrainPrefab, spawnPos, Quaternion.identity).transform;
+		Transform spawnedChunk = Instantiate(terrainChunks[chunkIndex].terrainPrefab, GetSpawnPoint(), Quaternion.identity).transform;
 
 		spawnedChunks.Add(spawnedChunk);
 	}

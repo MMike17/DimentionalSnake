@@ -8,6 +8,8 @@ public class TerrainManager : BaseBehaviour
 
 	[Header("Scene references")]
 	public TerrainGenerator terrainGenerator;
+	[Space]
+	public Transform spawnPoint;
 
 	// TODO : Pieces generation
 	// TODO : Money generation
@@ -15,14 +17,17 @@ public class TerrainManager : BaseBehaviour
 
 	public void Init(Transform player)
 	{
-		terrainGenerator.Init(deleteDistance, chunk =>
-		{
-			Vector3 playerPos = player.position;
-			playerPos.x = 0;
-			playerPos.y = 0;
+		terrainGenerator.Init(
+			deleteDistance,
+			() => { return new Vector3(0, 0, spawnPoint.position.z); },
+			chunk =>
+			{
+				Vector3 playerPos = player.position;
+				playerPos.x = 0;
+				playerPos.y = 0;
 
-			return Vector3.Distance(playerPos, chunk.position);
-		});
+				return Vector3.Distance(playerPos, chunk.position);
+			});
 
 		InitInternal();
 	}
