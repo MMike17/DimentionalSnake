@@ -15,10 +15,11 @@ public class Snake : BaseBehaviour
 	public float horizontalSpeed;
 	public float zPieceDistanceFromCore, maxPieceXAmplitude;
 	[Range(0, 1)]
-	public float smoothingPercent, minSpeedRatio;
+	public float smoothingPercent, minSpeedRatio, headAlignmentPercent;
 
 	[Header("Scene references")]
 	public GameObject piecePrefab;
+	public Transform head;
 
 	List<GameObject> spawnedPieces;
 	Action GetMoney, LoseGame;
@@ -109,6 +110,9 @@ public class Snake : BaseBehaviour
 
 			previousPos = piece.transform.position;
 		}
+
+		Vector3 offset = Vector3.Normalize(head.position - spawnedPieces[0].transform.position);
+		head.LookAt(head.position + Vector3.Lerp(Vector3.forward, offset, headAlignmentPercent));
 	}
 
 	void SpawnSnakePiece()

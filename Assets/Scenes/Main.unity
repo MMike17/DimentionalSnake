@@ -220,7 +220,9 @@ MonoBehaviour:
   maxPieceXAmplitude: 1
   smoothingPercent: 0.2
   minSpeedRatio: 0.1
+  headAlignmentPercent: 0.8
   piecePrefab: {fileID: 140481430464970000, guid: ada77668d5f37ec43aa80e88e225336a, type: 3}
+  head: {fileID: 322125704}
 --- !u!54 &233817846
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -250,7 +252,7 @@ GameObject:
   - component: {fileID: 322125706}
   - component: {fileID: 322125705}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -302,7 +304,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 22f69773603bfcf449f56ff25057d16c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
