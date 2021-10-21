@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
 	[Header("Managers")]
 	public TerrainManager terrainManager;
+	public InterfaceManager interfaceManager;
 	public ScoreManager scoreManager;
 	public DifficultyManager difficultyManager;
 
@@ -61,12 +62,16 @@ public class GameManager : MonoBehaviour
 			difficultyManager.GetCurrentSpeed,
 			distance => scoreManager.AddPlayerScore(distance)
 		);
+		interfaceManager.Init();
 		scoreManager.Init(
 			playerData.highscore,
+			playerData.playerMoney,
 			() =>
 			{
 				// TODO : Trigger new highscore animation
-			}
+			},
+			interfaceManager.UpdateScore,
+			interfaceManager.UpdateMoney
 		);
 		difficultyManager.Init(
 			highscore,

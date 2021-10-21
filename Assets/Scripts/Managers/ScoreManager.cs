@@ -8,16 +8,24 @@ public class ScoreManager : BaseBehaviour
 	public float initialHighscore;
 
 	Action TriggerHighscore;
+	Action<float> UpdateScore;
+	Action<int> UpdateMoney;
 	float currentPlayerScore, playerHighscore;
 	int currentPlayerMoney;
 	bool passedHighscore;
 
-	public void Init(float lastHighscore, Action triggerHighscore)
+	public void Init(float lastHighscore, int lastMoney, Action triggerHighscore, Action<float> updateScore, Action<int> updateMoney)
 	{
 		playerHighscore = lastHighscore;
+		currentPlayerMoney = lastMoney;
 		TriggerHighscore = triggerHighscore;
+		UpdateScore = updateScore;
+		UpdateMoney = updateMoney;
 
 		passedHighscore = false;
+
+		UpdateScore(lastHighscore);
+		UpdateMoney(lastMoney);
 
 		InitInternal();
 	}
@@ -36,6 +44,8 @@ public class ScoreManager : BaseBehaviour
 			return;
 
 		currentPlayerMoney++;
+
+		UpdateMoney(currentPlayerMoney);
 	}
 
 	public void AddPlayerScore(float score)
@@ -44,6 +54,8 @@ public class ScoreManager : BaseBehaviour
 			return;
 
 		currentPlayerScore += score;
+
+		UpdateScore(currentPlayerScore);
 
 		if(currentPlayerScore >= playerHighscore)
 		{
