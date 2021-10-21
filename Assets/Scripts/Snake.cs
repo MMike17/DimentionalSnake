@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>Class moving snake</summary>
+[RequireComponent(typeof(Rigidbody))]
 public class Snake : BaseBehaviour
 {
 	const string OBSTACLE_TAG = "Obstacle";
@@ -117,7 +118,7 @@ public class Snake : BaseBehaviour
 		float pieceZPos = lastPiece.position.z - zPieceDistanceFromCore;
 		float xOffset = lastPiece.position.x - spawnedPieces[spawnedPieces.Count - 2].transform.position.x;
 
-		Vector3 spawnPos = new Vector3(lastPiece.position.x + xOffset, 0, pieceZPos);
+		Vector3 spawnPos = new Vector3(lastPiece.position.x + xOffset, transform.position.y, pieceZPos);
 
 		GameObject spawnedPiece = Instantiate(piecePrefab, spawnPos, Quaternion.identity);
 		spawnedPieces.Add(spawnedPiece);

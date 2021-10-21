@@ -10,6 +10,7 @@ public class TerrainManager : BaseBehaviour
 	public float deleteDistance;
 
 	[Header("Scene references")]
+	public TerrainChunk emptyChunkPrefab;
 	public TerrainChunk[] terrainChunks;
 	public Transform minX, maxX;
 	[Space]
@@ -19,7 +20,6 @@ public class TerrainManager : BaseBehaviour
 	List<int> lastSpawnedChunks;
 	Func<float> GetDifficulty, GetCurrentSpeed;
 	Transform player;
-	int playerCurrentObstacle;
 
 	void OnDrawGizmos()
 	{
@@ -47,7 +47,8 @@ public class TerrainManager : BaseBehaviour
 
 		lastSpawnedChunks = new List<int>();
 		spawnedChunks = new List<TerrainChunk>();
-		playerCurrentObstacle = 0;
+
+		SpawnEmptyChunks();
 
 		InitInternal();
 	}
@@ -62,7 +63,7 @@ public class TerrainManager : BaseBehaviour
 		foreach (TerrainChunk chunk in spawnedChunks)
 		{
 			// move chunks
-			chunk.transform.Translate(0, 0, -GetCurrentSpeed());
+			chunk.transform.Translate(0, 0, -GetCurrentSpeed() * Time.deltaTime);
 
 			// should remove chunk
 			if(GetDistanceFromPlayer(chunk.transform) >= deleteDistance)
@@ -99,6 +100,21 @@ public class TerrainManager : BaseBehaviour
 		return zDifference > 0 ? zDifference : 0;
 	}
 
+	void SpawnEmptyChunks()
+	{
+		float emptyChunkSize = emptyChunkPrefab.transform.GetChild(0).localScale.z;
+		int spawnCount = Mathf.RoundToInt((spawnPoint.position.z - player.position.z) / emptyChunkSize);
+		Vector3 position = spawnPoint.position;
+
+		for (int i = 0; i < spawnCount; i++)
+		{
+			position -= Vector3.forward * emptyChunkSize;
+			TerrainChunk spawnedChunk = Instantiate(emptyChunkPrefab, position, Quaternion.identity, transform);
+
+			spawnedChunks.Add(spawnedChunk);
+		}
+	}
+
 	public void SpawnChunk()
 	{
 		if(!CheckInitialized())
@@ -123,7 +139,7 @@ public class TerrainManager : BaseBehaviour
 			lastSpawnedChunks.RemoveAt(0);
 
 		// spawn chunk
-		TerrainChunk spawnedChunk = Instantiate(terrainChunks[chunkIndex], GetSpawnPos(), Quaternion.identity);
+		TerrainChunk spawnedChunk = Instantiate(terrainChunks[chunkIndex], GetSpawnPos(), Quaternion.identity, transform);
 		spawnedChunk.Init(difficulty);
 
 		spawnedChunks.Add(spawnedChunk);
