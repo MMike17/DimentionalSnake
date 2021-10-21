@@ -12,21 +12,37 @@ public class TerrainChunk : BaseBehaviour
 	public GameObject[] obstacles;
 	public GameObject[] pieces;
 
-	public void Init(int difficulty)
+	bool triggeredSpawnNew;
+
+	public void Init(float difficulty)
 	{
+		triggeredSpawnNew = false;
+
 		// decide which obstacles need to be spawned
-		List<int> selectedIndexes = GetSelectedIndexes(obstacles.Length, obstaclesPerDifficulty[difficulty], difficulty);
+		int obstaclesDifficulty = GetObstaclesDifficulty(difficulty);
+		List<int> selectedIndexes = GetSelectedIndexes(obstacles.Length, obstaclesPerDifficulty[obstaclesDifficulty], obstaclesDifficulty);
 
 		for (int i = 0; i < obstacles.Length; i++)
 			obstacles[i].SetActive(selectedIndexes.Contains(i));
 
 		// decide which pieces need to be spawned
-		selectedIndexes = GetSelectedIndexes(pieces.Length, piecesPerDifficulty[difficulty], difficulty);
+		int piecesDifficulty = GetObstaclesDifficulty(difficulty);
+		selectedIndexes = GetSelectedIndexes(pieces.Length, piecesPerDifficulty[piecesDifficulty], piecesDifficulty);
 
 		for (int i = 0; i < pieces.Length; i++)
 			pieces[i].SetActive(selectedIndexes.Contains(i));
 
 		InitInternal();
+	}
+
+	int GetObstaclesDifficulty(float difficulty)
+	{
+		return Mathf.RoundToInt(difficulty * obstaclesPerDifficulty.Length);
+	}
+
+	int GetPiecesDifficulty(float difficulty)
+	{
+		return Mathf.RoundToInt(difficulty * piecesPerDifficulty.Length);
 	}
 
 	List<int> GetSelectedIndexes(int arrayCount, int pickCount, int difficulty)
@@ -46,5 +62,18 @@ public class TerrainChunk : BaseBehaviour
 		}
 
 		return selectedIndexes;
+	}
+
+	public bool ShouldSpawnNew(float playerZPos)
+	{
+		if(triggeredSpawnNew)
+			return false;
+		else if(transform.position.z <= playerZPos)
+		{
+			triggeredSpawnNew = true;
+			return true;
+		}
+		else
+			return false;
 	}
 }

@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
 
 		float highscore = playerData.highscore > 0 ? playerData.highscore : initialHighscore;
 
-		terrainManager.Init(snake.transform);
+		terrainManager.Init(snake.transform, difficultyManager.GetDifficulty);
 		scoreManager.Init();
 		difficultyManager.Init(
 			highscore,

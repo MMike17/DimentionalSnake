@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,16 +16,20 @@ public class TerrainManager : BaseBehaviour
 	[Space]
 	public Transform spawnPoint;
 
-	List<Transform> spawnedChunks;
+	List<TerrainChunk> spawnedChunks;
 	List<int> lastSpawnedChunks;
+	Func<float> GetDifficulty;
 	Transform player;
+	int playerCurrentObstacle;
 
-	public void Init(Transform player)
+	public void Init(Transform player, Func<float> getDifficulty)
 	{
 		this.player = player;
+		GetDifficulty = getDifficulty;
 
 		lastSpawnedChunks = new List<int>();
-		spawnedChunks = new List<Transform>();
+		spawnedChunks = new List<TerrainChunk>();
+		playerCurrentObstacle = 0;
 
 		InitInternal();
 	}
@@ -35,11 +40,11 @@ public class TerrainManager : BaseBehaviour
 			return;
 
 		// clean chunk list
-		List<Transform> toRemove = new List<Transform>();
+		List<TerrainChunk> toRemove = new List<TerrainChunk>();
 
-		foreach (Transform chunk in spawnedChunks)
+		foreach (TerrainChunk chunk in spawnedChunks)
 		{
-			if(GetDistanceFromPlayer(chunk) >= deleteDistance)
+			if(GetDistanceFromPlayer(chunk.transform) >= deleteDistance)
 			{
 				toRemove.Add(chunk);
 				Destroy(chunk.gameObject);
@@ -47,6 +52,18 @@ public class TerrainManager : BaseBehaviour
 		}
 
 		toRemove.ForEach(item => spawnedChunks.Remove(item));
+
+		// detect necessary spawn
+		bool shouldSpawn = false;
+
+		spawnedChunks.ForEach(item =>
+		{
+			if(item.ShouldSpawnNew(player.position.z))
+				shouldSpawn = true;
+		});
+
+		if(shouldSpawn)
+			SpawnChunk();
 	}
 
 	Vector3 GetSpawnPos()
@@ -60,11 +77,12 @@ public class TerrainManager : BaseBehaviour
 		return zDifference > 0 ? zDifference : 0;
 	}
 
-	public void SpawnChunk(int difficulty)
+	public void SpawnChunk()
 	{
 		if(!CheckInitialized())
 			return;
 
+		float difficulty = GetDifficulty();
 		int chunkIndex = -1;
 
 		// pick next index
@@ -86,6 +104,6 @@ public class TerrainManager : BaseBehaviour
 		TerrainChunk spawnedChunk = Instantiate(terrainChunks[chunkIndex], GetSpawnPos(), Quaternion.identity);
 		spawnedChunk.Init(difficulty);
 
-		spawnedChunks.Add(spawnedChunk.transform);
+		spawnedChunks.Add(spawnedChunk);
 	}
 }
