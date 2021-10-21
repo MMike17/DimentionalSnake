@@ -1,15 +1,20 @@
-using UnityEngine;
+using System;
 
 /// <summary>Manages the player score and highscore</summary>
 public class ScoreManager : BaseBehaviour
 {
-	// TODO : trigger highscore feedback
-
-	float currentPlayerScore;
+	Action TriggerHighscore;
+	float currentPlayerScore, playerHighscore;
 	int currentPlayerMoney;
+	bool passedHighscore;
 
-	public void Init()
+	public void Init(float lastHighscore, Action triggerHighscore)
 	{
+		playerHighscore = lastHighscore;
+		TriggerHighscore = triggerHighscore;
+
+		passedHighscore = false;
+
 		InitInternal();
 	}
 
@@ -35,5 +40,24 @@ public class ScoreManager : BaseBehaviour
 			return;
 
 		currentPlayerScore += score;
+
+		if(currentPlayerScore >= playerHighscore)
+		{
+			if(passedHighscore)
+				playerHighscore = currentPlayerScore;
+			else
+			{
+				passedHighscore = true;
+				TriggerHighscore();
+			}
+		}
+	}
+
+	public float GetHighscore()
+	{
+		if(!CheckInitialized())
+			return 0;
+
+		return playerHighscore;
 	}
 }

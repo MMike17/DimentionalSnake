@@ -56,7 +56,13 @@ public class GameManager : MonoBehaviour
 			difficultyManager.GetCurrentSpeed,
 			distance => scoreManager.AddPlayerScore(distance)
 		);
-		scoreManager.Init();
+		scoreManager.Init(
+			playerData.highscore,
+			() =>
+			{
+				// TODO : Trigger new highscore animation
+			}
+		);
 		difficultyManager.Init(
 			highscore,
 			scoreManager.GetCurrentScore
