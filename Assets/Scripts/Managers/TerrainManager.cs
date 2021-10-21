@@ -26,7 +26,7 @@ public class TerrainManager : BaseBehaviour
 	void OnDrawGizmos()
 	{
 		Gizmos.color = Color.red;
-		SetGizmosColor(0.5f);
+		SetGizmosAlpha(0.5f);
 
 		if(spawnPoint != null)
 			Gizmos.DrawSphere(spawnPoint.position, 1f);

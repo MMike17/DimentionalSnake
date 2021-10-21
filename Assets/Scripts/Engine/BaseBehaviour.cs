@@ -24,7 +24,7 @@ public class BaseBehaviour : MonoBehaviour
 		return initialized;
 	}
 
-	protected void SetGizmosColor(float alpha)
+	protected void SetGizmosAlpha(float alpha)
 	{
 		Color color = Gizmos.color;
 		color.a = alpha;

@@ -9,7 +9,7 @@ public class Snake : BaseBehaviour
 	public float horizontalSpeed;
 	public float zPieceDistanceFromCore, maxPieceXDistance;
 	[Range(0, 1)]
-	public float smoothingPercent, minSpeedRatio;
+	public float smoothingPercent, minSpeedRatio, minPieceSpeedRatio;
 
 	[Header("Scene references")]
 	public GameObject piecePrefab;
@@ -17,6 +17,33 @@ public class Snake : BaseBehaviour
 	List<GameObject> spawnedPieces;
 	Vector3 targetPos;
 	float minX, maxX, smoothMinX, smoothMaxX, currentSpeed;
+
+	void OnDrawGizmos()
+	{
+		if(spawnedPieces != null)
+		{
+			Vector3 previousPos = transform.position;
+
+			spawnedPieces.ForEach(item =>
+			{
+				// decide color
+				float distance = Mathf.Abs(previousPos.x - item.transform.position.x);
+
+				if(distance >= maxPieceXDistance)
+					Gizmos.color = Color.blue;
+				else
+					Gizmos.color = Color.green;
+
+				SetGizmosAlpha(0.8f);
+
+				// display lines
+				Gizmos.DrawLine(item.transform.position - Vector3.right * maxPieceXDistance, item.transform.position - Vector3.right * maxPieceXDistance + Vector3.forward * zPieceDistanceFromCore);
+				Gizmos.DrawLine(item.transform.position + Vector3.right * maxPieceXDistance, item.transform.position + Vector3.right * maxPieceXDistance + Vector3.forward * zPieceDistanceFromCore);
+
+				previousPos = item.transform.position;
+			});
+		}
+	}
 
 	public void Init(float minX, float maxX)
 	{
@@ -59,7 +86,27 @@ public class Snake : BaseBehaviour
 
 	void ManagePieces()
 	{
-		// TODO : Manage snake pieces
+		Vector3 previousPos = transform.position;
+
+		foreach (GameObject piece in spawnedPieces)
+		{
+			// decide movement amount and speed
+			Vector3 target = piece.transform.position;
+			target.x = previousPos.x;
+
+			float distance = Mathf.Abs(previousPos.x - piece.transform.position.x);
+			float smoothingRatio = 1;
+
+			if(distance < maxPieceXDistance)
+				smoothingRatio = Mathf.Lerp(1, minPieceSpeedRatio, distance / maxPieceXDistance);
+
+			piece.transform.position = Vector3.MoveTowards(piece.transform.position, target, horizontalSpeed * smoothingRatio * Time.deltaTime);
+
+			// rotate piece
+			piece.transform.LookAt(previousPos, Vector3.up);
+
+			previousPos = piece.transform.position;
+		}
 	}
 
 	void SpawnSnakePiece()
