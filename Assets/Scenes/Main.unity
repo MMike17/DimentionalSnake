@@ -462,6 +462,7 @@ MonoBehaviour:
   terrainManager: {fileID: 2134710214}
   scoreManager: {fileID: 1946074846}
   snake: {fileID: 233817844}
+  playerInput: {fileID: 1440145832}
 --- !u!4 &2018717052
 Transform:
   m_ObjectHideFlags: 0
@@ -521,3 +522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 462326f830ebb924e888e01fbada2211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  memorySize: 0
+  deleteDistance: 0
+  obstaclesChunks: []
+  spawnPoint: {fileID: 0}

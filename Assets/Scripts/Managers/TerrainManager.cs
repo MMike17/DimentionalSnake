@@ -1,18 +1,19 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>Manages the terrain generation, obstacles and bonuses</summary>
 public class TerrainManager : BaseBehaviour
 {
+	// TODO : Move terrain chunks
+
 	[Header("Settings")]
 	public int memorySize;
 	public float deleteDistance;
 
 	[Header("Scene references")]
-	public Chunk[] obstaclesChunks;
+	public TerrainChunk[] terrainChunks;
 	[Space]
-	public Transform spawnPoint; // The spawn point MUST be child of the player (constant distance from player)
+	public Transform spawnPoint;
 
 	List<Transform> spawnedChunks;
 	List<int> lastSpawnedChunks;
@@ -69,11 +70,8 @@ public class TerrainManager : BaseBehaviour
 		// pick next index
 		List<int> availableIndexes = new List<int>();
 
-		for (int i = 0; i < obstaclesChunks.Length; i++)
-		{
-			if(obstaclesChunks[i].difficultyRating == difficulty)
-				availableIndexes.Add(i);
-		}
+		for (int i = 0; i < terrainChunks.Length; i++)
+			availableIndexes.Add(i);
 
 		lastSpawnedChunks.ForEach(item => availableIndexes.Remove(item));
 
@@ -85,16 +83,9 @@ public class TerrainManager : BaseBehaviour
 			lastSpawnedChunks.RemoveAt(0);
 
 		// spawn chunk
-		Transform spawnedChunk = Instantiate(obstaclesChunks[chunkIndex].Prefab, GetSpawnPos(), Quaternion.identity).transform;
+		TerrainChunk spawnedChunk = Instantiate(terrainChunks[chunkIndex], GetSpawnPos(), Quaternion.identity);
+		spawnedChunk.Init(difficulty);
 
-		spawnedChunks.Add(spawnedChunk);
-	}
-
-	/// <summary>Represents a chunk</summary>
-	[Serializable]
-	public class Chunk
-	{
-		public int difficultyRating;
-		public GameObject Prefab;
+		spawnedChunks.Add(spawnedChunk.transform);
 	}
 }
