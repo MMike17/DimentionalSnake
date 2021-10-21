@@ -5,13 +5,16 @@ public class GameManager : MonoBehaviour
 {
 	[Header("Managers")]
 	public TerrainManager terrainManager;
+	public ScoreManager scoreManager;
 
 	[Header("Uniques")]
 	public Snake snake;
+	public PlayerInput playerInput;
 
 	void Awake()
 	{
 		InitManagers();
+		SubscribePlayerInput();
 
 		snake.Init();
 	}
@@ -19,6 +22,13 @@ public class GameManager : MonoBehaviour
 	void InitManagers()
 	{
 		// TODO : Init managers
+
 		terrainManager.Init();
+		scoreManager.Init();
+	}
+
+	void SubscribePlayerInput()
+	{
+		playerInput.SubscribeHorizontalInputEvent(snake.SetXPosOnTerrain);
 	}
 }

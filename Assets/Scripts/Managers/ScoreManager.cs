@@ -5,4 +5,9 @@ public class ScoreManager : BaseBehaviour
 {
 	// TODO : store player score
 	// TODO : trigger highscore feedback
+
+	public void Init()
+	{
+		InitInternal();
+	}
 }
