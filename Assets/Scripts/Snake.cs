@@ -12,9 +12,9 @@ public class Snake : BaseBehaviour
 	[Header("Settings")]
 	public int minSnakeLength;
 	public float horizontalSpeed;
-	public float zPieceDistanceFromCore, maxPieceXDistance;
+	public float zPieceDistanceFromCore, maxPieceXAmplitude;
 	[Range(0, 1)]
-	public float smoothingPercent, minSpeedRatio, minPieceSpeedRatio;
+	public float smoothingPercent, minSpeedRatio;
 
 	[Header("Scene references")]
 	public GameObject piecePrefab;
@@ -28,23 +28,16 @@ public class Snake : BaseBehaviour
 	{
 		if(spawnedPieces != null)
 		{
+			Gizmos.color = Color.green;
+			SetGizmosAlpha(0.8f);
+
 			Vector3 previousPos = transform.position;
 
 			spawnedPieces.ForEach(item =>
 			{
-				// decide color
-				float distance = Mathf.Abs(previousPos.x - item.transform.position.x);
-
-				if(distance >= maxPieceXDistance)
-					Gizmos.color = Color.blue;
-				else
-					Gizmos.color = Color.green;
-
-				SetGizmosAlpha(0.8f);
-
 				// display lines
-				Gizmos.DrawLine(item.transform.position - Vector3.right * maxPieceXDistance, item.transform.position - Vector3.right * maxPieceXDistance + Vector3.forward * zPieceDistanceFromCore);
-				Gizmos.DrawLine(item.transform.position + Vector3.right * maxPieceXDistance, item.transform.position + Vector3.right * maxPieceXDistance + Vector3.forward * zPieceDistanceFromCore);
+				Gizmos.DrawLine(item.transform.position - Vector3.right * maxPieceXAmplitude, item.transform.position - Vector3.right * maxPieceXAmplitude + Vector3.forward * zPieceDistanceFromCore);
+				Gizmos.DrawLine(item.transform.position + Vector3.right * maxPieceXAmplitude, item.transform.position + Vector3.right * maxPieceXAmplitude + Vector3.forward * zPieceDistanceFromCore);
 
 				previousPos = item.transform.position;
 			});
@@ -105,8 +98,8 @@ public class Snake : BaseBehaviour
 			float distance = Mathf.Abs(previousPos.x - piece.transform.position.x);
 			float smoothingRatio = 1;
 
-			if(distance < maxPieceXDistance)
-				smoothingRatio = Mathf.Lerp(1, minPieceSpeedRatio, distance / maxPieceXDistance);
+			if(distance < maxPieceXAmplitude)
+				smoothingRatio = Mathf.Lerp(0, 1, distance / maxPieceXAmplitude);
 
 			piece.transform.position = Vector3.MoveTowards(piece.transform.position, target, horizontalSpeed * smoothingRatio * Time.deltaTime);
 
@@ -153,7 +146,7 @@ public class Snake : BaseBehaviour
 	public void SetXPosOnTerrain(float percent)
 	{
 		// set speed
-		float smoothingRatio = 0;
+		float smoothingRatio = 1;
 		float distance = maxX - smoothMaxX;
 
 		// smooth to the right

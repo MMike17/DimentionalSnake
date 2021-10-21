@@ -13,7 +13,7 @@ public class PlayerInput : MonoBehaviour
 
 	void Awake()
 	{
-		pcHorizontalInput = 0;
+		pcHorizontalInput = 0.5f;
 	}
 
 	void Update()
@@ -29,10 +29,12 @@ public class PlayerInput : MonoBehaviour
 		else // testing mode
 		{
 			if(Input.GetKey(pcLeft))
-				pcHorizontalInput -= 0.1f * Time.deltaTime;
+				pcHorizontalInput -= 1 * Time.deltaTime;
 
 			if(Input.GetKey(pcRight))
-				pcHorizontalInput += 0.1f * Time.deltaTime;
+				pcHorizontalInput += 1 * Time.deltaTime;
+
+			pcHorizontalInput = Mathf.Clamp(pcHorizontalInput, 0, 1f);
 
 			HorizontalInputEvent(pcHorizontalInput);
 		}

@@ -5,8 +5,6 @@ using UnityEngine;
 /// <summary>Manages the terrain generation, obstacles and bonuses</summary>
 public class TerrainManager : BaseBehaviour
 {
-	// TODO : Move terrain chunks
-
 	[Header("Settings")]
 	public int memorySize;
 	public float deleteDistance;
