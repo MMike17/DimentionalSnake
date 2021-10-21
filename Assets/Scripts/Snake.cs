@@ -1,17 +1,20 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>Class moving snake</summary>
 public class Snake : BaseBehaviour
 {
-	// TODO : Manage snake pieces
-	// TODO : Spawn snake pieces
-	// TODO : Detect collisions with elements
-
 	[Header("Settings")]
+	public int minSnakeLength;
 	public float horizontalSpeed;
+	public float zPieceDistanceFromCore, maxPieceXDistance;
 	[Range(0, 1)]
 	public float smoothingPercent, minSpeedRatio;
 
+	[Header("Scene references")]
+	public GameObject piecePrefab;
+
+	List<GameObject> snakePieces;
 	Vector3 targetPos;
 	float minX, maxX, smoothMinX, smoothMaxX, currentSpeed;
 
@@ -20,12 +23,16 @@ public class Snake : BaseBehaviour
 		this.minX = minX;
 		this.maxX = maxX;
 
+		snakePieces = new List<GameObject>();
+
 		float range = maxX - minX;
 		smoothMinX = minX + range * smoothingPercent;
 		smoothMaxX = maxX - range * smoothingPercent;
 
 		targetPos = transform.position;
 		currentSpeed = 0;
+
+		// TODO : spawn initial snake pieces manualy
 
 		InitInternal();
 	}
@@ -37,6 +44,31 @@ public class Snake : BaseBehaviour
 
 		// move snake
 		transform.position = Vector3.MoveTowards(transform.position, targetPos, currentSpeed * Time.deltaTime);
+
+		ManagePieces();
+	}
+
+	void ManagePieces()
+	{
+		// TODO : Manage snake pieces
+	}
+
+	void SpawnSnakePiece()
+	{
+		Transform lastPiece = snakePieces[snakePieces.Count - 1].transform;
+
+		float pieceZPos = lastPiece.position.z - zPieceDistanceFromCore;
+		float xOffset = lastPiece.position.x - snakePieces[snakePieces.Count - 2].transform.position.x;
+
+		Vector3 spawnPos = new Vector3(lastPiece.position.x + xOffset, 0, pieceZPos);
+
+		GameObject spawnedPiece = Instantiate(piecePrefab, spawnPos, Quaternion.identity);
+		snakePieces.Add(spawnedPiece);
+	}
+
+	void OnTriggerEnter(Collider other)
+	{
+		// TODO : Detect collisions with elements
 	}
 
 	public void SetXPosOnTerrain(float percent)
