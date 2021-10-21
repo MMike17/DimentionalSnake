@@ -1,9 +1,14 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>Class moving snake</summary>
 public class Snake : BaseBehaviour
 {
+	const string OBSTACLE_TAG = "Obstacle";
+	const string MONEY_TAG = "Money";
+	const string PIECE_TAG = "Piece";
+
 	[Header("Settings")]
 	public int minSnakeLength;
 	public float horizontalSpeed;
@@ -15,6 +20,7 @@ public class Snake : BaseBehaviour
 	public GameObject piecePrefab;
 
 	List<GameObject> spawnedPieces;
+	Action GetMoney, LoseGame;
 	Vector3 targetPos;
 	float minX, maxX, smoothMinX, smoothMaxX, currentSpeed;
 
@@ -45,10 +51,12 @@ public class Snake : BaseBehaviour
 		}
 	}
 
-	public void Init(float minX, float maxX)
+	public void Init(float minX, float maxX, Action getMoney, Action loseGame)
 	{
 		this.minX = minX;
 		this.maxX = maxX;
+		GetMoney = getMoney;
+		LoseGame = loseGame;
 
 		spawnedPieces = new List<GameObject>();
 
@@ -124,7 +132,22 @@ public class Snake : BaseBehaviour
 
 	void OnTriggerEnter(Collider other)
 	{
-		// TODO : Detect collisions with elements
+		switch(other.tag)
+		{
+			case OBSTACLE_TAG:
+				LoseGame();
+				break;
+
+			case MONEY_TAG:
+				Destroy(other.gameObject);
+				GetMoney();
+				break;
+
+			case PIECE_TAG:
+				Destroy(other.gameObject);
+				SpawnSnakePiece();
+				break;
+		}
 	}
 
 	public void SetXPosOnTerrain(float percent)

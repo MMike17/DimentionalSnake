@@ -6,6 +6,8 @@ public class ScoreManager : BaseBehaviour
 	// TODO : store player score
 	// TODO : trigger highscore feedback
 
+	int currentPlayerMoney;
+
 	public void Init()
 	{
 		InitInternal();
@@ -19,5 +21,13 @@ public class ScoreManager : BaseBehaviour
 		// TODO : return current score
 
 		return 0;
+	}
+
+	public void GetMoney()
+	{
+		if(!CheckInitialized())
+			return;
+
+		currentPlayerMoney++;
 	}
 }
