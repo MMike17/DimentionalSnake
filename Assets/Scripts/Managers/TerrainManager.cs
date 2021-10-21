@@ -19,7 +19,7 @@ public class TerrainManager : BaseBehaviour
 
 	List<TerrainChunk> spawnedChunks;
 	List<int> lastSpawnedChunks;
-	Func<float> GetDifficulty;
+	Func<float> GetDifficulty, GetCurrentSpeed;
 	Transform player;
 	int playerCurrentObstacle;
 
@@ -41,10 +41,11 @@ public class TerrainManager : BaseBehaviour
 			Gizmos.DrawLine(minX.position, maxX.position);
 	}
 
-	public void Init(Transform player, Func<float> getDifficulty)
+	public void Init(Transform player, Func<float> getDifficulty, Func<float> getCurrentSpeed)
 	{
 		this.player = player;
 		GetDifficulty = getDifficulty;
+		GetCurrentSpeed = getCurrentSpeed;
 
 		lastSpawnedChunks = new List<int>();
 		spawnedChunks = new List<TerrainChunk>();
@@ -58,11 +59,14 @@ public class TerrainManager : BaseBehaviour
 		if(!initialized)
 			return;
 
-		// clean chunk list
 		List<TerrainChunk> toRemove = new List<TerrainChunk>();
 
 		foreach (TerrainChunk chunk in spawnedChunks)
 		{
+			// move chunks
+			chunk.transform.Translate(0, 0, -GetCurrentSpeed());
+
+			// should remove chunk
 			if(GetDistanceFromPlayer(chunk.transform) >= deleteDistance)
 			{
 				toRemove.Add(chunk);
@@ -70,6 +74,7 @@ public class TerrainManager : BaseBehaviour
 			}
 		}
 
+		// clean chunk list
 		toRemove.ForEach(item => spawnedChunks.Remove(item));
 
 		// detect necessary spawn
