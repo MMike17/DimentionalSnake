@@ -10,4 +10,14 @@ public class ScoreManager : BaseBehaviour
 	{
 		InitInternal();
 	}
+
+	public float GetCurrentScore()
+	{
+		if(!CheckInitialized())
+			return 0;
+
+		// TODO : return current score
+
+		return 0;
+	}
 }
