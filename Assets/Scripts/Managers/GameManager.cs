@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 		InitManagers();
 		SubscribePlayerInput();
 
-		snake.Init();
+		snake.Init(terrainManager.minX.position.x, terrainManager.maxX.position.x);
 	}
 
 	void InitManagers()

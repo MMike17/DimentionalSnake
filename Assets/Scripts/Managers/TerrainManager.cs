@@ -13,6 +13,7 @@ public class TerrainManager : BaseBehaviour
 
 	[Header("Scene references")]
 	public TerrainChunk[] terrainChunks;
+	public Transform minX, maxX;
 	[Space]
 	public Transform spawnPoint;
 
@@ -21,6 +22,24 @@ public class TerrainManager : BaseBehaviour
 	Func<float> GetDifficulty;
 	Transform player;
 	int playerCurrentObstacle;
+
+	void OnDrawGizmos()
+	{
+		Gizmos.color = Color.red;
+		SetGizmosColor(0.5f);
+
+		if(spawnPoint != null)
+			Gizmos.DrawSphere(spawnPoint.position, 1f);
+
+		if(minX != null)
+			Gizmos.DrawSphere(minX.position, 0.5f);
+
+		if(maxX != null)
+			Gizmos.DrawSphere(maxX.position, 0.5f);
+
+		if(minX != null && maxX != null)
+			Gizmos.DrawLine(minX.position, maxX.position);
+	}
 
 	public void Init(Transform player, Func<float> getDifficulty)
 	{
