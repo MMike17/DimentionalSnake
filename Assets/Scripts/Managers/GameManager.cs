@@ -1,4 +1,5 @@
 using UnityEngine;
+using static DataManager;
 
 /// <summary>Entry point of the game flow</summary>
 public class GameManager : MonoBehaviour
@@ -6,7 +7,8 @@ public class GameManager : MonoBehaviour
 	const string SAVE_FILE_NAME = "save";
 
 	[Header("Settings")]
-	public float initialHighscore;
+	public LogLevel logLevel;
+	public bool isRelease;
 
 	[Header("Managers")]
 	public TerrainManager terrainManager;
@@ -38,6 +40,9 @@ public class GameManager : MonoBehaviour
 
 	void LoadLocalData()
 	{
+		DataManager.SetLogLevel(logLevel);
+		DataManager.SetRelease(isRelease);
+
 		if(DataManager.DoesFileExists(SAVE_FILE_NAME))
 			playerData = DataManager.LoadObjectAtPath<PlayerData>(SAVE_FILE_NAME);
 		else
@@ -48,7 +53,7 @@ public class GameManager : MonoBehaviour
 	{
 		// TODO : Init managers
 
-		float highscore = playerData.highscore > 0 ? playerData.highscore : initialHighscore;
+		float highscore = playerData.highscore > 0 ? playerData.highscore : scoreManager.initialHighscore;
 
 		terrainManager.Init(
 			snake.transform,

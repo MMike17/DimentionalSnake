@@ -1,8 +1,12 @@
 using System;
+using UnityEngine;
 
 /// <summary>Manages the player score and highscore</summary>
 public class ScoreManager : BaseBehaviour
 {
+	[Header("Settings")]
+	public float initialHighscore;
+
 	Action TriggerHighscore;
 	float currentPlayerScore, playerHighscore;
 	int currentPlayerMoney;
