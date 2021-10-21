@@ -3,9 +3,9 @@ using UnityEngine;
 /// <summary>Manages the player score and highscore</summary>
 public class ScoreManager : BaseBehaviour
 {
-	// TODO : store player score
 	// TODO : trigger highscore feedback
 
+	float currentPlayerScore;
 	int currentPlayerMoney;
 
 	public void Init()
@@ -18,9 +18,7 @@ public class ScoreManager : BaseBehaviour
 		if(!CheckInitialized())
 			return 0;
 
-		// TODO : return current score
-
-		return 0;
+		return currentPlayerScore;
 	}
 
 	public void GetMoney()
@@ -29,5 +27,13 @@ public class ScoreManager : BaseBehaviour
 			return;
 
 		currentPlayerMoney++;
+	}
+
+	public void AddPlayerScore(float score)
+	{
+		if(!CheckInitialized())
+			return;
+
+		currentPlayerScore += score;
 	}
 }
