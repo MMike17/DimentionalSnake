@@ -10,8 +10,6 @@ public class Snake : BaseBehaviour
 	const string MONEY_TAG = "Money";
 	const string PIECE_TAG = "Piece";
 
-	// TODO : Rework snake movement (based on position registery)
-
 	[Header("Settings")]
 	public int minSnakeLength;
 	public float horizontalSpeed;
@@ -23,7 +21,9 @@ public class Snake : BaseBehaviour
 	public GameObject piecePrefab;
 	public Transform head;
 
-	List<GameObject> spawnedPieces;
+	List<Transform> spawnedPieces;
+	List<ReferencePoint> referencePoints;
+	Func<float> GetCurrentSpeed;
 	Action GetMoney, LoseGame;
 	Vector3 targetPos;
 	float minX, maxX, smoothMinX, smoothMaxX, currentSpeed;
@@ -48,14 +48,16 @@ public class Snake : BaseBehaviour
 		}
 	}
 
-	public void Init(float minX, float maxX, Action getMoney, Action loseGame)
+	public void Init(float minX, float maxX, Action getMoney, Action loseGame, Func<float> getCurrentSpeed)
 	{
 		this.minX = minX;
 		this.maxX = maxX;
 		GetMoney = getMoney;
 		LoseGame = loseGame;
+		GetCurrentSpeed = getCurrentSpeed;
 
-		spawnedPieces = new List<GameObject>();
+		spawnedPieces = new List<Transform>();
+		referencePoints = new List<ReferencePoint>();
 
 		float range = maxX - minX;
 		smoothMinX = minX + range * smoothingPercent;
@@ -72,7 +74,7 @@ public class Snake : BaseBehaviour
 			position -= Vector3.forward * zPieceDistanceFromCore;
 			GameObject snakePiece = Instantiate(piecePrefab, position, Quaternion.identity);
 
-			spawnedPieces.Add(snakePiece);
+			spawnedPieces.Add(snakePiece.transform);
 		}
 
 		InitInternal();
@@ -91,28 +93,44 @@ public class Snake : BaseBehaviour
 
 	void ManagePieces()
 	{
-		Vector3 previousPos = transform.position;
+		// add new point and move it depending on the current speed
+		referencePoints.Insert(0, new ReferencePoint(head.position));
+		referencePoints.ForEach(item => item.Move(GetCurrentSpeed()));
 
-		foreach (GameObject piece in spawnedPieces)
+		ReferencePoint previousPoint, nextpoint;
+		Vector3 previousPos = head.position;
+
+		foreach (Transform piece in spawnedPieces)
 		{
-			// decide movement amount and speed
-			Vector3 target = piece.transform.position;
-			target.x = previousPos.x;
+			// pick the two nearest points on z axis
+			int firstAfterIndex = -1;
 
-			float distance = Mathf.Abs(previousPos.x - piece.transform.position.x);
-			float smoothingRatio = 1;
+			for (int i = 0; i < referencePoints.Count; i++)
+			{
+				if(referencePoints[i].zPos < piece.position.z)
+				{
+					firstAfterIndex = i;
+					break;
+				}
+			}
 
-			if(distance < maxPieceXAmplitude)
-				smoothingRatio = Mathf.Lerp(0, 1, distance / maxPieceXAmplitude);
+			// skip the positionning part if not enough points yet
+			if(firstAfterIndex > 0)
+			{
+				previousPoint = referencePoints[firstAfterIndex];
+				nextpoint = referencePoints[firstAfterIndex - 1];
 
-			piece.transform.position = Vector3.MoveTowards(piece.transform.position, target, horizontalSpeed * smoothingRatio * Time.deltaTime);
+				float percent = (previousPoint.zPos + piece.position.z) / (nextpoint.zPos - previousPoint.zPos);
 
-			// rotate piece
-			piece.transform.LookAt(previousPos, Vector3.up);
+				// lerp between previous and next points
+				piece.position = new Vector3(Mathf.Lerp(previousPoint.xPos, nextpoint.xPos, percent), piece.position.y, piece.position.z);
+			}
 
-			previousPos = piece.transform.position;
+			// orient  piece
+			piece.LookAt(previousPos, Vector3.up);
 		}
 
+		// orient head
 		Vector3 offset = Vector3.Normalize(head.position - spawnedPieces[0].transform.position);
 		head.LookAt(head.position + Vector3.Lerp(Vector3.forward, offset, headAlignmentPercent));
 	}
@@ -127,7 +145,7 @@ public class Snake : BaseBehaviour
 		Vector3 spawnPos = new Vector3(lastPiece.position.x + xOffset, transform.position.y, pieceZPos);
 
 		GameObject spawnedPiece = Instantiate(piecePrefab, spawnPos, Quaternion.identity);
-		spawnedPieces.Add(spawnedPiece);
+		spawnedPieces.Add(spawnedPiece.transform);
 	}
 
 	void OnTriggerEnter(Collider other)
@@ -169,5 +187,23 @@ public class Snake : BaseBehaviour
 		// pick target pos
 		targetPos = transform.position;
 		targetPos.x = Mathf.Lerp(minX, maxX, percent);
+	}
+
+	class ReferencePoint
+	{
+		public float xPos => position.x;
+		public float zPos => position.z;
+
+		Vector3 position;
+
+		public ReferencePoint(Vector3 pos)
+		{
+			position = pos;
+		}
+
+		public void Move(float speed)
+		{
+			position -= Vector3.forward * speed * Time.deltaTime;
+		}
 	}
 }

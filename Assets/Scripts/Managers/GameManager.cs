@@ -35,7 +35,9 @@ public class GameManager : MonoBehaviour
 			() =>
 			{
 				// TODO : Implemente game over
-			}
+				Debug.Log("Game over");
+			},
+			difficultyManager.GetCurrentSpeed
 		);
 	}
 
