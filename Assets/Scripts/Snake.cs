@@ -10,6 +10,8 @@ public class Snake : BaseBehaviour
 	const string MONEY_TAG = "Money";
 	const string PIECE_TAG = "Piece";
 
+	// TODO : Rework snake movement (based on position registery)
+
 	[Header("Settings")]
 	public int minSnakeLength;
 	public float horizontalSpeed;
