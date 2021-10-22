@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-/// <summary></summary>
+/// <summary>Manages the difficulty of the game depending on player score</summary>
 public class DifficultyManager : BaseBehaviour
 {
 	[Header("Settings")]
