@@ -11,6 +11,7 @@ public class InterfaceManager : BaseBehaviour
 	public GameInterface gameInterface;
 	public MainInterface mainInterface;
 	public ShopInterface shopInterface;
+	public LoseInterface loseInterface;
 
 	public void Init(bool initialSoundState, bool[] unlocks, int selectedIndex, Action startGame, Action<int> giveMoney, Action<int> takeMoney, Action<bool> setSoundState, Action<Action> startFakeAd, Func<bool> canBuy)
 	{
@@ -28,6 +29,10 @@ public class InterfaceManager : BaseBehaviour
 			giveMoney,
 			takeMoney,
 			canBuy
+		);
+		loseInterface.Init(
+			startGame,
+			shopInterface.Show
 		);
 
 		InitInternal();

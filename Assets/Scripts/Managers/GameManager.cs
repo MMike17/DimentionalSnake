@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour
 			() =>
 			{
 				// TODO : unlock snake here
+				// TODO : reset camera pos here
 				interfaceManager.StartGame();
 			},
 			amount => scoreManager.GetMoney(amount),
