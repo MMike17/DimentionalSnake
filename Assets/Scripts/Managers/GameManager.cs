@@ -1,5 +1,6 @@
 using UnityEngine;
 using static DataManager;
+using static ShopInterface;
 
 /// <summary>Entry point of the game flow</summary>
 public class GameManager : MonoBehaviour
@@ -109,5 +110,25 @@ public class GameManager : MonoBehaviour
 	void SubscribePlayerInput()
 	{
 		playerInput.SubscribeHorizontalInputEvent(snake.SetXPosOnTerrain);
+	}
+
+	void OnApplicationFocus(bool state)
+	{
+		if(!state)
+			SaveData();
+	}
+
+	void OnApplicationQuit()
+	{
+		SaveData();
+	}
+
+	void SaveData()
+	{
+		ShopPlayerSetting settings = interfaceManager.shopInterface.GetShopPlayerSetting();
+		playerData.selectedSettings = settings.selectedIndex;
+		playerData.unlockedSettings = settings.unlocks;
+
+		DataManager.SaveObject(playerData, SAVE_FILE_NAME);
 	}
 }
