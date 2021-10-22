@@ -37,10 +37,11 @@ public class GameManager : MonoBehaviour
 			() =>
 			{
 				interfaceManager.GameOver();
-				snake.Freeze();
 
 				// TODO : Animate camera for game over
-				// TODO : Stop terrain movement
+
+				snake.Freeze();
+				terrainManager.Freeze();
 			},
 			difficultyManager.GetCurrentSpeed
 		);
@@ -80,6 +81,9 @@ public class GameManager : MonoBehaviour
 
 				snake.Reset();
 				snake.Unfreeze();
+
+				terrainManager.Reset();
+				terrainManager.Unfreeze();
 			},
 			amount => scoreManager.GetMoney(amount),
 			amount => scoreManager.TakeMoney(amount),

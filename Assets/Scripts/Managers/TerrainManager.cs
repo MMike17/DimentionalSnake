@@ -21,6 +21,7 @@ public class TerrainManager : BaseBehaviour
 	Func<float> GetDifficulty, GetCurrentSpeed;
 	Action<float> AddDistance;
 	Transform player;
+	bool canMove;
 
 	void OnDrawGizmos()
 	{
@@ -49,15 +50,14 @@ public class TerrainManager : BaseBehaviour
 
 		lastSpawnedChunks = new List<int>();
 		spawnedChunks = new List<TerrainChunk>();
-
-		SpawnEmptyChunks();
+		canMove = false;
 
 		InitInternal();
 	}
 
 	void Update()
 	{
-		if(!initialized)
+		if(!initialized || !canMove)
 			return;
 
 		List<TerrainChunk> toRemove = new List<TerrainChunk>();
@@ -105,17 +105,7 @@ public class TerrainManager : BaseBehaviour
 
 	void SpawnEmptyChunks()
 	{
-		float emptyChunkSize = emptyChunkPrefab.transform.GetChild(0).localScale.z;
-		int spawnCount = Mathf.RoundToInt((spawnPoint.position.z - player.position.z) / emptyChunkSize);
-		Vector3 position = spawnPoint.position;
 
-		for (int i = 0; i < spawnCount; i++)
-		{
-			position -= Vector3.forward * emptyChunkSize;
-			TerrainChunk spawnedChunk = Instantiate(emptyChunkPrefab, position, Quaternion.identity, transform);
-
-			spawnedChunks.Add(spawnedChunk);
-		}
 	}
 
 	public void SpawnChunk()
@@ -146,5 +136,43 @@ public class TerrainManager : BaseBehaviour
 		spawnedChunk.Init(difficulty);
 
 		spawnedChunks.Add(spawnedChunk);
+	}
+
+	public void Reset()
+	{
+		if(!CheckInitialized())
+			return;
+
+		// destroy previous chunks
+		spawnedChunks.ForEach(item => Destroy(item.gameObject));
+
+		// spawn new chunks
+		float emptyChunkSize = emptyChunkPrefab.transform.GetChild(0).localScale.z;
+		int spawnCount = Mathf.RoundToInt((spawnPoint.position.z - player.position.z) / emptyChunkSize);
+		Vector3 position = spawnPoint.position;
+
+		for (int i = 0; i < spawnCount; i++)
+		{
+			position -= Vector3.forward * emptyChunkSize;
+			TerrainChunk spawnedChunk = Instantiate(emptyChunkPrefab, position, Quaternion.identity, transform);
+
+			spawnedChunks.Add(spawnedChunk);
+		}
+	}
+
+	public void Freeze()
+	{
+		if(!CheckInitialized())
+			return;
+
+		canMove = false;
+	}
+
+	public void Unfreeze()
+	{
+		if(!CheckInitialized())
+			return;
+
+		canMove = true;
 	}
 }
