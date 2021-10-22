@@ -53,7 +53,7 @@ public class ScoreManager : BaseBehaviour
 		if(!CheckInitialized())
 			return;
 
-		currentPlayerScore += score;
+		currentPlayerScore += score / 100;
 
 		UpdateScore(currentPlayerScore);
 

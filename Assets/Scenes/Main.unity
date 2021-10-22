@@ -414,7 +414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef8d1872dac5c2a4eaf622cce3e3e624, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSnakeLength: 3
+  minSnakeLength: 2
   horizontalSpeed: 5
   zPieceDistanceFromCore: 1
   maxPieceXAmplitude: 1
@@ -911,7 +911,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.4, y: 1}
-  m_AnchoredPosition: {x: 0.0000076293945, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1090953900
@@ -1369,7 +1369,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1790269076}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 60}
+  m_LocalPosition: {x: 0, y: 0, z: 80}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2134710213}
@@ -1451,9 +1451,9 @@ MonoBehaviour:
   logLevel: 1
   isRelease: 0
   terrainManager: {fileID: 2134710214}
+  interfaceManager: {fileID: 1090953902}
   scoreManager: {fileID: 1946074846}
   difficultyManager: {fileID: 112845976}
-  interfaceManager: {fileID: 1090953902}
   snake: {fileID: 233817844}
   playerInput: {fileID: 1440145832}
 --- !u!4 &2018717052

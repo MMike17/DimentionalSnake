@@ -44,12 +44,12 @@ public class TerrainChunk : BaseBehaviour
 
 	int GetObstaclesDifficulty(float difficulty)
 	{
-		return Mathf.FloorToInt(difficulty * obstaclesPerDifficulty.Length);
+		return Mathf.FloorToInt(difficulty * (obstaclesPerDifficulty.Length - 1));
 	}
 
 	int GetPiecesDifficulty(float difficulty)
 	{
-		return Mathf.FloorToInt(difficulty * piecesPerDifficulty.Length);
+		return Mathf.FloorToInt(difficulty * (piecesPerDifficulty.Length - 1));
 	}
 
 	List<int> GetSelectedIndexes(int arrayCount, int pickCount, int difficulty)
