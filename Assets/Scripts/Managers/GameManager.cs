@@ -77,13 +77,14 @@ public class GameManager : MonoBehaviour
 			() =>
 			{
 				// TODO : reset camera pos here
-				interfaceManager.StartGame();
 
-				snake.Reset();
 				snake.Unfreeze();
-
-				terrainManager.Reset();
 				terrainManager.Unfreeze();
+			},
+			() =>
+			{
+				snake.Reset();
+				terrainManager.Reset();
 			},
 			amount => scoreManager.GetMoney(amount),
 			amount => scoreManager.TakeMoney(amount),

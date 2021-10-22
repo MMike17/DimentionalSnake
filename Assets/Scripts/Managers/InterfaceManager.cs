@@ -13,13 +13,19 @@ public class InterfaceManager : BaseBehaviour
 	public ShopInterface shopInterface;
 	public LoseInterface loseInterface;
 
-	public void Init(bool initialSoundState, bool[] unlocks, int selectedIndex, Action startGame, Action<int> giveMoney, Action<int> takeMoney, Action<bool> setSoundState, Action<Action> startFakeAd, Func<bool> canBuy)
+	public void Init(bool initialSoundState, bool[] unlocks, int selectedIndex, Action startGame, Action reset, Action<int> giveMoney, Action<int> takeMoney, Action<bool> setSoundState, Action<Action> startFakeAd, Func<bool> canBuy)
 	{
 		gameInterface.Init();
 		mainInterface.Init(
 			initialSoundState,
 			shopInterface.Show,
-			startGame,
+			() =>
+			{
+				startGame();
+
+				mainInterface.Hide();
+				gameInterface.Show();
+			},
 			setSoundState
 		);
 		shopInterface.Init(
@@ -31,21 +37,24 @@ public class InterfaceManager : BaseBehaviour
 			canBuy
 		);
 		loseInterface.Init(
-			startGame,
+			() =>
+			{
+				reset();
+
+				loseInterface.Hide();
+				mainInterface.Show();
+			},
 			shopInterface.Show
 		);
 
 		InitInternal();
 	}
 
-	public void StartGame()
-	{
-		mainInterface.Hide();
-		gameInterface.Show();
-	}
-
 	public void GameOver()
 	{
+		if(!CheckInitialized())
+			return;
+
 		gameInterface.Hide();
 		loseInterface.Show();
 	}

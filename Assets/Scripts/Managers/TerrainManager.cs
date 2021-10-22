@@ -145,6 +145,7 @@ public class TerrainManager : BaseBehaviour
 
 		// destroy previous chunks
 		spawnedChunks.ForEach(item => Destroy(item.gameObject));
+		spawnedChunks.Clear();
 
 		// spawn new chunks
 		float emptyChunkSize = emptyChunkPrefab.transform.GetChild(0).localScale.z;
@@ -173,6 +174,7 @@ public class TerrainManager : BaseBehaviour
 		if(!CheckInitialized())
 			return;
 
+		Reset();
 		canMove = true;
 	}
 }

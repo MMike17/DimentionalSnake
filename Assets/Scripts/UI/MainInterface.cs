@@ -36,5 +36,7 @@ public class MainInterface : BaseInterface
 			soundButtonPicto.sprite = hasSound ? hasSoundSprite : noSoundSprite;
 			setSoundState(hasSound);
 		});
+
+		InitInternal();
 	}
 }

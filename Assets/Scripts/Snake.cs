@@ -78,6 +78,8 @@ public class Snake : BaseBehaviour
 		ManagePieces();
 	}
 
+	// TODO : clean reference points list
+
 	void ManagePieces()
 	{
 		// add new point and move it depending on the current speed
@@ -204,6 +206,7 @@ public class Snake : BaseBehaviour
 
 		// clean list
 		spawnedPieces.ForEach(item => Destroy(item.gameObject));
+		spawnedPieces.Clear();
 
 		// reset pos
 		transform.position = initialPos;
@@ -225,6 +228,7 @@ public class Snake : BaseBehaviour
 		if(!CheckInitialized())
 			return;
 
+		Reset();
 		canMove = true;
 	}
 
