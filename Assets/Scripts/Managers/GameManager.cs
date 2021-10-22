@@ -64,7 +64,18 @@ public class GameManager : MonoBehaviour
 			difficultyManager.GetCurrentSpeed,
 			distance => scoreManager.AddPlayerScore(distance)
 		);
-		interfaceManager.Init();
+		interfaceManager.Init(
+			playerData.hasSound,
+			() =>
+			{
+				// TODO : unlock snake here
+			},
+			state =>
+			{
+				playerData.hasSound = state;
+				// TODO : set sound in game here
+			}
+		);
 		scoreManager.Init(
 			playerData.highscore,
 			playerData.playerMoney,

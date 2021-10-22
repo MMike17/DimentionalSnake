@@ -10,8 +10,6 @@ public class Snake : BaseBehaviour
 	const string MONEY_TAG = "Money";
 	const string PIECE_TAG = "Piece";
 
-	// TODO : disable smoothing when not going towards the edge
-
 	[Header("Settings")]
 	public int minSnakeLength;
 	public float horizontalSpeed;

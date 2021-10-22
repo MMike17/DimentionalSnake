@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -8,9 +9,20 @@ public class InterfaceManager : BaseBehaviour
 	public TextMeshProUGUI moneyDisplay;
 	[Space]
 	public GameInterface gameInterface;
+	public MainInterface mainInterface;
 
-	public void Init()
+	public void Init(bool initialSoundState, Action startGame, Action<bool> setSoundState)
 	{
+		mainInterface.Init(
+			initialSoundState,
+			() =>
+			{
+				// TODO : open shop here
+			},
+			startGame,
+			setSoundState
+		);
+
 		InitInternal();
 	}
 
