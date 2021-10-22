@@ -7,11 +7,14 @@ public class PlayerData
 	public float highscore;
 	public int playerMoney;
 	public bool hasSound;
+	public bool[] unlockedSettings;
 
-	public PlayerData()
+	public PlayerData(int settingsCount)
 	{
 		highscore = 0;
 		playerMoney = 0;
 		hasSound = true;
+
+		unlockedSettings = new bool[settingsCount];
 	}
 }

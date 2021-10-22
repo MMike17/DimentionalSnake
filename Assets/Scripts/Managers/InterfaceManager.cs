@@ -10,9 +10,11 @@ public class InterfaceManager : BaseBehaviour
 	[Space]
 	public GameInterface gameInterface;
 	public MainInterface mainInterface;
+	public ShopInterface shopInterface;
 
 	public void Init(bool initialSoundState, Action startGame, Action<bool> setSoundState)
 	{
+		gameInterface.Init();
 		mainInterface.Init(
 			initialSoundState,
 			() =>
@@ -45,5 +47,13 @@ public class InterfaceManager : BaseBehaviour
 			return;
 
 		moneyDisplay.text = value.ToString();
+	}
+
+	public int GetUnlocksCount()
+	{
+		if(!CheckInitialized())
+			return 0;
+
+		return shopInterface.snakeSettings.Length;
 	}
 }

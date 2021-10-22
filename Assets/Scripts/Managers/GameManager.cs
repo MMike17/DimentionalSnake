@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
 		if(DataManager.DoesFileExists(SAVE_FILE_NAME))
 			playerData = DataManager.LoadObjectAtPath<PlayerData>(SAVE_FILE_NAME);
 		else
-			playerData = new PlayerData();
+			playerData = new PlayerData(interfaceManager.GetUnlocksCount());
 	}
 
 	void InitManagers()

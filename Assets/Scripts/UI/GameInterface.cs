@@ -7,8 +7,16 @@ public class GameInterface : BaseInterface
 	[Header("Scene references")]
 	public TextMeshProUGUI scoreDisplay;
 
+	public void Init()
+	{
+		InitInternal();
+	}
+
 	public void UpdateScore(float value)
 	{
+		if(!CheckInitialized())
+			return;
+
 		scoreDisplay.text = Mathf.RoundToInt(value).ToString();
 	}
 }
