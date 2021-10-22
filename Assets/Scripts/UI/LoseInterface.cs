@@ -25,7 +25,7 @@ public class LoseInterface : BaseInterface
 
 	public void SetData(float score, float highscore)
 	{
-		scoreDisplay.text = score.ToString();
-		highscoreDisplay.text = string.Format(HIGHSCORE_FORMAT, highscore);
+		scoreDisplay.text = Mathf.RoundToInt(score).ToString();
+		highscoreDisplay.text = string.Format(HIGHSCORE_FORMAT, Mathf.RoundToInt(highscore));
 	}
 }

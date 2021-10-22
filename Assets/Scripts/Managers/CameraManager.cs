@@ -5,8 +5,9 @@ using UnityEngine;
 public class CameraManager : BaseBehaviour
 {
 	[Header("Settings")]
-	public float animationDuration;
-	public AnimationCurve loseAnimCurve;
+	public float loseAnimDuration;
+	public float introAnimDuration, maxIntroMagnitude;
+	public AnimationCurve loseAnimCurve, introAnimCurve;
 	public Vector3 offset;
 
 	[Header("Scene references")]
@@ -16,8 +17,8 @@ public class CameraManager : BaseBehaviour
 	Vector3 initialPos, targetPos;
 	Quaternion initialRot, targetRot;
 	Action OnLoseAnimDone;
-	float timer;
-	bool startAnim;
+	float loseTimer, introTimer;
+	bool startAnim, introAnim;
 
 	void OnDrawGizmos()
 	{
@@ -34,8 +35,9 @@ public class CameraManager : BaseBehaviour
 		initialPos = mainCamera.position;
 		initialRot = mainCamera.rotation;
 
-		timer = 0;
+		loseTimer = 0;
 		startAnim = false;
+		introAnim = true;
 
 		InitInternal();
 	}
@@ -45,14 +47,27 @@ public class CameraManager : BaseBehaviour
 		if(!initialized)
 			return;
 
+		if(introAnim)
+		{
+			introTimer += Time.deltaTime;
+
+			mainCamera.position = Vector3.Lerp(initialPos - Vector3.up * maxIntroMagnitude, initialPos, introAnimCurve.Evaluate(introTimer / introAnimDuration));
+
+			if(introTimer >= introAnimDuration)
+			{
+				mainCamera.position = initialPos;
+				introAnim = false;
+			}
+		}
+
 		if(startAnim)
 		{
-			timer += Time.deltaTime;
+			loseTimer += Time.deltaTime;
 
-			mainCamera.position = Vector3.Lerp(initialPos, targetPos, loseAnimCurve.Evaluate(timer / animationDuration));
-			mainCamera.rotation = Quaternion.Lerp(initialRot, targetRot, loseAnimCurve.Evaluate(timer / animationDuration));
+			mainCamera.position = Vector3.Lerp(initialPos, targetPos, loseAnimCurve.Evaluate(loseTimer / loseAnimDuration));
+			mainCamera.rotation = Quaternion.Lerp(initialRot, targetRot, loseAnimCurve.Evaluate(loseTimer / loseAnimDuration));
 
-			if(timer >= animationDuration)
+			if(loseTimer >= loseAnimDuration)
 			{
 				mainCamera.position = targetPos;
 				mainCamera.rotation = targetRot;
@@ -74,7 +89,7 @@ public class CameraManager : BaseBehaviour
 		targetRot = Quaternion.LookRotation(player.position - targetPos, Vector3.up);
 
 		startAnim = true;
-		timer = 0;
+		loseTimer = 0;
 	}
 
 	public void Reset()

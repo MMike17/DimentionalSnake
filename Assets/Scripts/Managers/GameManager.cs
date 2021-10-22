@@ -37,13 +37,18 @@ public class GameManager : MonoBehaviour
 			() => scoreManager.GetMoney(),
 			() =>
 			{
-				cameraManager.StartLoseAnimation(() => interfaceManager.GameOver());
+				cameraManager.StartLoseAnimation(() => interfaceManager.GameOver(scoreManager.GetCurrentScore(), scoreManager.GetHighscore()));
 
 				snake.Freeze();
 				terrainManager.Freeze();
 			},
 			difficultyManager.GetCurrentSpeed
 		);
+	}
+
+	void Update()
+	{
+		DelayedActionsManager.Update(Time.deltaTime);
 	}
 
 	void LoadLocalData()

@@ -5,6 +5,8 @@ using UnityEngine;
 /// <summary>Manages all display on interface</summary>
 public class InterfaceManager : BaseBehaviour
 {
+	const float INTRO_ANIM_DURATION = 7.5f;
+
 	[Header("Scene references")]
 	public TextMeshProUGUI moneyDisplay;
 	[Space]
@@ -12,6 +14,7 @@ public class InterfaceManager : BaseBehaviour
 	public MainInterface mainInterface;
 	public ShopInterface shopInterface;
 	public LoseInterface loseInterface;
+	public GameObject introInterface;
 
 	public void Init(bool initialSoundState, bool[] unlocks, int selectedIndex, Action startGame, Action reset, Action<int> giveMoney, Action<int> takeMoney, Action<bool> setSoundState, Action<Action> startFakeAd, Func<bool> canBuy)
 	{
@@ -48,15 +51,31 @@ public class InterfaceManager : BaseBehaviour
 		);
 
 		InitInternal();
+
+		gameInterface.Hide();
+		mainInterface.Hide();
+		shopInterface.Hide();
+		loseInterface.Hide();
+		introInterface.SetActive(true);
+		moneyDisplay.transform.parent.gameObject.SetActive(false);
+
+		DelayedActionsManager.SceduleAction(() =>
+		{
+			introInterface.SetActive(false);
+			moneyDisplay.transform.parent.gameObject.SetActive(true);
+
+			mainInterface.Show();
+		}, INTRO_ANIM_DURATION);
 	}
 
-	public void GameOver()
+	public void GameOver(float score, float highscore)
 	{
 		if(!CheckInitialized())
 			return;
 
 		gameInterface.Hide();
 		loseInterface.Show();
+		loseInterface.SetData(score, highscore);
 	}
 
 	public void UpdateScore(float value)
