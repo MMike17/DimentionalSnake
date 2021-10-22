@@ -76,9 +76,8 @@ public class Snake : BaseBehaviour
 		transform.position = Vector3.MoveTowards(transform.position, targetPos, currentSpeed * Time.deltaTime);
 
 		ManagePieces();
+		CleanList();
 	}
-
-	// TODO : clean reference points list
 
 	void ManagePieces()
 	{
@@ -135,6 +134,20 @@ public class Snake : BaseBehaviour
 		// orient head
 		Vector3 offset = Vector3.Normalize(head.position - spawnedPieces[0].transform.position);
 		head.LookAt(head.position + Vector3.Lerp(Vector3.forward, offset, headAlignmentPercent));
+	}
+
+	void CleanList()
+	{
+		float tipOfTail = spawnedPieces[spawnedPieces.Count - 1].position.z;
+		List<ReferencePoint> toRemove = new List<ReferencePoint>();
+
+		referencePoints.ForEach(item =>
+		{
+			if(item.zPos <= tipOfTail)
+				toRemove.Add(item);
+		});
+
+		toRemove.ForEach(item => referencePoints.Remove(item));
 	}
 
 	void SpawnSnakePiece()
