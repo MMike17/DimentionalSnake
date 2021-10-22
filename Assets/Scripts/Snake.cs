@@ -34,7 +34,7 @@ public class Snake : BaseBehaviour
 	{
 		Gizmos.color = Color.green;
 
-		if(spawnedPieces.Count > 0)
+		if(spawnedPieces != null && spawnedPieces.Count > 0)
 		{
 			Gizmos.DrawLine(Vector3.up * 0.5f + Vector3.right * smoothMinX - Vector3.forward * 5, Vector3.up * 0.5f + Vector3.right * smoothMinX + Vector3.forward * 5);
 			Gizmos.DrawLine(Vector3.up * 0.5f + Vector3.right * smoothMaxX - Vector3.forward * 5, Vector3.up * 0.5f + Vector3.right * smoothMaxX + Vector3.forward * 5);
@@ -93,16 +93,18 @@ public class Snake : BaseBehaviour
 		ReferencePoint previousPoint, nextpoint;
 		Vector3 previousPos = head.position;
 
-		foreach (Transform piece in spawnedPieces)
+		for (int i = 0; i < spawnedPieces.Count; i++)
 		{
+			Transform piece = spawnedPieces[i];
+
 			// pick the two nearest points on z axis
 			int firstAfterIndex = -1;
 
-			for (int i = 0; i < referencePoints.Count; i++)
+			for (int j = 0; j < referencePoints.Count; j++)
 			{
-				if(referencePoints[i].zPos < piece.position.z)
+				if(referencePoints[j].zPos < piece.position.z)
 				{
-					firstAfterIndex = i;
+					firstAfterIndex = j;
 					break;
 				}
 			}
@@ -120,7 +122,18 @@ public class Snake : BaseBehaviour
 			}
 
 			// orient  piece
-			piece.LookAt(previousPos, Vector3.up);
+			Vector3 previousOffset = Vector3.forward;
+			Vector3 nextOffset = head.position - piece.position;
+
+			if(i < spawnedPieces.Count - 1)
+				previousOffset = piece.position - spawnedPieces[i + 1].position;
+
+			if(i > 0)
+				nextOffset = spawnedPieces[i - 1].position - piece.position;
+
+			piece.LookAt(piece.position + Vector3.Lerp(previousOffset, nextOffset, 0.5f));
+
+			previousPos = piece.position;
 		}
 
 		// orient head
@@ -163,8 +176,6 @@ public class Snake : BaseBehaviour
 
 	public void SetXPosOnTerrain(float percent)
 	{
-		// TODO : Rework pieces orientation
-
 		// pick target pos
 		targetPos = transform.position;
 		targetPos.x = Mathf.Lerp(minX, maxX, percent);
