@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 	public InterfaceManager interfaceManager;
 	public ScoreManager scoreManager;
 	public DifficultyManager difficultyManager;
+	public FakeAdManager fakeAdManager;
 
 	[Header("Uniques")]
 	public Snake snake;
@@ -35,8 +36,11 @@ public class GameManager : MonoBehaviour
 			() => scoreManager.GetMoney(),
 			() =>
 			{
-				// TODO : Implemente game over
-				Debug.Log("Game over");
+				interfaceManager.GameOver();
+				snake.Freeze();
+
+				// TODO : Animate camera for game over
+				// TODO : Stop terrain movement
 			},
 			difficultyManager.GetCurrentSpeed
 		);
@@ -71,9 +75,11 @@ public class GameManager : MonoBehaviour
 			playerData.selectedSettings,
 			() =>
 			{
-				// TODO : unlock snake here
 				// TODO : reset camera pos here
 				interfaceManager.StartGame();
+
+				snake.Reset();
+				snake.Unfreeze();
 			},
 			amount => scoreManager.GetMoney(amount),
 			amount => scoreManager.TakeMoney(amount),
@@ -82,11 +88,7 @@ public class GameManager : MonoBehaviour
 				playerData.hasSound = state;
 				// TODO : set sound in game here
 			},
-			callback =>
-			{
-				// TODO : Pop fake ad here
-				// TODO : Make ad manager
-			},
+			fakeAdManager.PopAd,
 			() =>
 			{
 				return scoreManager.CanBuy(200);
@@ -106,6 +108,7 @@ public class GameManager : MonoBehaviour
 			highscore,
 			scoreManager.GetCurrentScore
 		);
+		fakeAdManager.Init();
 	}
 
 	void SubscribePlayerInput()

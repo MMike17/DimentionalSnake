@@ -262,7 +262,7 @@ class CodeOverview : EditorWindow
 
 		if(selectedScript == null)
 		{
-			if(className != "EditorWindow" && className != "Editor")
+			if(className != "EditorWindow" && className != "Editor" && className != "ScriptableObject")
 				Debug.LogError("Couldn't find script for class " + className);
 
 			return false;

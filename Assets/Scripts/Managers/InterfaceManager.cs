@@ -44,6 +44,12 @@ public class InterfaceManager : BaseBehaviour
 		gameInterface.Show();
 	}
 
+	public void GameOver()
+	{
+		gameInterface.Hide();
+		loseInterface.Show();
+	}
+
 	public void UpdateScore(float value)
 	{
 		if(!CheckInitialized())

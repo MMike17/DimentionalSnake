@@ -25,8 +25,9 @@ public class Snake : BaseBehaviour
 	List<ReferencePoint> referencePoints;
 	Func<float> GetCurrentSpeed;
 	Action GetMoney, LoseGame;
-	Vector3 targetPos;
+	Vector3 initialPos, targetPos;
 	float minX, maxX, smoothMinX, smoothMaxX, currentSpeed;
+	bool canMove;
 
 	void OnDrawGizmos()
 	{
@@ -50,30 +51,25 @@ public class Snake : BaseBehaviour
 		spawnedPieces = new List<Transform>();
 		referencePoints = new List<ReferencePoint>();
 
+		initialPos = transform.position;
+
 		float range = maxX - minX;
 		smoothMinX = minX + range * smoothingPercent / 2;
 		smoothMaxX = maxX - range * smoothingPercent / 2;
 
 		targetPos = transform.position;
 		currentSpeed = 0;
-
-		// spawning initial pieces
-		Vector3 position = transform.position;
-
-		for (int i = 0; i < minSnakeLength; i++)
-		{
-			position -= Vector3.forward * zPieceDistanceFromCore;
-			GameObject snakePiece = Instantiate(piecePrefab, position, Quaternion.identity);
-
-			spawnedPieces.Add(snakePiece.transform);
-		}
+		canMove = false;
 
 		InitInternal();
+
+		// spawning initial pieces
+		Reset();
 	}
 
 	void Update()
 	{
-		if(!initialized)
+		if(!initialized || !canMove)
 			return;
 
 		// move snake
@@ -191,6 +187,45 @@ public class Snake : BaseBehaviour
 			smoothingRatio = Mathf.Lerp(1, minSpeedRatio, 1 - (transform.position.x - minX) / distance);
 
 		currentSpeed = horizontalSpeed * smoothingRatio;
+	}
+
+	public void Freeze()
+	{
+		if(!CheckInitialized())
+			return;
+
+		canMove = false;
+	}
+
+	public void Reset()
+	{
+		if(!CheckInitialized())
+			return;
+
+		// clean list
+		spawnedPieces.ForEach(item => Destroy(item.gameObject));
+
+		// reset pos
+		transform.position = initialPos;
+
+		// spawn new parts
+		Vector3 position = transform.position;
+
+		for (int i = 0; i < minSnakeLength; i++)
+		{
+			position -= Vector3.forward * zPieceDistanceFromCore;
+			GameObject snakePiece = Instantiate(piecePrefab, position, Quaternion.identity);
+
+			spawnedPieces.Add(snakePiece.transform);
+		}
+	}
+
+	public void Unfreeze()
+	{
+		if(!CheckInitialized())
+			return;
+
+		canMove = true;
 	}
 
 	class ReferencePoint
