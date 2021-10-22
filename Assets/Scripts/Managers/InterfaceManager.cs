@@ -12,17 +12,22 @@ public class InterfaceManager : BaseBehaviour
 	public MainInterface mainInterface;
 	public ShopInterface shopInterface;
 
-	public void Init(bool initialSoundState, Action startGame, Action<bool> setSoundState)
+	public void Init(bool initialSoundState, bool[] unlocks, int selectedIndex, Action startGame, Action<int> giveMoney, Action<int> takeMoney, Action<bool> setSoundState, Action<Action> startFakeAd, Func<bool> canBuy)
 	{
 		gameInterface.Init();
 		mainInterface.Init(
 			initialSoundState,
-			() =>
-			{
-				// TODO : open shop here
-			},
+			shopInterface.Show,
 			startGame,
 			setSoundState
+		);
+		shopInterface.Init(
+			unlocks,
+			selectedIndex,
+			startFakeAd,
+			giveMoney,
+			takeMoney,
+			canBuy
 		);
 
 		InitInternal();
@@ -30,6 +35,7 @@ public class InterfaceManager : BaseBehaviour
 
 	public void StartGame()
 	{
+		mainInterface.Hide();
 		gameInterface.Show();
 	}
 

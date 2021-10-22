@@ -38,14 +38,29 @@ public class ScoreManager : BaseBehaviour
 		return currentPlayerScore;
 	}
 
-	public void GetMoney()
+	public void GetMoney(int amount = 1)
 	{
 		if(!CheckInitialized())
 			return;
 
-		currentPlayerMoney++;
+		currentPlayerMoney += amount;
 
 		UpdateMoney(currentPlayerMoney);
+	}
+
+	public void TakeMoney(int amount)
+	{
+		if(!CheckInitialized())
+			return;
+
+		currentPlayerMoney -= amount;
+
+		UpdateMoney(currentPlayerMoney);
+	}
+
+	public bool CanBuy(int price)
+	{
+		return currentPlayerMoney >= price;
 	}
 
 	public void AddPlayerScore(float score)

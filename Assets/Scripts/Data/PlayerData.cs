@@ -5,7 +5,7 @@ using System;
 public class PlayerData
 {
 	public float highscore;
-	public int playerMoney;
+	public int playerMoney, selectedSettings;
 	public bool hasSound;
 	public bool[] unlockedSettings;
 
@@ -13,6 +13,7 @@ public class PlayerData
 	{
 		highscore = 0;
 		playerMoney = 0;
+		selectedSettings = 0;
 		hasSound = true;
 
 		unlockedSettings = new bool[settingsCount];

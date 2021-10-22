@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
 		snake.Init(
 			terrainManager.minX.position.x,
 			terrainManager.maxX.position.x,
-			scoreManager.GetMoney,
+			() => scoreManager.GetMoney(),
 			() =>
 			{
 				// TODO : Implemente game over
@@ -66,14 +66,28 @@ public class GameManager : MonoBehaviour
 		);
 		interfaceManager.Init(
 			playerData.hasSound,
+			playerData.unlockedSettings,
+			playerData.selectedSettings,
 			() =>
 			{
 				// TODO : unlock snake here
+				interfaceManager.StartGame();
 			},
+			amount => scoreManager.GetMoney(amount),
+			amount => scoreManager.TakeMoney(amount),
 			state =>
 			{
 				playerData.hasSound = state;
 				// TODO : set sound in game here
+			},
+			callback =>
+			{
+				// TODO : Pop fake ad here
+				// TODO : Make ad manager
+			},
+			() =>
+			{
+				return scoreManager.CanBuy(200);
 			}
 		);
 		scoreManager.Init(
