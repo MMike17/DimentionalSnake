@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 	public ScoreManager scoreManager;
 	public DifficultyManager difficultyManager;
 	public FakeAdManager fakeAdManager;
+	public CameraManager cameraManager;
 
 	[Header("Uniques")]
 	public Snake snake;
@@ -36,9 +37,7 @@ public class GameManager : MonoBehaviour
 			() => scoreManager.GetMoney(),
 			() =>
 			{
-				interfaceManager.GameOver();
-
-				// TODO : Animate camera for game over
+				cameraManager.StartLoseAnimation(() => interfaceManager.GameOver());
 
 				snake.Freeze();
 				terrainManager.Freeze();
@@ -76,13 +75,13 @@ public class GameManager : MonoBehaviour
 			playerData.selectedSettings,
 			() =>
 			{
-				// TODO : reset camera pos here
-
 				snake.Unfreeze();
 				terrainManager.Unfreeze();
 			},
 			() =>
 			{
+				cameraManager.Reset();
+
 				snake.Reset();
 				terrainManager.Reset();
 			},
@@ -114,6 +113,7 @@ public class GameManager : MonoBehaviour
 			scoreManager.GetCurrentScore
 		);
 		fakeAdManager.Init();
+		cameraManager.Init(snake.transform);
 	}
 
 	void SubscribePlayerInput()
