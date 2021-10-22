@@ -10,10 +10,12 @@ public class Snake : BaseBehaviour
 	const string MONEY_TAG = "Money";
 	const string PIECE_TAG = "Piece";
 
+	// TODO : disable smoothing when not going towards the edge
+
 	[Header("Settings")]
 	public int minSnakeLength;
 	public float horizontalSpeed;
-	public float zPieceDistanceFromCore, maxPieceXAmplitude;
+	public float zPieceDistanceFromCore;
 	[Range(0, 1)]
 	public float smoothingPercent, minSpeedRatio, headAlignmentPercent;
 
@@ -30,21 +32,12 @@ public class Snake : BaseBehaviour
 
 	void OnDrawGizmos()
 	{
-		if(spawnedPieces != null)
+		Gizmos.color = Color.green;
+
+		if(spawnedPieces.Count > 0)
 		{
-			Gizmos.color = Color.green;
-			SetGizmosAlpha(0.8f);
-
-			Vector3 previousPos = transform.position;
-
-			spawnedPieces.ForEach(item =>
-			{
-				// display lines
-				Gizmos.DrawLine(item.transform.position - Vector3.right * maxPieceXAmplitude, item.transform.position - Vector3.right * maxPieceXAmplitude + Vector3.forward * zPieceDistanceFromCore);
-				Gizmos.DrawLine(item.transform.position + Vector3.right * maxPieceXAmplitude, item.transform.position + Vector3.right * maxPieceXAmplitude + Vector3.forward * zPieceDistanceFromCore);
-
-				previousPos = item.transform.position;
-			});
+			Gizmos.DrawLine(Vector3.up * 0.5f + Vector3.right * smoothMinX - Vector3.forward * 5, Vector3.up * 0.5f + Vector3.right * smoothMinX + Vector3.forward * 5);
+			Gizmos.DrawLine(Vector3.up * 0.5f + Vector3.right * smoothMaxX - Vector3.forward * 5, Vector3.up * 0.5f + Vector3.right * smoothMaxX + Vector3.forward * 5);
 		}
 	}
 
@@ -60,8 +53,8 @@ public class Snake : BaseBehaviour
 		referencePoints = new List<ReferencePoint>();
 
 		float range = maxX - minX;
-		smoothMinX = minX + range * smoothingPercent;
-		smoothMaxX = maxX - range * smoothingPercent;
+		smoothMinX = minX + range * smoothingPercent / 2;
+		smoothMaxX = maxX - range * smoothingPercent / 2;
 
 		targetPos = transform.position;
 		currentSpeed = 0;
@@ -170,23 +163,25 @@ public class Snake : BaseBehaviour
 
 	public void SetXPosOnTerrain(float percent)
 	{
-		// set speed
-		float smoothingRatio = 1;
-		float distance = maxX - smoothMaxX;
-
-		// smooth to the right
-		if(transform.position.x >= smoothMaxX)
-			smoothingRatio = Mathf.Lerp(1, minSpeedRatio, (transform.position.x - smoothMaxX) / distance);
-
-		// smooth to the left
-		if(transform.position.x <= smoothMinX)
-			smoothingRatio = Mathf.Lerp(1, minSpeedRatio, 1 - (transform.position.x - minX) / distance);
-
-		currentSpeed = horizontalSpeed * smoothingRatio;
+		// TODO : Rework pieces orientation
 
 		// pick target pos
 		targetPos = transform.position;
 		targetPos.x = Mathf.Lerp(minX, maxX, percent);
+
+		// set speed
+		float smoothingRatio = 1;
+		float distance = maxX - smoothMaxX;
+
+		// smooth to the right when going right
+		if(transform.position.x >= smoothMaxX && transform.position.x < targetPos.x)
+			smoothingRatio = Mathf.Lerp(1, minSpeedRatio, (transform.position.x - smoothMaxX) / distance);
+
+		// smooth to the left when going left
+		if(transform.position.x <= smoothMinX && transform.position.x > targetPos.x)
+			smoothingRatio = Mathf.Lerp(1, minSpeedRatio, 1 - (transform.position.x - minX) / distance);
+
+		currentSpeed = horizontalSpeed * smoothingRatio;
 	}
 
 	class ReferencePoint

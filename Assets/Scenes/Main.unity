@@ -417,8 +417,7 @@ MonoBehaviour:
   minSnakeLength: 2
   horizontalSpeed: 5
   zPieceDistanceFromCore: 1
-  maxPieceXAmplitude: 1
-  smoothingPercent: 0.2
+  smoothingPercent: 0.75
   minSpeedRatio: 0.1
   headAlignmentPercent: 0.8
   piecePrefab: {fileID: 140481430464970000, guid: ada77668d5f37ec43aa80e88e225336a, type: 3}
