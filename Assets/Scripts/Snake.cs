@@ -18,10 +18,10 @@ public class Snake : BaseBehaviour
 	public float smoothingPercent, minSpeedRatio, headAlignmentPercent;
 
 	[Header("Scene references")]
-	public GameObject piecePrefab;
-	public Transform head;
+	public SnakePiece piecePrefab;
+	public SnakePiece head;
 
-	List<Transform> spawnedPieces;
+	List<SnakePiece> spawnedPieces;
 	List<ReferencePoint> referencePoints;
 	Func<float> GetCurrentSpeed;
 	Action GetMoney, LoseGame;
@@ -48,7 +48,7 @@ public class Snake : BaseBehaviour
 		LoseGame = loseGame;
 		GetCurrentSpeed = getCurrentSpeed;
 
-		spawnedPieces = new List<Transform>();
+		spawnedPieces = new List<SnakePiece>();
 		referencePoints = new List<ReferencePoint>();
 
 		initialPos = transform.position;
@@ -82,15 +82,15 @@ public class Snake : BaseBehaviour
 	void ManagePieces()
 	{
 		// add new point and move it depending on the current speed
-		referencePoints.Insert(0, new ReferencePoint(head.position));
+		referencePoints.Insert(0, new ReferencePoint(head.transform.position));
 		referencePoints.ForEach(item => item.Move(GetCurrentSpeed()));
 
 		ReferencePoint previousPoint, nextpoint;
-		Vector3 previousPos = head.position;
+		Vector3 previousPos = head.transform.position;
 
 		for (int i = 0; i < spawnedPieces.Count; i++)
 		{
-			Transform piece = spawnedPieces[i];
+			Transform piece = spawnedPieces[i].transform;
 
 			// pick the two nearest points on z axis
 			int firstAfterIndex = -1;
@@ -118,13 +118,13 @@ public class Snake : BaseBehaviour
 
 			// orient  piece
 			Vector3 previousOffset = Vector3.forward;
-			Vector3 nextOffset = head.position - piece.position;
+			Vector3 nextOffset = head.transform.position - piece.position;
 
 			if(i < spawnedPieces.Count - 1)
-				previousOffset = piece.position - spawnedPieces[i + 1].position;
+				previousOffset = piece.position - spawnedPieces[i + 1].transform.position;
 
 			if(i > 0)
-				nextOffset = spawnedPieces[i - 1].position - piece.position;
+				nextOffset = spawnedPieces[i - 1].transform.position - piece.position;
 
 			piece.LookAt(piece.position + Vector3.Lerp(previousOffset, nextOffset, 0.5f));
 
@@ -132,13 +132,13 @@ public class Snake : BaseBehaviour
 		}
 
 		// orient head
-		Vector3 offset = Vector3.Normalize(head.position - spawnedPieces[0].transform.position);
-		head.LookAt(head.position + Vector3.Lerp(Vector3.forward, offset, headAlignmentPercent));
+		Vector3 offset = Vector3.Normalize(head.transform.position - spawnedPieces[0].transform.position);
+		head.transform.LookAt(head.transform.position + Vector3.Lerp(Vector3.forward, offset, headAlignmentPercent));
 	}
 
 	void CleanList()
 	{
-		float tipOfTail = spawnedPieces[spawnedPieces.Count - 1].position.z;
+		float tipOfTail = spawnedPieces[spawnedPieces.Count - 1].transform.position.z;
 		List<ReferencePoint> toRemove = new List<ReferencePoint>();
 
 		referencePoints.ForEach(item =>
@@ -159,8 +159,12 @@ public class Snake : BaseBehaviour
 
 		Vector3 spawnPos = new Vector3(lastPiece.position.x + xOffset, transform.position.y, pieceZPos);
 
-		GameObject spawnedPiece = Instantiate(piecePrefab, spawnPos, Quaternion.identity);
-		spawnedPieces.Add(spawnedPiece.transform);
+		SnakePiece spawnedPiece = Instantiate(piecePrefab, spawnPos, Quaternion.identity);
+
+		spawnedPieces[spawnedPieces.Count - 1].Init(spawnedPiece.transform);
+		spawnedPiece.Init(null);
+
+		spawnedPieces.Add(spawnedPiece);
 	}
 
 	void OnTriggerEnter(Collider other)
@@ -230,9 +234,20 @@ public class Snake : BaseBehaviour
 		for (int i = 0; i < minSnakeLength; i++)
 		{
 			position -= Vector3.forward * zPieceDistanceFromCore;
-			GameObject snakePiece = Instantiate(piecePrefab, position, Quaternion.identity);
+			SnakePiece snakePiece = Instantiate(piecePrefab, position, Quaternion.identity);
 
-			spawnedPieces.Add(snakePiece.transform);
+			spawnedPieces.Add(snakePiece);
+		}
+
+		// configure pieces
+		head.Init(spawnedPieces[0].transform);
+
+		for (int i = 0; i < spawnedPieces.Count; i++)
+		{
+			if(i + 1 != spawnedPieces.Count)
+				spawnedPieces[i].Init(spawnedPieces[i + 1].transform);
+			else
+				spawnedPieces[i].Init(null);
 		}
 	}
 
@@ -243,6 +258,8 @@ public class Snake : BaseBehaviour
 
 		Reset();
 		canMove = true;
+
+		targetPos = Vector3.zero;
 	}
 
 	class ReferencePoint
