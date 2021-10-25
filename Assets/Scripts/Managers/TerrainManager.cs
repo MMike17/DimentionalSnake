@@ -6,7 +6,6 @@ using UnityEngine;
 public class TerrainManager : BaseBehaviour
 {
 	// TODO : Fix terrain gap
-	// TODO : Generate terrain for intro
 
 	[Header("Settings")]
 	public int memorySize;
@@ -56,6 +55,8 @@ public class TerrainManager : BaseBehaviour
 		canMove = false;
 
 		InitInternal();
+
+		Reset();
 	}
 
 	void Update()
