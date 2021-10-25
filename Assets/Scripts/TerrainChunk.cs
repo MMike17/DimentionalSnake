@@ -16,7 +16,7 @@ public class TerrainChunk : BaseBehaviour
 	float upForce, sideForce, destroyDelay;
 	bool triggeredSpawnNew;
 
-	public void Init(float difficulty, float upForce, float sideForce, float destroyDelay)
+	public void Init(float difficulty = 0, float upForce = 0, float sideForce = 0, float destroyDelay = 0)
 	{
 		this.upForce = upForce;
 		this.sideForce = sideForce;
