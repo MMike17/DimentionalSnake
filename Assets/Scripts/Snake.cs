@@ -348,8 +348,6 @@ public class Snake : BaseBehaviour
 		if(!CheckInitialized())
 			return;
 
-		Reset();
-
 		canMove = true;
 		rigid.isKinematic = false;
 
