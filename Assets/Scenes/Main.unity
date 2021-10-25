@@ -765,7 +765,7 @@ GameObject:
   - component: {fileID: 322125704}
   - component: {fileID: 322125707}
   - component: {fileID: 322125706}
-  - component: {fileID: 322125705}
+  - component: {fileID: 322125710}
   - component: {fileID: 322125709}
   - component: {fileID: 322125708}
   m_Layer: 0
@@ -789,19 +789,6 @@ Transform:
   m_Father: {fileID: 233817843}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &322125705
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 322125703}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.25
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &322125706
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -960,6 +947,20 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!64 &322125710
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322125703}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &414261301
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5881,10 +5882,10 @@ MonoBehaviour:
   terrainChunks:
   - {fileID: 6820148526937881430, guid: 31bd8b86ca2ea9148835aa54bd285d4f, type: 3}
   - {fileID: 5555381305150969469, guid: 1e78d9b4a5a83704e951afc89124f02d, type: 3}
-  - {fileID: 7731767454318259118, guid: dd799907b78e3134d8fb64cdea88e0f2, type: 3}
   minX: {fileID: 724882583}
   maxX: {fileID: 1510296767}
   spawnPoint: {fileID: 1790269077}
+  spawnedChunks: []
 --- !u!1001 &7489145963586488445
 PrefabInstance:
   m_ObjectHideFlags: 0

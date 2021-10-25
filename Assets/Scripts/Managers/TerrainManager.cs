@@ -5,8 +5,6 @@ using UnityEngine;
 /// <summary>Manages the terrain generation, obstacles and bonuses</summary>
 public class TerrainManager : BaseBehaviour
 {
-	// TODO : Fix terrain gap
-
 	[Header("Settings")]
 	public int memorySize;
 	public float deleteDistance;
@@ -18,7 +16,7 @@ public class TerrainManager : BaseBehaviour
 	[Space]
 	public Transform spawnPoint;
 
-	List<TerrainChunk> spawnedChunks;
+	public List<TerrainChunk> spawnedChunks;
 	List<int> lastSpawnedChunks;
 	Func<float> GetDifficulty, GetCurrentSpeed;
 	Action<float> AddDistance;
@@ -98,18 +96,17 @@ public class TerrainManager : BaseBehaviour
 
 	Vector3 GetSpawnPos()
 	{
-		return new Vector3(0, 0, spawnPoint.position.z);
+		Vector3 position = spawnPoint.position;
+		Transform lastSpawnedChunk = spawnedChunks[spawnedChunks.Count - 1].transform;
+		position.z = lastSpawnedChunk.position.z + lastSpawnedChunk.GetChild(0).localScale.z;
+
+		return position;
 	}
 
 	float GetDistanceFromPlayer(Transform chunk)
 	{
 		float zDifference = player.position.z - chunk.position.z;
 		return zDifference > 0 ? zDifference : 0;
-	}
-
-	void SpawnEmptyChunks()
-	{
-
 	}
 
 	public void SpawnChunk()
@@ -161,7 +158,7 @@ public class TerrainManager : BaseBehaviour
 			position -= Vector3.forward * emptyChunkSize;
 			TerrainChunk spawnedChunk = Instantiate(emptyChunkPrefab, position, Quaternion.identity, transform);
 
-			spawnedChunks.Add(spawnedChunk);
+			spawnedChunks.Insert(0, spawnedChunk);
 		}
 	}
 
