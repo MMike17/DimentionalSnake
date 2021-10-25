@@ -45,4 +45,6 @@ public class SnakePiece : BaseBehaviour
 
 		lineRenderer.SetPositions(points);
 	}
+
+	// TODO : Add animation movement
 }

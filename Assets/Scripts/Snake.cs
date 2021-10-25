@@ -6,6 +6,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Snake : BaseBehaviour
 {
+
+	// TODO : Teleport snake and camera when hit portal
+
 	const string OBSTACLE_TAG = "Obstacle";
 	const string MONEY_TAG = "Money";
 	const string PIECE_TAG = "Piece";
