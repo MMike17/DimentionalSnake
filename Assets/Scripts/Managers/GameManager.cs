@@ -42,6 +42,13 @@ public class GameManager : MonoBehaviour
 				snake.Freeze();
 				terrainManager.Freeze();
 			},
+			() =>
+			{
+				interfaceManager.GameOver(scoreManager.GetCurrentScore(), scoreManager.GetHighscore());
+
+				snake.Freeze();
+				terrainManager.Freeze();
+			},
 			difficultyManager.GetCurrentSpeed
 		);
 	}

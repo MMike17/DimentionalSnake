@@ -6,28 +6,35 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Snake : BaseBehaviour
 {
+	// TODO : Fix head angling (very weird)
+
 	const string OBSTACLE_TAG = "Obstacle";
 	const string MONEY_TAG = "Money";
 	const string PIECE_TAG = "Piece";
+	const string GROUND_TAG = "Ground";
 
 	[Header("Settings")]
 	public int minSnakeLength;
-	public float horizontalSpeed;
-	public float zPieceDistanceFromCore;
+	public float horizontalSpeed, zPieceDistanceFromCore, fallZPos;
 	[Range(0, 1)]
 	public float smoothingPercent, minSpeedRatio, headAlignmentPercent;
+	public Vector3 checkGroundBoxSize;
 
 	[Header("Scene references")]
 	public SnakePiece piecePrefab;
 	public SnakePiece head;
+	public Transform checkGroundBoxPos;
 
 	List<SnakePiece> spawnedPieces;
 	List<ReferencePoint> referencePoints;
 	Func<float> GetCurrentSpeed;
-	Action GetMoney, LoseGame;
+	Rigidbody rigid;
+	Action GetMoney, LoseGame, LoseGameByFall;
 	Vector3 initialPos, targetPos;
 	float minX, maxX, smoothMinX, smoothMaxX, currentSpeed;
-	bool canMove;
+	bool canMove, shouldFall;
+
+	// TODO : Wire LoseGameByFall in
 
 	void OnDrawGizmos()
 	{
@@ -35,21 +42,32 @@ public class Snake : BaseBehaviour
 
 		if(spawnedPieces != null && spawnedPieces.Count > 0)
 		{
+			SetGizmosAlpha(1);
+
 			Gizmos.DrawLine(Vector3.up * 0.5f + Vector3.right * smoothMinX - Vector3.forward * 5, Vector3.up * 0.5f + Vector3.right * smoothMinX + Vector3.forward * 5);
 			Gizmos.DrawLine(Vector3.up * 0.5f + Vector3.right * smoothMaxX - Vector3.forward * 5, Vector3.up * 0.5f + Vector3.right * smoothMaxX + Vector3.forward * 5);
 		}
+
+		if(checkGroundBoxPos != null)
+		{
+			SetGizmosAlpha(0.5f);
+			Gizmos.DrawCube(checkGroundBoxPos.position, checkGroundBoxSize);
+		}
 	}
 
-	public void Init(float minX, float maxX, Action getMoney, Action loseGame, Func<float> getCurrentSpeed)
+	public void Init(float minX, float maxX, Action getMoney, Action loseGame, Action loseGameByFall, Func<float> getCurrentSpeed)
 	{
 		this.minX = minX;
 		this.maxX = maxX;
 		GetMoney = getMoney;
 		LoseGame = loseGame;
+		LoseGameByFall = loseGameByFall;
 		GetCurrentSpeed = getCurrentSpeed;
 
 		spawnedPieces = new List<SnakePiece>();
 		referencePoints = new List<ReferencePoint>();
+
+		rigid = GetComponent<Rigidbody>();
 
 		initialPos = transform.position;
 
@@ -60,6 +78,7 @@ public class Snake : BaseBehaviour
 		targetPos = transform.position;
 		currentSpeed = 0;
 		canMove = false;
+		shouldFall = false;
 
 		InitInternal();
 
@@ -72,11 +91,32 @@ public class Snake : BaseBehaviour
 		if(!initialized || !canMove)
 			return;
 
+		ManagePieces();
+
+		if(shouldFall)
+		{
+			if(CheckFallDone())
+			{
+				rigid.isKinematic = true;
+				LoseGameByFall();
+			}
+
+			return;
+		}
+
 		// move snake
 		transform.position = Vector3.MoveTowards(transform.position, targetPos, currentSpeed * Time.deltaTime);
 
-		ManagePieces();
+		CheckFalling();
 		CleanList();
+	}
+
+	bool CheckFallDone()
+	{
+		if(spawnedPieces[spawnedPieces.Count - 1].transform.position.y <= fallZPos)
+			return true;
+		else
+			return false;
 	}
 
 	void ManagePieces()
@@ -97,7 +137,7 @@ public class Snake : BaseBehaviour
 
 			for (int j = 0; j < referencePoints.Count; j++)
 			{
-				if(referencePoints[j].zPos < piece.position.z)
+				if(referencePoints[j].position.z < piece.position.z)
 				{
 					firstAfterIndex = j;
 					break;
@@ -110,10 +150,13 @@ public class Snake : BaseBehaviour
 				previousPoint = referencePoints[firstAfterIndex];
 				nextpoint = referencePoints[firstAfterIndex - 1];
 
-				float percent = (previousPoint.zPos + piece.position.z) / (nextpoint.zPos - previousPoint.zPos);
+				float percent = (previousPoint.position.z + piece.position.z) / (nextpoint.position.z - previousPoint.position.z);
 
 				// lerp between previous and next points
-				piece.position = new Vector3(Mathf.Lerp(previousPoint.xPos, nextpoint.xPos, percent), piece.position.y, piece.position.z);
+				piece.position = new Vector3(
+					Mathf.Lerp(previousPoint.position.x, nextpoint.position.x, percent),
+					Mathf.Lerp(previousPoint.position.y, nextpoint.position.y, percent),
+					piece.position.z);
 			}
 
 			// orient  piece
@@ -136,6 +179,28 @@ public class Snake : BaseBehaviour
 		head.transform.LookAt(head.transform.position + Vector3.Lerp(Vector3.forward, offset, headAlignmentPercent));
 	}
 
+	void CheckFalling()
+	{
+		Collider[] contacts = Physics.OverlapBox(checkGroundBoxPos.position, checkGroundBoxSize / 2);
+
+		// short circuit's the checking method for performance optimization
+		if(contacts.Length == 0)
+		{
+			shouldFall = false;
+			return;
+		}
+
+		foreach (Collider detected in contacts)
+		{
+			if(detected.CompareTag(GROUND_TAG))
+			{
+				shouldFall = true;
+				rigid.useGravity = true;
+				break;
+			}
+		}
+	}
+
 	void CleanList()
 	{
 		float tipOfTail = spawnedPieces[spawnedPieces.Count - 1].transform.position.z;
@@ -143,7 +208,7 @@ public class Snake : BaseBehaviour
 
 		referencePoints.ForEach(item =>
 		{
-			if(item.zPos <= tipOfTail)
+			if(item.position.z <= tipOfTail)
 				toRemove.Add(item);
 		});
 
@@ -214,6 +279,7 @@ public class Snake : BaseBehaviour
 			return;
 
 		canMove = false;
+		rigid.isKinematic = true;
 	}
 
 	public void Reset()
@@ -227,6 +293,10 @@ public class Snake : BaseBehaviour
 
 		// reset pos
 		transform.position = initialPos;
+
+		// configure snake
+		rigid.useGravity = false;
+		rigid.isKinematic = false;
 
 		// spawn new parts
 		Vector3 position = transform.position;
@@ -257,17 +327,16 @@ public class Snake : BaseBehaviour
 			return;
 
 		Reset();
+
 		canMove = true;
+		rigid.isKinematic = false;
 
 		targetPos = Vector3.zero;
 	}
 
 	class ReferencePoint
 	{
-		public float xPos => position.x;
-		public float zPos => position.z;
-
-		Vector3 position;
+		public Vector3 position { get; private set; }
 
 		public ReferencePoint(Vector3 pos)
 		{
