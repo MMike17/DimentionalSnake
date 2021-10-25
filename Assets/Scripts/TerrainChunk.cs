@@ -12,10 +12,16 @@ public class TerrainChunk : BaseBehaviour
 	public GameObject[] obstacles;
 	public GameObject[] pieces;
 
+	List<Rigidbody> elements;
+	float upForce, sideForce, destroyDelay;
 	bool triggeredSpawnNew;
 
-	public void Init(float difficulty)
+	public void Init(float difficulty, float upForce, float sideForce, float destroyDelay)
 	{
+		this.upForce = upForce;
+		this.sideForce = sideForce;
+		this.destroyDelay = destroyDelay;
+
 		triggeredSpawnNew = false;
 		List<int> selectedIndexes;
 
@@ -39,7 +45,21 @@ public class TerrainChunk : BaseBehaviour
 				pieces[i].SetActive(selectedIndexes.Contains(i));
 		}
 
+		elements = new List<Rigidbody>();
+		GetComponentsRecursive(transform);
+
 		InitInternal();
+	}
+
+	void GetComponentsRecursive(Transform parent)
+	{
+		Rigidbody rigid = parent.GetComponent<Rigidbody>();
+
+		if(rigid != null)
+			elements.Add(rigid);
+
+		foreach (Transform child in parent)
+			GetComponentsRecursive(child);
 	}
 
 	int GetObstaclesDifficulty(float difficulty)
@@ -82,5 +102,28 @@ public class TerrainChunk : BaseBehaviour
 		}
 		else
 			return false;
+	}
+
+	public void PopObstacles()
+	{
+		foreach (Rigidbody body in elements)
+		{
+			body.useGravity = true;
+			body.isKinematic = false;
+
+			Vector3 force = Vector3.up * upForce;
+			int side = body.transform.position.x >= transform.position.x ? 1 : -1;
+			force += Vector3.right * side * sideForce;
+
+			body.AddForce(force, ForceMode.Impulse);
+			body.AddTorque(new Vector3(Random.value * sideForce, Random.value * side * sideForce / 2, Random.value * upForce), ForceMode.Impulse);
+		}
+
+		// destroy after delay
+		DelayedActionsManager.SceduleAction(() =>
+		{
+			foreach (Rigidbody body in elements)
+				Destroy(body.gameObject);
+		}, destroyDelay);
 	}
 }

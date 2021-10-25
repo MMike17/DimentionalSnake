@@ -7,7 +7,7 @@ public class TerrainManager : BaseBehaviour
 {
 	[Header("Settings")]
 	public int memorySize;
-	public float deleteDistance;
+	public float deleteDistance, popUpForce, popSideForce, popDestroyDelay;
 
 	[Header("Scene references")]
 	public TerrainChunk emptyChunkPrefab;
@@ -145,7 +145,7 @@ public class TerrainManager : BaseBehaviour
 
 		// spawn chunk
 		TerrainChunk spawnedChunk = Instantiate(terrainChunks[chunkIndex], position, Quaternion.identity, transform);
-		spawnedChunk.Init(difficulty);
+		spawnedChunk.Init(difficulty, popUpForce, popSideForce, popDestroyDelay);
 
 		spawnedChunks.Add(spawnedChunk);
 	}
@@ -184,7 +184,7 @@ public class TerrainManager : BaseBehaviour
 		// spawn initial empty chunk
 		TerrainChunk emptyChunk = Instantiate(emptyChunkPrefab, position, Quaternion.identity);
 
-		emptyChunk.Init(0);
+		emptyChunk.Init(0, popUpForce, popSideForce, popDestroyDelay);
 		spawnedChunks.Add(emptyChunk);
 
 		// puts list in right order
