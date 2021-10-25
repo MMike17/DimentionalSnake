@@ -7,7 +7,6 @@ using UnityEngine;
 public class Snake : BaseBehaviour
 {
 	// TODO : Fix head angling (very weird)
-	// TODO : Fix target pos on reset
 
 	const string OBSTACLE_TAG = "Obstacle";
 	const string MONEY_TAG = "Money";
@@ -309,6 +308,7 @@ public class Snake : BaseBehaviour
 		rigid.isKinematic = false;
 
 		shouldFall = false;
+		SetXPosOnTerrain(0.5f);
 
 		// spawn new parts
 		Vector3 position = transform.position;
