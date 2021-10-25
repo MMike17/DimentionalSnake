@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
 	public DifficultyManager difficultyManager;
 	public FakeAdManager fakeAdManager;
 	public CameraManager cameraManager;
+	public BonusTerrainManager bonusTerrainManager;
 
 	[Header("Uniques")]
 	public Snake snake;
@@ -124,6 +125,7 @@ public class GameManager : MonoBehaviour
 		);
 		fakeAdManager.Init();
 		cameraManager.Init(snake.transform);
+		bonusTerrainManager.Init(distance => scoreManager.AddPlayerScore(distance));
 	}
 
 	void SubscribePlayerInput()
