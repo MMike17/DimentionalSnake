@@ -7,6 +7,7 @@ using UnityEngine;
 public class Snake : BaseBehaviour
 {
 	// TODO : Fix head angling (very weird)
+	// TODO : Fix target pos on reset
 
 	const string OBSTACLE_TAG = "Obstacle";
 	const string MONEY_TAG = "Money";
@@ -186,18 +187,26 @@ public class Snake : BaseBehaviour
 		// short circuit's the checking method for performance optimization
 		if(contacts.Length == 0)
 		{
-			shouldFall = false;
+			shouldFall = true;
+			rigid.useGravity = true;
 			return;
 		}
+
+		bool hasGround = false;
 
 		foreach (Collider detected in contacts)
 		{
 			if(detected.CompareTag(GROUND_TAG))
 			{
-				shouldFall = true;
-				rigid.useGravity = true;
+				hasGround = true;
 				break;
 			}
+		}
+
+		if(!hasGround)
+		{
+			shouldFall = true;
+			rigid.useGravity = true;
 		}
 	}
 
@@ -293,10 +302,13 @@ public class Snake : BaseBehaviour
 
 		// reset pos
 		transform.position = initialPos;
+		head.transform.rotation = Quaternion.Euler(0, 0, 0);
 
 		// configure snake
 		rigid.useGravity = false;
 		rigid.isKinematic = false;
+
+		shouldFall = false;
 
 		// spawn new parts
 		Vector3 position = transform.position;
@@ -319,6 +331,9 @@ public class Snake : BaseBehaviour
 			else
 				spawnedPieces[i].Init(null);
 		}
+
+		// Clean list of references points
+		referencePoints.Clear();
 	}
 
 	public void Unfreeze()
