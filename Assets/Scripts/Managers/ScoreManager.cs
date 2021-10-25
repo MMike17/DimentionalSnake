@@ -40,7 +40,7 @@ public class ScoreManager : BaseBehaviour
 		return currentPlayerScore;
 	}
 
-	public void GetMoney(int amount = 1)
+	public void GiveMoney(int amount = 1)
 	{
 		if(!CheckInitialized())
 			return;
@@ -48,6 +48,14 @@ public class ScoreManager : BaseBehaviour
 		currentPlayerMoney += amount;
 
 		UpdateMoney(currentPlayerMoney);
+	}
+
+	public int GetMoney()
+	{
+		if(!CheckInitialized())
+			return 0;
+
+		return currentPlayerMoney;
 	}
 
 	public void TakeMoney(int amount)
@@ -73,8 +81,6 @@ public class ScoreManager : BaseBehaviour
 		currentPlayerScore += score / 100;
 
 		UpdateScore(currentPlayerScore);
-
-		// TODO : Fix highscore spawning pos
 
 		if(currentPlayerScore >= playerHighscore)
 			playerHighscore = currentPlayerScore;

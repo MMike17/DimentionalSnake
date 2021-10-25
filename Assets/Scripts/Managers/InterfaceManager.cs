@@ -96,9 +96,6 @@ public class InterfaceManager : BaseBehaviour
 
 	public int GetUnlocksCount()
 	{
-		if(!CheckInitialized())
-			return 0;
-
 		return shopInterface.snakeSettings.Length;
 	}
 }

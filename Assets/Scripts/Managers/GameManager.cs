@@ -5,8 +5,6 @@ using static ShopInterface;
 /// <summary>Entry point of the game flow</summary>
 public class GameManager : MonoBehaviour
 {
-	// TODO : Fix saving
-
 	const string SAVE_FILE_NAME = "save.bin";
 
 	[Header("Settings")]
@@ -36,7 +34,7 @@ public class GameManager : MonoBehaviour
 		snake.Init(
 			terrainManager.minX.position.x,
 			terrainManager.maxX.position.x,
-			() => scoreManager.GetMoney(),
+			() => scoreManager.GiveMoney(),
 			() =>
 			{
 				cameraManager.StartLoseAnimation(() => interfaceManager.GameOver(scoreManager.GetCurrentScore(), scoreManager.GetHighscore()));
@@ -99,7 +97,7 @@ public class GameManager : MonoBehaviour
 				snake.Reset();
 				terrainManager.Reset();
 			},
-			amount => scoreManager.GetMoney(amount),
+			amount => scoreManager.GiveMoney(amount),
 			amount => scoreManager.TakeMoney(amount),
 			state =>
 			{
@@ -149,6 +147,9 @@ public class GameManager : MonoBehaviour
 		ShopPlayerSetting settings = interfaceManager.shopInterface.GetShopPlayerSetting();
 		playerData.selectedSettings = settings.selectedIndex;
 		playerData.unlockedSettings = settings.unlocks;
+
+		playerData.highscore = scoreManager.GetHighscore();
+		playerData.playerMoney = scoreManager.GetMoney();
 
 		DataManager.SaveObject(playerData, SAVE_FILE_NAME);
 	}
