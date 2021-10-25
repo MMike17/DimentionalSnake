@@ -6,13 +6,11 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Snake : BaseBehaviour
 {
-
-	// TODO : Teleport snake and camera when hit portal
-
 	const string OBSTACLE_TAG = "Obstacle";
 	const string MONEY_TAG = "Money";
 	const string PIECE_TAG = "Piece";
 	const string GROUND_TAG = "Ground";
+	const string PORTAL_TAG = "Portal";
 
 	[Header("Settings")]
 	public int minSnakeLength;
@@ -30,7 +28,7 @@ public class Snake : BaseBehaviour
 	List<ReferencePoint> referencePoints;
 	Func<float> GetCurrentSpeed;
 	Rigidbody rigid;
-	Action GetMoney, LoseGame, LoseGameByFall;
+	Action GetMoney, LoseGame, LoseGameByFall, StartWarpLevel;
 	Vector3 initialPos, targetPos;
 	float minX, maxX, smoothMinX, smoothMaxX, currentSpeed;
 	bool canMove, shouldFall;
@@ -54,13 +52,14 @@ public class Snake : BaseBehaviour
 		}
 	}
 
-	public void Init(float minX, float maxX, Action getMoney, Action loseGame, Action loseGameByFall, Func<float> getCurrentSpeed)
+	public void Init(float minX, float maxX, Action getMoney, Action loseGame, Action loseGameByFall, Action startWarpLevel, Func<float> getCurrentSpeed)
 	{
 		this.minX = minX;
 		this.maxX = maxX;
 		GetMoney = getMoney;
 		LoseGame = loseGame;
 		LoseGameByFall = loseGameByFall;
+		StartWarpLevel = startWarpLevel;
 		GetCurrentSpeed = getCurrentSpeed;
 
 		spawnedPieces = new List<SnakePiece>();
@@ -266,6 +265,10 @@ public class Snake : BaseBehaviour
 			case PIECE_TAG:
 				Destroy(other.gameObject);
 				SpawnSnakePiece();
+				break;
+
+			case PORTAL_TAG:
+				StartWarpLevel();
 				break;
 		}
 	}

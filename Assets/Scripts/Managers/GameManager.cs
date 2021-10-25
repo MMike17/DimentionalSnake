@@ -50,6 +50,14 @@ public class GameManager : MonoBehaviour
 				snake.Freeze();
 				terrainManager.Freeze();
 			},
+			() =>
+			{
+				Vector3 target = snake.transform.position;
+				target.y = terrainManager.GetTargetHeight();
+
+				snake.transform.position = target;
+				terrainManager.PositionCamera();
+			},
 			difficultyManager.GetCurrentSpeed
 		);
 	}
@@ -82,6 +90,7 @@ public class GameManager : MonoBehaviour
 		);
 		terrainManager.Init(
 			snake.transform,
+			cameraManager.mainCamera,
 			difficultyManager.GetDifficulty,
 			difficultyManager.GetCurrentSpeed,
 			distance => scoreManager.AddPlayerScore(distance)
