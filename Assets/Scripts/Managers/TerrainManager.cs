@@ -5,6 +5,8 @@ using UnityEngine;
 /// <summary>Manages the terrain generation, obstacles and bonuses</summary>
 public class TerrainManager : BaseBehaviour
 {
+	// TODO : Spawn empty at first and then obstacles
+
 	[Header("Settings")]
 	public int memorySize;
 	public float deleteDistance;
@@ -13,14 +15,15 @@ public class TerrainManager : BaseBehaviour
 	public TerrainChunk emptyChunkPrefab;
 	public TerrainChunk[] terrainChunks;
 	public Transform minX, maxX;
+	public GameObject newHighscorePrefab;
 	[Space]
 	public Transform spawnPoint;
 
-	public List<TerrainChunk> spawnedChunks;
+	List<TerrainChunk> spawnedChunks;
 	List<int> lastSpawnedChunks;
 	Func<float> GetDifficulty, GetCurrentSpeed;
 	Action<float> AddDistance;
-	Transform player;
+	Transform player, newHighscoreTransform;
 	bool canMove;
 
 	void OnDrawGizmos()
@@ -92,6 +95,16 @@ public class TerrainManager : BaseBehaviour
 
 		if(shouldSpawn)
 			SpawnChunk();
+
+		// move highscore
+		if(newHighscoreTransform != null)
+		{
+			newHighscoreTransform.Translate(0, 0, -GetCurrentSpeed() * Time.deltaTime);
+
+			// destroy highscore
+			if(GetDistanceFromPlayer(newHighscoreTransform) >= deleteDistance)
+				Destroy(newHighscoreTransform.gameObject);
+		}
 	}
 
 	Vector3 GetSpawnPos()
@@ -137,6 +150,14 @@ public class TerrainManager : BaseBehaviour
 		spawnedChunk.Init(difficulty);
 
 		spawnedChunks.Add(spawnedChunk);
+	}
+
+	public void SpawnNewHighscore()
+	{
+		if(!CheckInitialized())
+			return;
+
+		newHighscoreTransform = Instantiate(newHighscorePrefab, spawnPoint.position, spawnPoint.rotation).transform;
 	}
 
 	public void Reset()

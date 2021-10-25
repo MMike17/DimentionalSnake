@@ -5,7 +5,9 @@ using static ShopInterface;
 /// <summary>Entry point of the game flow</summary>
 public class GameManager : MonoBehaviour
 {
-	const string SAVE_FILE_NAME = "save";
+	// TODO : Fix saving
+
+	const string SAVE_FILE_NAME = "save.bin";
 
 	[Header("Settings")]
 	public LogLevel logLevel;
@@ -112,11 +114,9 @@ public class GameManager : MonoBehaviour
 		);
 		scoreManager.Init(
 			playerData.highscore,
+			Mathf.Abs(terrainManager.spawnPoint.position.z - snake.transform.position.z),
 			playerData.playerMoney,
-			() =>
-			{
-				// TODO : Trigger new highscore animation
-			},
+			terrainManager.SpawnNewHighscore,
 			interfaceManager.UpdateScore,
 			interfaceManager.UpdateMoney
 		);

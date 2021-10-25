@@ -10,13 +10,15 @@ public class ScoreManager : BaseBehaviour
 	Action TriggerHighscore;
 	Action<float> UpdateScore;
 	Action<int> UpdateMoney;
-	float currentPlayerScore, playerHighscore;
+	float currentPlayerScore, playerHighscore, distanceToSpawn;
 	int currentPlayerMoney;
-	bool passedHighscore;
+	bool passedHighscore, useDefaultHighscore;
 
-	public void Init(float lastHighscore, int lastMoney, Action triggerHighscore, Action<float> updateScore, Action<int> updateMoney)
+	public void Init(float lastHighscore, float distanceToSpawn, int lastMoney, Action triggerHighscore, Action<float> updateScore, Action<int> updateMoney)
 	{
 		playerHighscore = lastHighscore;
+		useDefaultHighscore = lastHighscore == 0;
+		this.distanceToSpawn = distanceToSpawn;
 		currentPlayerMoney = lastMoney;
 		TriggerHighscore = triggerHighscore;
 		UpdateScore = updateScore;
@@ -72,12 +74,16 @@ public class ScoreManager : BaseBehaviour
 
 		UpdateScore(currentPlayerScore);
 
+		// TODO : Fix highscore spawning pos
+
 		if(currentPlayerScore >= playerHighscore)
+			playerHighscore = currentPlayerScore;
+
+		if(currentPlayerScore + distanceToSpawn / 10 >= (useDefaultHighscore ? initialHighscore : playerHighscore))
 		{
-			if(passedHighscore)
-				playerHighscore = currentPlayerScore;
-			else
+			if(!passedHighscore)
 			{
+				useDefaultHighscore = false;
 				passedHighscore = true;
 				TriggerHighscore();
 			}
@@ -89,6 +95,6 @@ public class ScoreManager : BaseBehaviour
 		if(!CheckInitialized())
 			return 0;
 
-		return playerHighscore;
+		return useDefaultHighscore ? 0 : playerHighscore;
 	}
 }
