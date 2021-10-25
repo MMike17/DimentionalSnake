@@ -5,8 +5,6 @@ using UnityEngine;
 /// <summary>Manages the terrain generation, obstacles and bonuses</summary>
 public class TerrainManager : BaseBehaviour
 {
-	// TODO : Spawn empty at first and then obstacles
-
 	[Header("Settings")]
 	public int memorySize;
 	public float deleteDistance;
@@ -94,7 +92,7 @@ public class TerrainManager : BaseBehaviour
 		});
 
 		if(shouldSpawn)
-			SpawnChunk();
+			SpawnChunk(GetSpawnPos());
 
 		// move highscore
 		if(newHighscoreTransform != null)
@@ -122,7 +120,7 @@ public class TerrainManager : BaseBehaviour
 		return zDifference > 0 ? zDifference : 0;
 	}
 
-	public void SpawnChunk()
+	public void SpawnChunk(Vector3 position)
 	{
 		if(!CheckInitialized())
 			return;
@@ -146,7 +144,7 @@ public class TerrainManager : BaseBehaviour
 			lastSpawnedChunks.RemoveAt(0);
 
 		// spawn chunk
-		TerrainChunk spawnedChunk = Instantiate(terrainChunks[chunkIndex], GetSpawnPos(), Quaternion.identity, transform);
+		TerrainChunk spawnedChunk = Instantiate(terrainChunks[chunkIndex], position, Quaternion.identity, transform);
 		spawnedChunk.Init(difficulty);
 
 		spawnedChunks.Add(spawnedChunk);
@@ -170,17 +168,27 @@ public class TerrainManager : BaseBehaviour
 		spawnedChunks.Clear();
 
 		// spawn new chunks
-		float emptyChunkSize = emptyChunkPrefab.transform.GetChild(0).localScale.z;
-		int spawnCount = Mathf.RoundToInt((spawnPoint.position.z - player.position.z) / emptyChunkSize);
-		Vector3 position = spawnPoint.position;
+		float chunkSize = emptyChunkPrefab.transform.GetChild(0).localScale.z;
+		int initialSpawnCount = Mathf.RoundToInt(Mathf.Abs(spawnPoint.position.z - player.position.z) / chunkSize);
+		Vector3 position = spawnPoint.position - Vector3.forward * chunkSize / 2;
 
-		for (int i = 0; i < spawnCount; i++)
+		// spawn obstacle chunks
+		for (int i = 0; i < initialSpawnCount - 1; i++)
 		{
-			position -= Vector3.forward * emptyChunkSize;
-			TerrainChunk spawnedChunk = Instantiate(emptyChunkPrefab, position, Quaternion.identity, transform);
+			SpawnChunk(position);
+			spawnedChunks[spawnedChunks.Count - 1].transform.position = position;
 
-			spawnedChunks.Insert(0, spawnedChunk);
+			position -= Vector3.forward * chunkSize;
 		}
+
+		// spawn initial empty chunk
+		TerrainChunk emptyChunk = Instantiate(emptyChunkPrefab, position, Quaternion.identity);
+
+		emptyChunk.Init(0);
+		spawnedChunks.Add(emptyChunk);
+
+		// puts list in right order
+		spawnedChunks.Reverse();
 	}
 
 	public void Freeze()
@@ -196,7 +204,6 @@ public class TerrainManager : BaseBehaviour
 		if(!CheckInitialized())
 			return;
 
-		Reset();
 		canMove = true;
 	}
 }

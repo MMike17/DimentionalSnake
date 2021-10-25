@@ -75,6 +75,10 @@ public class GameManager : MonoBehaviour
 
 		float highscore = playerData.highscore > 0 ? playerData.highscore : scoreManager.initialHighscore;
 
+		difficultyManager.Init(
+			highscore,
+			scoreManager.GetCurrentScore
+		);
 		terrainManager.Init(
 			snake.transform,
 			difficultyManager.GetDifficulty,
@@ -117,10 +121,6 @@ public class GameManager : MonoBehaviour
 			terrainManager.SpawnNewHighscore,
 			interfaceManager.UpdateScore,
 			interfaceManager.UpdateMoney
-		);
-		difficultyManager.Init(
-			highscore,
-			scoreManager.GetCurrentScore
 		);
 		fakeAdManager.Init();
 		cameraManager.Init(snake.transform);

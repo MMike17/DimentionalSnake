@@ -5606,7 +5606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f8940c3ee523134daed95e169386a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  logLevel: 2
+  logLevel: 1
   isRelease: 0
   terrainManager: {fileID: 2134710214}
   interfaceManager: {fileID: 1090953902}
