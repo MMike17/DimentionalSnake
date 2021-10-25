@@ -600,7 +600,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 233817843}
-  - component: {fileID: 233817846}
+  - component: {fileID: 233817845}
   - component: {fileID: 233817844}
   m_Layer: 0
   m_Name: Snake
@@ -649,7 +649,7 @@ MonoBehaviour:
   piecePrefab: {fileID: 2679361749872123852, guid: ada77668d5f37ec43aa80e88e225336a, type: 3}
   head: {fileID: 322125708}
   checkGroundBoxPos: {fileID: 35703256}
---- !u!54 &233817846
+--- !u!54 &233817845
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

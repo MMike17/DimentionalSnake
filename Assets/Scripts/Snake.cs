@@ -6,8 +6,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Snake : BaseBehaviour
 {
-	// TODO : Fix head angling (very weird)
-
 	const string OBSTACLE_TAG = "Obstacle";
 	const string MONEY_TAG = "Money";
 	const string PIECE_TAG = "Piece";
@@ -33,8 +31,6 @@ public class Snake : BaseBehaviour
 	Vector3 initialPos, targetPos;
 	float minX, maxX, smoothMinX, smoothMaxX, currentSpeed;
 	bool canMove, shouldFall;
-
-	// TODO : Wire LoseGameByFall in
 
 	void OnDrawGizmos()
 	{
@@ -109,6 +105,7 @@ public class Snake : BaseBehaviour
 
 		CheckFalling();
 		CleanList();
+		FixPositionProblem();
 	}
 
 	bool CheckFallDone()
@@ -221,6 +218,16 @@ public class Snake : BaseBehaviour
 		});
 
 		toRemove.ForEach(item => referencePoints.Remove(item));
+	}
+
+	void FixPositionProblem()
+	{
+		if(transform.position.y != initialPos.y)
+		{
+			Vector3 position = transform.position;
+			position.y = initialPos.y;
+			transform.position = position;
+		}
 	}
 
 	void SpawnSnakePiece()
