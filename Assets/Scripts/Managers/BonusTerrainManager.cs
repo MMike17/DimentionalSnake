@@ -6,6 +6,7 @@ using UnityEngine;
 public class BonusTerrainManager : BaseBehaviour
 {
 	// TODO : Manage render textures
+	// TODO : Rework this
 
 	[Header("Settings")]
 	public int minTerrainSize;

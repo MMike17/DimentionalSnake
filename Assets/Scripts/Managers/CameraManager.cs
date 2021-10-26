@@ -4,6 +4,10 @@ using UnityEngine;
 /// <summary>Manages all camera movements</summary>
 public class CameraManager : BaseBehaviour
 {
+	const int BONUS_RENDER_LAYER = 3;
+	const int PLAYER_RENDER_LAYER = 6;
+	const int UI_RENDER_LAYER = 5;
+
 	[Header("Settings")]
 	public float loseAnimDuration;
 	public float introAnimDuration, maxIntroMagnitude;
@@ -12,13 +16,15 @@ public class CameraManager : BaseBehaviour
 
 	[Header("Scene references")]
 	public Camera mainCamera;
+	public Camera bonusCamera;
 
 	Transform player;
+	RenderTexture portalTexture;
 	Vector3 initialPos, targetPos;
 	Quaternion initialRot, targetRot;
 	Action OnLoseAnimDone;
 	float loseTimer, introTimer;
-	bool startAnim, introAnim;
+	bool startAnim, introAnim, isInBonus;
 
 	void OnDrawGizmos()
 	{
@@ -35,8 +41,11 @@ public class CameraManager : BaseBehaviour
 		initialPos = mainCamera.transform.position;
 		initialRot = mainCamera.transform.rotation;
 
+		portalTexture = new RenderTexture(Screen.width, Screen.height, 24);
+
 		loseTimer = 0;
 		startAnim = false;
+		isInBonus = false;
 		introAnim = true;
 
 		InitInternal();
@@ -99,5 +108,37 @@ public class CameraManager : BaseBehaviour
 
 		mainCamera.transform.position = initialPos;
 		mainCamera.transform.rotation = initialRot;
+
+		isInBonus = false;
+
+		bonusCamera.cullingMask = BONUS_RENDER_LAYER;
+		bonusCamera.targetTexture = portalTexture;
+
+		mainCamera.targetTexture = null;
+	}
+
+	public void SetRendererToCamera(Renderer renderer)
+	{
+		if(!CheckInitialized())
+			return;
+
+		// TODO : may have to change to instantiated material
+		renderer.sharedMaterial.SetTexture("Texture", portalTexture);
+	}
+
+	public void SwitchCamera()
+	{
+		if(!CheckInitialized())
+			return;
+
+		isInBonus = !isInBonus;
+
+		if(isInBonus)
+			bonusCamera.cullingMask = PLAYER_RENDER_LAYER | BONUS_RENDER_LAYER | UI_RENDER_LAYER;
+		else
+			bonusCamera.cullingMask = BONUS_RENDER_LAYER;
+
+		bonusCamera.targetTexture = isInBonus ? null : portalTexture;
+		mainCamera.targetTexture = isInBonus ? portalTexture : null;
 	}
 }

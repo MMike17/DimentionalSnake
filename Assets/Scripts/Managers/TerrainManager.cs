@@ -6,6 +6,7 @@ using UnityEngine;
 public class TerrainManager : BaseBehaviour
 {
 	// TODO : start bonus level when we get to 10 pieces
+	// TODO : rework this for bonus level
 
 	[Header("Settings")]
 	public int memorySize;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -14,9 +15,10 @@ public class Portal : BaseBehaviour
 
 	[Header("Scene references")]
 	public Transform portalCenter;
-	public Transform renderPlane;
+	public MeshRenderer renderInsidePortal, renderOutsidePortal;
 	public Transform[] targetPositions;
 
+	Func<Vector3, bool> IsBehindCamera;
 	Vector2[] targetOffsets;
 	Vector3 animOffset;
 
@@ -39,9 +41,22 @@ public class Portal : BaseBehaviour
 		}
 	}
 
-	public void Init()
+	public void Init(Action<Renderer> SetRenderCamera, Func<Vector3, bool> isBehindCamera)
 	{
+		IsBehindCamera = isBehindCamera;
+
+		SetRenderCamera(renderInsidePortal);
+
 		InitInternal();
+	}
+
+	void Update()
+	{
+		if(!initialized)
+			return;
+
+		if(IsBehindCamera(transform.position))
+			Destroy(gameObject);
 	}
 
 	IEnumerator AnimatePiecesRoutine(Transform player, Transform[] pieces)
@@ -117,6 +132,8 @@ public class Portal : BaseBehaviour
 			timer += Time.deltaTime;
 			yield return null;
 		}
+
+		// TODO : Add links between snake pieces
 	}
 
 	IEnumerator ThirdPartAnimRoutine()
@@ -126,7 +143,7 @@ public class Portal : BaseBehaviour
 		// animate portal mesh
 		while (timer <= thirdPartAnimDuration)
 		{
-			renderPlane.localScale = Vector3.one * thirdPartAnimCurve.Evaluate(timer / thirdPartAnimDuration) * renderSize;
+			renderInsidePortal.transform.localScale = Vector3.one * thirdPartAnimCurve.Evaluate(timer / thirdPartAnimDuration) * renderSize;
 
 			timer += Time.deltaTime;
 			yield return null;
@@ -139,5 +156,14 @@ public class Portal : BaseBehaviour
 			return;
 
 		StartCoroutine(AnimatePiecesRoutine(player, pieces));
+	}
+
+	public void SwitchWorlds()
+	{
+		if(!CheckInitialized())
+			return;
+
+		renderInsidePortal.gameObject.SetActive(false);
+		renderOutsidePortal.gameObject.SetActive(true);
 	}
 }
