@@ -14,6 +14,7 @@ public class Snake : BaseBehaviour
 
 	[Header("Settings")]
 	public int minSnakeLength;
+	public int trailLength;
 	public float horizontalSpeed, zPieceDistanceFromCore, fallZPos;
 	[Range(0, 1)]
 	public float smoothingPercent, minSpeedRatio, headAlignmentPercent;
@@ -246,8 +247,8 @@ public class Snake : BaseBehaviour
 
 		SnakePiece spawnedPiece = Instantiate(piecePrefab, spawnPos, Quaternion.identity);
 
-		spawnedPieces[spawnedPieces.Count - 1].Init(spawnedPiece.transform);
-		spawnedPiece.Init(null);
+		spawnedPieces[spawnedPieces.Count - 1].Init(spawnedPiece.transform, trailLength);
+		spawnedPiece.Init(null, trailLength);
 
 		spawnedPieces.Add(spawnedPiece);
 	}
@@ -341,14 +342,14 @@ public class Snake : BaseBehaviour
 		UpdatePieceCount(spawnedPieces.Count - 2);
 
 		// configure pieces
-		head.Init(spawnedPieces[0].transform);
+		head.Init(spawnedPieces[0].transform, trailLength);
 
 		for (int i = 0; i < spawnedPieces.Count; i++)
 		{
 			if(i + 1 != spawnedPieces.Count)
-				spawnedPieces[i].Init(spawnedPieces[i + 1].transform);
+				spawnedPieces[i].Init(spawnedPieces[i + 1].transform, trailLength);
 			else
-				spawnedPieces[i].Init(null);
+				spawnedPieces[i].Init(null, trailLength);
 		}
 
 		// Clean list of references points
@@ -364,6 +365,19 @@ public class Snake : BaseBehaviour
 		rigid.isKinematic = false;
 
 		targetPos = Vector3.zero;
+	}
+
+	public Transform[] GetPiecesTransforms()
+	{
+		if(!CheckInitialized())
+			return null;
+
+		Transform[] piecesTransform = new Transform[spawnedPieces.Count - minSnakeLength];
+
+		for (int i = minSnakeLength; i < spawnedPieces.Count; i++)
+			piecesTransform[i - minSnakeLength] = spawnedPieces[i].transform;
+
+		return piecesTransform;
 	}
 
 	class ReferencePoint

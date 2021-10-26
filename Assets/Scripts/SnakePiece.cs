@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>Manages rendereing of lines between snake pieces</summary>
@@ -9,8 +10,11 @@ public class SnakePiece : BaseBehaviour
 
 	Vector3 initialPos => transform.position - transform.forward * zOffset;
 
+	List<Vector3> lastPositions;
 	LineRenderer lineRenderer;
 	Transform target;
+	int trailLength;
+	bool movementAnimations;
 
 	void OnDrawGizmosSelected()
 	{
@@ -20,12 +24,15 @@ public class SnakePiece : BaseBehaviour
 			Gizmos.DrawLine(initialPos, target.position);
 	}
 
-	public void Init(Transform target)
+	public void Init(Transform target, int trailLength)
 	{
 		this.target = target;
+		this.trailLength = trailLength;
 
 		lineRenderer = GetComponent<LineRenderer>();
 		lineRenderer.positionCount = 2;
+
+		movementAnimations = false;
 
 		InitInternal();
 	}
@@ -35,16 +42,42 @@ public class SnakePiece : BaseBehaviour
 		if(!initialized)
 			return;
 
-		Vector3[] points;
-		lineRenderer.positionCount = 2;
+		if(movementAnimations)
+		{
+			// TODO : May have to reverse this
 
-		if(target != null)
-			points = new Vector3[2] { initialPos, target.position };
+			lastPositions.Add(initialPos);
+
+			if(lastPositions.Count > trailLength)
+				lastPositions.RemoveAt(0);
+
+			lineRenderer.SetPositions(lastPositions.ToArray());
+		}
 		else
-			points = new Vector3[2] { initialPos, initialPos - transform.forward * 2 };
+		{
+			Vector3[] points;
+			lineRenderer.positionCount = 2;
 
-		lineRenderer.SetPositions(points);
+			if(target != null)
+				points = new Vector3[2] { initialPos, target.position };
+			else
+				points = new Vector3[2] { initialPos, initialPos - transform.forward * 2 };
+
+			lineRenderer.SetPositions(points);
+		}
 	}
 
-	// TODO : Add trail animation for portal
+	public void StartTrailAnimation()
+	{
+		if(!CheckInitialized())
+			return;
+
+		lineRenderer.positionCount = trailLength;
+		movementAnimations = true;
+
+		lastPositions = new List<Vector3>();
+
+		for (int i = 0; i < trailLength; i++)
+			lastPositions.Add(initialPos);
+	}
 }
