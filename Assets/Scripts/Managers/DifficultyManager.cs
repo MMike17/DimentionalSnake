@@ -51,4 +51,12 @@ public class DifficultyManager : BaseBehaviour
 
 		return Mathf.Lerp(minSpeed, maxSpeed, currentDifficulty);
 	}
+
+	public float GetSpeedFromDifficulty(float difficulty)
+	{
+		if(!CheckInitialized())
+			return 0;
+
+		return Mathf.Lerp(minSpeed, maxSpeed, difficulty);
+	}
 }

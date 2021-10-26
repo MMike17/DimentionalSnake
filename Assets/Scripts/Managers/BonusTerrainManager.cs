@@ -19,6 +19,7 @@ public class BonusTerrainManager : BaseBehaviour
 	Func<Vector3, bool> IsBehindCamera;
 	Action<Renderer> SetRendererToCamera;
 	Action<float> AddDistance;
+	float currentSpeed;
 
 	void OnDrawGizmos()
 	{
@@ -40,6 +41,26 @@ public class BonusTerrainManager : BaseBehaviour
 		InitInternal();
 	}
 
+	void Update()
+	{
+		if(!initialized)
+			return;
+
+		// move portals back
+		List<Transform> toRemove = new List<Transform>();
+
+		spawnedPortals.ForEach(item =>
+		{
+			if(item == null)
+				toRemove.Add(item);
+			else
+				item.Translate(0, 0, -currentSpeed * Time.deltaTime);
+		});
+
+		// clean portal list
+		toRemove.ForEach(item => spawnedPortals.Remove(item));
+	}
+
 	void SpawnEmptyChunk(Vector3 position)
 	{
 		TerrainChunk emptyChunk = Instantiate(emptyChunkPrefab, transform.position, Quaternion.identity);
@@ -57,10 +78,12 @@ public class BonusTerrainManager : BaseBehaviour
 		spawnedPortals.Add(startPortal.transform);
 	}
 
-	public void SpawnTerrain(float difficulty, Vector3 lastChunkPos, Snake player)
+	public void SpawnTerrain(float difficulty, float currentSpeed, Vector3 lastChunkPos, Snake player)
 	{
 		if(!CheckInitialized())
 			return;
+
+		this.currentSpeed = currentSpeed;
 
 		// spawns start portal
 		Transform[] playerPieces = player.GetPiecesTransforms();

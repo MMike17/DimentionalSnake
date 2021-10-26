@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
 			{
 				bonusTerrainManager.SpawnTerrain(
 					difficultyManager.GetDifficulty(),
+					difficultyManager.GetSpeedFromDifficulty(difficultyManager.GetDifficulty()),
 					terrainManager.GetLastChunkPosition(),
 					snake
 				);
