@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
 				snake.transform.position = target;
 				terrainManager.PositionCamera();
 			},
+			interfaceManager.UpdatePiecesCount,
 			difficultyManager.GetCurrentSpeed
 		);
 	}
@@ -90,7 +91,7 @@ public class GameManager : MonoBehaviour
 		);
 		terrainManager.Init(
 			snake.transform,
-			cameraManager.mainCamera,
+			cameraManager.mainCamera.transform,
 			difficultyManager.GetDifficulty,
 			difficultyManager.GetCurrentSpeed,
 			distance => scoreManager.AddPlayerScore(distance)
@@ -122,7 +123,8 @@ public class GameManager : MonoBehaviour
 			() =>
 			{
 				return scoreManager.CanBuy(200);
-			}
+			},
+			() => { return cameraManager.mainCamera.WorldToScreenPoint(snake.transform.position); }
 		);
 		scoreManager.Init(
 			playerData.highscore,

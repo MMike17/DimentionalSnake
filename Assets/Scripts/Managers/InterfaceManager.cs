@@ -16,9 +16,9 @@ public class InterfaceManager : BaseBehaviour
 	public LoseInterface loseInterface;
 	public GameObject introInterface;
 
-	public void Init(bool initialSoundState, bool[] unlocks, int selectedIndex, Action startGame, Action reset, Action<int> giveMoney, Action<int> takeMoney, Action<bool> setSoundState, Action<Action> startFakeAd, Func<bool> canBuy)
+	public void Init(bool initialSoundState, bool[] unlocks, int selectedIndex, Action startGame, Action reset, Action<int> giveMoney, Action<int> takeMoney, Action<bool> setSoundState, Action<Action> startFakeAd, Func<bool> canBuy, Func<Vector3> getPlayerScreenPos)
 	{
-		gameInterface.Init();
+		gameInterface.Init(getPlayerScreenPos);
 		mainInterface.Init(
 			initialSoundState,
 			shopInterface.Show,
@@ -83,7 +83,15 @@ public class InterfaceManager : BaseBehaviour
 		if(!CheckInitialized())
 			return;
 
-		gameInterface.scoreDisplay.text = Mathf.RoundToInt(value).ToString();
+		gameInterface.UpdateScore(value);
+	}
+
+	public void UpdatePiecesCount(int count)
+	{
+		if(!CheckInitialized())
+			return;
+
+		gameInterface.UpdatePiecesCount(count);
 	}
 
 	public void UpdateMoney(int value)

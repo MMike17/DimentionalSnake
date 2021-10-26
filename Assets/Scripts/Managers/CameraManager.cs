@@ -11,7 +11,7 @@ public class CameraManager : BaseBehaviour
 	public Vector3 offset;
 
 	[Header("Scene references")]
-	public Transform mainCamera;
+	public Camera mainCamera;
 
 	Transform player;
 	Vector3 initialPos, targetPos;
@@ -32,8 +32,8 @@ public class CameraManager : BaseBehaviour
 	{
 		this.player = player;
 
-		initialPos = mainCamera.position;
-		initialRot = mainCamera.rotation;
+		initialPos = mainCamera.transform.position;
+		initialRot = mainCamera.transform.rotation;
 
 		loseTimer = 0;
 		startAnim = false;
@@ -51,11 +51,11 @@ public class CameraManager : BaseBehaviour
 		{
 			introTimer += Time.deltaTime;
 
-			mainCamera.position = Vector3.Lerp(initialPos - Vector3.up * maxIntroMagnitude, initialPos, introAnimCurve.Evaluate(introTimer / introAnimDuration));
+			mainCamera.transform.position = Vector3.Lerp(initialPos - Vector3.up * maxIntroMagnitude, initialPos, introAnimCurve.Evaluate(introTimer / introAnimDuration));
 
 			if(introTimer >= introAnimDuration)
 			{
-				mainCamera.position = initialPos;
+				mainCamera.transform.position = initialPos;
 				introAnim = false;
 			}
 		}
@@ -64,13 +64,13 @@ public class CameraManager : BaseBehaviour
 		{
 			loseTimer += Time.deltaTime;
 
-			mainCamera.position = Vector3.Lerp(initialPos, targetPos, loseAnimCurve.Evaluate(loseTimer / loseAnimDuration));
-			mainCamera.rotation = Quaternion.Lerp(initialRot, targetRot, loseAnimCurve.Evaluate(loseTimer / loseAnimDuration));
+			mainCamera.transform.position = Vector3.Lerp(initialPos, targetPos, loseAnimCurve.Evaluate(loseTimer / loseAnimDuration));
+			mainCamera.transform.rotation = Quaternion.Lerp(initialRot, targetRot, loseAnimCurve.Evaluate(loseTimer / loseAnimDuration));
 
 			if(loseTimer >= loseAnimDuration)
 			{
-				mainCamera.position = targetPos;
-				mainCamera.rotation = targetRot;
+				mainCamera.transform.position = targetPos;
+				mainCamera.transform.rotation = targetRot;
 
 				startAnim = false;
 				OnLoseAnimDone();
@@ -97,7 +97,7 @@ public class CameraManager : BaseBehaviour
 		if(!CheckInitialized())
 			return;
 
-		mainCamera.position = initialPos;
-		mainCamera.rotation = initialRot;
+		mainCamera.transform.position = initialPos;
+		mainCamera.transform.rotation = initialRot;
 	}
 }

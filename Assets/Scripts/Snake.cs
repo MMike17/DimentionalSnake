@@ -26,8 +26,9 @@ public class Snake : BaseBehaviour
 
 	List<SnakePiece> spawnedPieces;
 	List<ReferencePoint> referencePoints;
-	Func<float> GetCurrentSpeed;
 	Rigidbody rigid;
+	Func<float> GetCurrentSpeed;
+	Action<int> UpdatePieceCount;
 	Action GetMoney, LoseGame, LoseGameByFall, StartWarpLevel;
 	Vector3 initialPos, targetPos;
 	float minX, maxX, smoothMinX, smoothMaxX, currentSpeed;
@@ -52,7 +53,7 @@ public class Snake : BaseBehaviour
 		}
 	}
 
-	public void Init(float minX, float maxX, Action getMoney, Action loseGame, Action loseGameByFall, Action startWarpLevel, Func<float> getCurrentSpeed)
+	public void Init(float minX, float maxX, Action getMoney, Action loseGame, Action loseGameByFall, Action startWarpLevel, Action<int> updatePieceCount, Func<float> getCurrentSpeed)
 	{
 		this.minX = minX;
 		this.maxX = maxX;
@@ -60,6 +61,7 @@ public class Snake : BaseBehaviour
 		LoseGame = loseGame;
 		LoseGameByFall = loseGameByFall;
 		StartWarpLevel = startWarpLevel;
+		UpdatePieceCount = updatePieceCount;
 		GetCurrentSpeed = getCurrentSpeed;
 
 		spawnedPieces = new List<SnakePiece>();
@@ -265,6 +267,7 @@ public class Snake : BaseBehaviour
 			case PIECE_TAG:
 				Destroy(other.gameObject);
 				SpawnSnakePiece();
+				UpdatePieceCount(spawnedPieces.Count - 2);
 				break;
 
 			case PORTAL_TAG:
@@ -333,6 +336,8 @@ public class Snake : BaseBehaviour
 
 			spawnedPieces.Add(snakePiece);
 		}
+
+		UpdatePieceCount(spawnedPieces.Count - 2);
 
 		// configure pieces
 		head.Init(spawnedPieces[0].transform);
