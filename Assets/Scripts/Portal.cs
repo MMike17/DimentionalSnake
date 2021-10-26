@@ -148,7 +148,7 @@ public class Portal : BaseBehaviour
 				else // close
 				{
 					Vector3 direction = Quaternion.Euler(0, -90, 0) * (targetPositions[i].position - portalCenter.position);
-					piece.rotation = Quaternion.Lerp(Quaternion.LookRotation(targetPositions[i].position - piece.position, Vector3.up), Quaternion.LookRotation(direction), currentPercent);
+					piece.rotation = Quaternion.Lerp(Quaternion.LookRotation(targetPositions[i].position - piece.position), Quaternion.LookRotation(direction), currentPercent);
 				}
 			}
 

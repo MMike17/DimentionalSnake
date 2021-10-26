@@ -21,14 +21,6 @@ public class BonusTerrainManager : BaseBehaviour
 	Action<float> AddDistance;
 	float currentSpeed;
 
-	void OnDrawGizmos()
-	{
-		Gizmos.color = Color.yellow;
-
-		Gizmos.DrawLine(transform.position + Vector3.up * 0.1f, transform.position + Vector3.up * 0.1f + transform.forward * minTerrainSize);
-		Gizmos.DrawLine(transform.position, transform.position + transform.forward * maxTerrainSize);
-	}
-
 	public void Init(Action<float> addDistance, Action<Renderer> setRendererToCamera, Func<Vector3, bool> isBehindCamera)
 	{
 		AddDistance = addDistance;

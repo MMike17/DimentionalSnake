@@ -5,6 +5,8 @@ using static ShopInterface;
 /// <summary>Entry point of the game flow</summary>
 public class GameManager : MonoBehaviour
 {
+	// TODO : Optimize scripts which are too big
+
 	const string SAVE_FILE_NAME = "save.bin";
 
 	[Header("Settings")]
