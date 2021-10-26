@@ -5,64 +5,80 @@ using UnityEngine;
 /// <summary>Manages bonus level spawning and animations</summary>
 public class BonusTerrainManager : BaseBehaviour
 {
-	// TODO : Manage render textures
-	// TODO : Rework this
-
 	[Header("Settings")]
 	public int minTerrainSize;
 	public int maxTerrainSize;
 
 	[Header("Scene references")]
 	public TerrainChunk emptyChunkPrefab;
-	public TerrainChunk[] bonusChunks;
-	public Transform spawnPoint, playerTarget;
+	public TerrainChunk[] terrainChunks;
+	public Portal portalPrefab;
 
 	List<TerrainChunk> spawnedChunks;
+	List<Transform> spawnedPortals;
+	Func<Vector3, bool> IsBehindCamera;
+	Action<Renderer> SetRendererToCamera;
 	Action<float> AddDistance;
 
 	void OnDrawGizmos()
 	{
 		Gizmos.color = Color.yellow;
-		SetGizmosAlpha(0.5f);
 
-		if(spawnPoint != null)
-			Gizmos.DrawSphere(spawnPoint.position, 0.3f);
-
-		if(playerTarget != null)
-			Gizmos.DrawSphere(playerTarget.position, 0.2f);
+		Gizmos.DrawLine(transform.position + Vector3.up * 0.1f, transform.position + Vector3.up * 0.1f + transform.forward * minTerrainSize);
+		Gizmos.DrawLine(transform.position, transform.position + transform.forward * maxTerrainSize);
 	}
 
-	public void Init(Action<float> addDistance)
+	public void Init(Action<float> addDistance, Action<Renderer> setRendererToCamera, Func<Vector3, bool> isBehindCamera)
 	{
 		AddDistance = addDistance;
+		SetRendererToCamera = setRendererToCamera;
+		IsBehindCamera = isBehindCamera;
 
 		spawnedChunks = new List<TerrainChunk>();
+		spawnedPortals = new List<Transform>();
 
 		InitInternal();
 	}
 
-	public void SpawnTerrain(float difficulty)
+	void SpawnEmptyChunk(Vector3 position)
 	{
-		if(!CheckInitialized())
-			return;
-
-		float currentDifficulty = difficulty + Mathf.Lerp(difficulty, 1, 0.5f);
-		int currentSize = Mathf.RoundToInt(Mathf.Lerp(minTerrainSize, maxTerrainSize, difficulty));
-
-		// spawning empty chunk first
 		TerrainChunk emptyChunk = Instantiate(emptyChunkPrefab, transform.position, Quaternion.identity);
 		emptyChunk.Init();
 
 		spawnedChunks.Add(emptyChunk);
+	}
+
+	void SpawnPortal(Vector3 position, Transform player, Transform[] playerPieces)
+	{
+		Portal startPortal = Instantiate(portalPrefab, position, Quaternion.identity);
+		startPortal.Init(SetRendererToCamera, IsBehindCamera);
+		startPortal.StartAnimation(player, playerPieces);
+
+		spawnedPortals.Add(startPortal.transform);
+	}
+
+	public void SpawnTerrain(float difficulty, Vector3 lastChunkPos, Snake player)
+	{
+		if(!CheckInitialized())
+			return;
+
+		// spawns start portal
+		Transform[] playerPieces = player.GetPiecesTransforms();
+		SpawnPortal(lastChunkPos, player.transform, playerPieces);
+
+		// spawning empty chunk first
+		float chunkSize = emptyChunkPrefab.transform.GetChild(0).localScale.z;
+		SpawnEmptyChunk(lastChunkPos + Vector3.forward * chunkSize);
 
 		// spawning chunks
+		float currentDifficulty = difficulty + Mathf.Lerp(difficulty, 1, 0.5f);
+		int currentSize = Mathf.RoundToInt(Mathf.Lerp(minTerrainSize, maxTerrainSize, difficulty));
+
+		Vector3 spawnPos = spawnedChunks[0].transform.position;
 		List<int> availableIndexes = new List<int>();
 
-		for (int i = 0; i < bonusChunks.Length; i++)
+		for (int i = 0; i < terrainChunks.Length; i++)
 			availableIndexes.Add(i);
-
-		float chunkSize = emptyChunkPrefab.transform.GetChild(0).localScale.z;
-		Vector3 spawnPos = spawnPoint.position;
 
 		for (int i = 1; i < currentSize; i++)
 		{
@@ -73,20 +89,21 @@ public class BonusTerrainManager : BaseBehaviour
 			// regenerate indexes
 			if(availableIndexes.Count == 0)
 			{
-				for (int j = 0; j < bonusChunks.Length; j++)
+				for (int j = 0; j < terrainChunks.Length; j++)
 					availableIndexes.Add(j);
 			}
 
 			// spawn chunk
-			TerrainChunk spawnedChunk = Instantiate(bonusChunks[index], spawnPos, spawnPoint.rotation, spawnPoint);
+			spawnPos += Vector3.forward * chunkSize;
+
+			TerrainChunk spawnedChunk = Instantiate(terrainChunks[index], spawnPos, Quaternion.identity);
 			spawnedChunk.Init(currentDifficulty);
 
 			spawnedChunks.Add(spawnedChunk);
-
-			spawnPos += Vector3.forward * chunkSize;
 		}
 
-		// TODO : Add portal at end of path
+		// spawns end portal
+		SpawnPortal(spawnPos, player.transform, playerPieces);
 	}
 
 	public void DestroyTerrain()
@@ -94,6 +111,6 @@ public class BonusTerrainManager : BaseBehaviour
 		if(!CheckInitialized())
 			return;
 
-		// TODO : Destroy bonus terrain after bonus
+		// TODO : Destroy bonus terrain after bonus (but not portals)
 	}
 }

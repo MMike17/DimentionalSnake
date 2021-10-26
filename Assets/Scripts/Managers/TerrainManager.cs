@@ -229,6 +229,9 @@ public class TerrainManager : BaseBehaviour
 			return;
 
 		isInBonus = true;
+
+		// pop obstacles
+		spawnedChunks.ForEach(item => item.PopObstacles());
 	}
 
 	public void StopBonus()
@@ -237,5 +240,13 @@ public class TerrainManager : BaseBehaviour
 			return;
 
 		isInBonus = false;
+	}
+
+	public Vector3 GetLastChunkPosition()
+	{
+		if(!CheckInitialized())
+			return Vector3.zero;
+
+		return spawnedChunks[spawnedChunks.Count - 1].transform.position;
 	}
 }

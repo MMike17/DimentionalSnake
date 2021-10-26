@@ -52,7 +52,20 @@ public class GameManager : MonoBehaviour
 			},
 			() =>
 			{
-				// TODO : spawn portal here
+				bonusTerrainManager.SpawnTerrain(
+					difficultyManager.GetDifficulty(),
+					terrainManager.GetLastChunkPosition(),
+					snake
+				);
+
+				terrainManager.StartBonus();
+			},
+			() =>
+			{
+				terrainManager.StopBonus();
+				cameraManager.SwitchCamera();
+
+				bonusTerrainManager.DestroyTerrain();
 			},
 			interfaceManager.UpdatePiecesCount,
 			portal =>
@@ -136,7 +149,11 @@ public class GameManager : MonoBehaviour
 		);
 		fakeAdManager.Init();
 		cameraManager.Init(snake.transform);
-		bonusTerrainManager.Init(distance => scoreManager.AddPlayerScore(distance));
+		bonusTerrainManager.Init(
+			distance => scoreManager.AddPlayerScore(distance),
+			cameraManager.SetRendererToCamera,
+			(position) => { return position.z < cameraManager.mainCamera.transform.position.z; }
+		);
 	}
 
 	void SubscribePlayerInput()
