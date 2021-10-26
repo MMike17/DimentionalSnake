@@ -5,8 +5,6 @@ using UnityEngine;
 /// <summary>Manages the terrain generation, obstacles and bonuses</summary>
 public class TerrainManager : BaseBehaviour
 {
-	// TODO : rework this for bonus level
-
 	[Header("Settings")]
 	public int memorySize;
 	public float deleteDistance, popUpForce, popSideForce, popDestroyDelay;
@@ -14,7 +12,7 @@ public class TerrainManager : BaseBehaviour
 	[Header("Scene references")]
 	public TerrainChunk emptyChunkPrefab;
 	public TerrainChunk[] terrainChunks;
-	public Transform minX, maxX, normalPlayerPos, bonusPlayerPos;
+	public Transform minX, maxX;
 	public GameObject newHighscorePrefab;
 	[Space]
 	public Transform spawnPoint;
@@ -23,8 +21,7 @@ public class TerrainManager : BaseBehaviour
 	List<int> lastSpawnedChunks;
 	Func<float> GetDifficulty, GetCurrentSpeed;
 	Action<float> AddDistance;
-	Transform player, mainCamera, newHighscoreTransform;
-	Vector3 cameraOffset;
+	Transform player, newHighscoreTransform;
 	bool canMove, isInBonus;
 
 	void OnDrawGizmos()
@@ -46,24 +43,11 @@ public class TerrainManager : BaseBehaviour
 			SetGizmosAlpha(1);
 			Gizmos.DrawLine(minX.position, maxX.position);
 		}
-
-		// normal
-		SetGizmosAlpha(0.5f);
-
-		if(normalPlayerPos != null)
-			Gizmos.DrawSphere(normalPlayerPos.position, 1);
-
-		// bonus
-		SetGizmosAlpha(0.5f);
-
-		if(bonusPlayerPos != null)
-			Gizmos.DrawSphere(bonusPlayerPos.position, 1);
 	}
 
-	public void Init(Transform player, Transform mainCamera, Func<float> getDifficulty, Func<float> getCurrentSpeed, Action<float> addDistance)
+	public void Init(Transform player, Func<float> getDifficulty, Func<float> getCurrentSpeed, Action<float> addDistance)
 	{
 		this.player = player;
-		this.mainCamera = mainCamera;
 		GetDifficulty = getDifficulty;
 		GetCurrentSpeed = getCurrentSpeed;
 		AddDistance = addDistance;
@@ -72,8 +56,6 @@ public class TerrainManager : BaseBehaviour
 		spawnedChunks = new List<TerrainChunk>();
 		canMove = false;
 		isInBonus = false;
-
-		cameraOffset = mainCamera.position - player.position;
 
 		InitInternal();
 
@@ -142,10 +124,25 @@ public class TerrainManager : BaseBehaviour
 		return zDifference > 0 ? zDifference : 0;
 	}
 
+	void SpawnEmptyChunk(Vector3 position)
+	{
+		TerrainChunk spawnedChunk = Instantiate(emptyChunkPrefab, position, Quaternion.identity, transform);
+		spawnedChunk.Init();
+
+		spawnedChunks.Add(spawnedChunk);
+	}
+
 	public void SpawnChunk(Vector3 position)
 	{
 		if(!CheckInitialized())
 			return;
+
+		// spawn empty until we're out of bonus
+		if(isInBonus)
+		{
+			SpawnEmptyChunk(position);
+			return;
+		}
 
 		float difficulty = GetDifficulty();
 		int chunkIndex = -1;
@@ -204,10 +201,7 @@ public class TerrainManager : BaseBehaviour
 		}
 
 		// spawn initial empty chunk
-		TerrainChunk emptyChunk = Instantiate(emptyChunkPrefab, position, Quaternion.identity);
-
-		emptyChunk.Init(0, popUpForce, popSideForce, popDestroyDelay);
-		spawnedChunks.Add(emptyChunk);
+		SpawnEmptyChunk(position);
 
 		// puts list in right order
 		spawnedChunks.Reverse();
@@ -229,20 +223,19 @@ public class TerrainManager : BaseBehaviour
 		canMove = true;
 	}
 
-	public float GetTargetHeight()
-	{
-		if(!CheckInitialized())
-			return 0;
-
-		isInBonus = !isInBonus;
-		return isInBonus ? bonusPlayerPos.position.y : normalPlayerPos.position.y;
-	}
-
-	public void PositionCamera()
+	public void StartBonus()
 	{
 		if(!CheckInitialized())
 			return;
 
-		mainCamera.position = player.position + cameraOffset;
+		isInBonus = true;
+	}
+
+	public void StopBonus()
+	{
+		if(!CheckInitialized())
+			return;
+
+		isInBonus = false;
 	}
 }

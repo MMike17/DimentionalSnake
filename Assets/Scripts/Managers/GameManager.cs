@@ -92,7 +92,6 @@ public class GameManager : MonoBehaviour
 		);
 		terrainManager.Init(
 			snake.transform,
-			cameraManager.mainCamera.transform,
 			difficultyManager.GetDifficulty,
 			difficultyManager.GetCurrentSpeed,
 			distance => scoreManager.AddPlayerScore(distance)
