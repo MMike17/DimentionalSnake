@@ -1,5 +1,6 @@
 x Portal mesh is misaligned (z)
-- Portal pieces don't rotate correctly
+x Portal pieces don't rotate correctly
+- Second pieces animation is buggy
 - Pieces trails don't work with portal anim
 - Portal trails don't show up correctly
 - Portal is animated way too big
