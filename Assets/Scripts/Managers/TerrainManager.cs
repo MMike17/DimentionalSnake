@@ -5,7 +5,6 @@ using UnityEngine;
 /// <summary>Manages the terrain generation, obstacles and bonuses</summary>
 public class TerrainManager : BaseBehaviour
 {
-	// TODO : start bonus level when we get to 10 pieces
 	// TODO : rework this for bonus level
 
 	[Header("Settings")]

@@ -50,6 +50,10 @@ public class GameManager : MonoBehaviour
 				snake.Freeze();
 				terrainManager.Freeze();
 			},
+			() =>
+			{
+				// TODO : spawn portal here
+			},
 			interfaceManager.UpdatePiecesCount,
 			portal =>
 			{

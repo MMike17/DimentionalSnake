@@ -31,10 +31,10 @@ public class Snake : BaseBehaviour
 	Func<float> GetCurrentSpeed;
 	Action<Portal> StartWarpLevel;
 	Action<int> UpdatePieceCount;
-	Action GetMoney, LoseGame, LoseGameByFall;
+	Action GetMoney, LoseGame, LoseGameByFall, StartPortal;
 	Vector3 initialPos, targetPos;
 	float minX, maxX, smoothMinX, smoothMaxX, currentSpeed;
-	bool canMove, shouldFall;
+	bool canMove, shouldFall, startedPortal;
 
 	void OnDrawGizmos()
 	{
@@ -55,13 +55,14 @@ public class Snake : BaseBehaviour
 		}
 	}
 
-	public void Init(float minX, float maxX, Action getMoney, Action loseGame, Action loseGameByFall, Action<int> updatePieceCount, Action<Portal> startWarpLevel, Func<float> getCurrentSpeed)
+	public void Init(float minX, float maxX, Action getMoney, Action loseGame, Action loseGameByFall, Action startPortal, Action<int> updatePieceCount, Action<Portal> startWarpLevel, Func<float> getCurrentSpeed)
 	{
 		this.minX = minX;
 		this.maxX = maxX;
 		GetMoney = getMoney;
 		LoseGame = loseGame;
 		LoseGameByFall = loseGameByFall;
+		StartPortal = startPortal;
 		UpdatePieceCount = updatePieceCount;
 		StartWarpLevel = startWarpLevel;
 		GetCurrentSpeed = getCurrentSpeed;
@@ -81,6 +82,7 @@ public class Snake : BaseBehaviour
 		currentSpeed = 0;
 		canMove = false;
 		shouldFall = false;
+		startedPortal = false;
 
 		InitInternal();
 
@@ -104,6 +106,12 @@ public class Snake : BaseBehaviour
 			}
 
 			return;
+		}
+
+		if(!startedPortal && spawnedPieces.Count == 10 + minSnakeLength)
+		{
+			StartPortal();
+			startedPortal = true;
 		}
 
 		// move snake
