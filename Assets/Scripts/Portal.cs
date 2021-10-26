@@ -10,8 +10,19 @@ public class Portal : BaseBehaviour
 {
 	[Header("Settings")]
 	public float circleRadius;
-	public float minAnimRadius, maxAnimRadius, firstPartAnimDuration, secondPartAnimDuration, thirdPartAnimDuration, renderSize;
-	public AnimationCurve firstPartAnimCurve, secondPartAnimCurve, thirdPartAnimCurve;
+
+	[Header("First anim")]
+	public float minAnimRadius;
+	public float maxAnimRadius, firstPartAnimDuration;
+	public AnimationCurve firstPartAnimCurve;
+
+	[Header("Second anim")]
+	public float secondPartAnimDuration;
+	public AnimationCurve secondPartAnimCurve;
+
+	[Header("Third anim")]
+	public float thirdPartAnimDuration;
+	public AnimationCurve thirdPartAnimCurve;
 
 	[Header("Scene references")]
 	public Transform portalCenter;
@@ -27,6 +38,12 @@ public class Portal : BaseBehaviour
 #if UNITY_EDITOR
 		Handles.color = Color.grey;
 		Handles.DrawWireDisc(transform.GetChild(0).position, Vector3.forward, circleRadius);
+
+		if(portalCenter != null)
+		{
+			Handles.DrawWireArc(portalCenter.position - Vector3.forward, Vector3.forward, Vector3.right, 180, minAnimRadius);
+			Handles.DrawWireArc(portalCenter.position - Vector3.forward * 2, Vector3.forward, Vector3.right, 180, maxAnimRadius);
+		}
 #endif
 
 		Gizmos.color = Color.grey;
@@ -38,6 +55,12 @@ public class Portal : BaseBehaviour
 
 			if(targetPositions.Length > 1)
 				Gizmos.DrawLine(targetPositions[0].position, targetPositions[targetPositions.Length - 1].position);
+
+			if(portalCenter != null)
+			{
+				foreach (Transform target in targetPositions)
+					Gizmos.DrawLine(target.position, portalCenter.position);
+			}
 		}
 	}
 
@@ -143,7 +166,7 @@ public class Portal : BaseBehaviour
 		// animate portal mesh
 		while (timer <= thirdPartAnimDuration)
 		{
-			renderInsidePortal.transform.localScale = Vector3.one * thirdPartAnimCurve.Evaluate(timer / thirdPartAnimDuration) * renderSize;
+			renderInsidePortal.transform.localScale = Vector3.one * thirdPartAnimCurve.Evaluate(timer / thirdPartAnimDuration) * circleRadius;
 
 			timer += Time.deltaTime;
 			yield return null;
@@ -156,6 +179,10 @@ public class Portal : BaseBehaviour
 			return;
 
 		StartCoroutine(AnimatePiecesRoutine(player, pieces));
+
+		renderInsidePortal.transform.localScale = Vector3.zero;
+		renderInsidePortal.gameObject.SetActive(true);
+		renderOutsidePortal.gameObject.SetActive(false);
 	}
 
 	public void SwitchWorlds()

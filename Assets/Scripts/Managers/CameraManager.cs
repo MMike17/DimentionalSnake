@@ -49,6 +49,8 @@ public class CameraManager : BaseBehaviour
 		introAnim = true;
 
 		InitInternal();
+
+		Reset();
 	}
 
 	void Update()

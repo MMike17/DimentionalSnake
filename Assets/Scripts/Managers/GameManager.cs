@@ -50,15 +50,12 @@ public class GameManager : MonoBehaviour
 				snake.Freeze();
 				terrainManager.Freeze();
 			},
-			() =>
-			{
-				Vector3 target = snake.transform.position;
-				target.y = terrainManager.GetTargetHeight();
-
-				snake.transform.position = target;
-				terrainManager.PositionCamera();
-			},
 			interfaceManager.UpdatePiecesCount,
+			portal =>
+			{
+				portal.SwitchWorlds();
+				cameraManager.SwitchCamera();
+			},
 			difficultyManager.GetCurrentSpeed
 		);
 	}
