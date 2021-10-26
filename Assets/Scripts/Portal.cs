@@ -47,20 +47,12 @@ public class Portal : BaseBehaviour
 #endif
 
 		Gizmos.color = Color.grey;
+		SetGizmosAlpha(0.5f);
 
 		if(targetPositions != null && targetPositions.Length > 0)
 		{
-			for (int i = 0; i < targetPositions.Length - 1; i++)
-				Gizmos.DrawLine(targetPositions[i].position, targetPositions[i + 1].position);
-
-			if(targetPositions.Length > 1)
-				Gizmos.DrawLine(targetPositions[0].position, targetPositions[targetPositions.Length - 1].position);
-
-			if(portalCenter != null)
-			{
-				foreach (Transform target in targetPositions)
-					Gizmos.DrawLine(target.position, portalCenter.position);
-			}
+			foreach (Transform target in targetPositions)
+				Gizmos.DrawSphere(target.position, 0.5f);
 		}
 	}
 
@@ -183,6 +175,9 @@ public class Portal : BaseBehaviour
 			return;
 
 		StartCoroutine(AnimatePiecesRoutine(player, pieces));
+
+		foreach (Transform piece in pieces)
+			piece.SetParent(transform);
 
 		renderInsidePortal.transform.localScale = Vector3.zero;
 		renderInsidePortal.gameObject.SetActive(true);

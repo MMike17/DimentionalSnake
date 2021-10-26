@@ -1,0 +1,8 @@
+x Portal mesh is misaligned (z)
+- Portal pieces don't rotate correctly
+- Pieces trails don't work with portal anim
+- Portal trails don't show up correctly
+- Portal is animated way too big
+- Pieces animation are weird (2 first anims)
+- Obstacles poping doesn't work
+- Render textures of portals don't work
