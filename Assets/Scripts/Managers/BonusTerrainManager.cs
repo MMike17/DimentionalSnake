@@ -134,6 +134,7 @@ public class BonusTerrainManager : BaseBehaviour
 		if(!CheckInitialized())
 			return;
 
-		// TODO : Destroy bonus terrain after bonus (but not portals)
+		spawnedChunks.ForEach(item => Destroy(item.gameObject));
+		spawnedChunks.Clear();
 	}
 }
