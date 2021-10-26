@@ -156,7 +156,11 @@ public class Portal : BaseBehaviour
 			yield return null;
 		}
 
-		// TODO : Add links between snake pieces
+		// links snake pieces
+		for (int i = 0; i < 9; i++)
+			pieces[i].GetComponent<SnakePiece>().Init(pieces[i + 1], 0);
+
+		pieces[pieces.Length - 1].GetComponent<SnakePiece>().Init(pieces[0], 0);
 	}
 
 	IEnumerator ThirdPartAnimRoutine()

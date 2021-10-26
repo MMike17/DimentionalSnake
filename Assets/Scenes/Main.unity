@@ -714,6 +714,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSnakeLength: 2
+  trailLength: 0
   horizontalSpeed: 5
   zPieceDistanceFromCore: 1
   fallZPos: -5
