@@ -4,7 +4,7 @@ x Second pieces animation is buggy
 x Some obstacles freeze after poping
 x Pieces trails don't work with portal anim
 x Portal trails don't show up correctly
-- Portal is animated way too big
+x Portal is animated way too big
 x Pieces animation are weird (2 first anims)
 x Obstacles poping doesn't work
 - Render textures of portals don't work

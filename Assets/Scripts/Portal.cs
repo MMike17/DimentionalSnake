@@ -163,7 +163,7 @@ public class Portal : BaseBehaviour
 		{
 			float localPercent = (GetPercent() - previousDurations) / thirdAnimPercentDuration;
 
-			renderInsidePortal.transform.localScale = Vector3.one * thirdPartAnimCurve.Evaluate(localPercent) * circleRadius;
+			renderInsidePortal.transform.localScale = Vector3.one * thirdPartAnimCurve.Evaluate(localPercent) * circleRadius * 2;
 
 			yield return null;
 		}
