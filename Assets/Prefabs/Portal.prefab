@@ -73,7 +73,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  secondAnimPercentDuration: 0.5
+  secondAnimPercentDuration: 0.4
   secondPartAnimCurve:
     serializedVersion: 2
     m_Curve:
@@ -98,7 +98,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  thirdAnimPercentDuration: 0.1
+  thirdAnimPercentDuration: 0.2
   thirdPartAnimCurve:
     serializedVersion: 2
     m_Curve:

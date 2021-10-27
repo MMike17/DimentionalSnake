@@ -278,7 +278,7 @@ public class Snake : BaseBehaviour
 			case PIECE_TAG:
 				Destroy(other.gameObject);
 				SpawnSnakePiece();
-				UpdatePieceCount(spawnedPieces.Count - 2);
+				UpdatePieceCount(spawnedPieces.Count - minSnakeLength);
 				break;
 
 			case PORTAL_TAG:
@@ -353,7 +353,7 @@ public class Snake : BaseBehaviour
 			spawnedPieces.Add(snakePiece);
 		}
 
-		UpdatePieceCount(spawnedPieces.Count - 2);
+		UpdatePieceCount(spawnedPieces.Count - minSnakeLength);
 
 		// configure pieces
 		head.Init(spawnedPieces[0].transform, trailLength);

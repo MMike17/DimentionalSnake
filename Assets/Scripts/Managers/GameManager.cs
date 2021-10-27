@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
 				);
 
 				terrainManager.StartBonus();
+				interfaceManager.UpdatePiecesCount(0);
 			},
 			() =>
 			{
