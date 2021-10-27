@@ -6566,8 +6566,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   memorySize: 1
   deleteDistance: 10
-  popUpForce: 7
-  popSideForce: 5
+  popUpForce: 20
+  popSideForce: 10
   popDestroyDelay: 5
   emptyChunkPrefab: {fileID: 6820148526937881430, guid: 31bd8b86ca2ea9148835aa54bd285d4f, type: 3}
   terrainChunks:

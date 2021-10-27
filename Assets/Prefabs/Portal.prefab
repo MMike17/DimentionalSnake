@@ -46,9 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   circleRadius: 3.5
-  minAnimRadius: 2
-  maxAnimRadius: 4
-  firstPartAnimDuration: 1
+  minAnimRadius: 1
+  maxAnimRadius: 2.5
+  firstAnimPercentDuration: 0.2
   firstPartAnimCurve:
     serializedVersion: 2
     m_Curve:
@@ -73,7 +73,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  secondPartAnimDuration: 4
+  secondAnimPercentDuration: 0.6
   secondPartAnimCurve:
     serializedVersion: 2
     m_Curve:
@@ -87,10 +87,10 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.75
-      value: 0.9
-      inSlope: 1.1378794
-      outSlope: 1.1378794
+      time: 0.3
+      value: 0.1
+      inSlope: 0.9895699
+      outSlope: 0.9895699
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
@@ -107,7 +107,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  thirdPartAnimDuration: 0.5
+  thirdAnimPercentDuration: 0.1
   thirdPartAnimCurve:
     serializedVersion: 2
     m_Curve:
@@ -263,7 +263,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6472351587753767438}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6472351587379466699}

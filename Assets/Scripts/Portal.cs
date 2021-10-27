@@ -104,7 +104,7 @@ public class Portal : BaseBehaviour
 		}
 
 		// animate pieces
-		while (GetPercent() <= firstAnimPercentDuration)
+		while (GetPercent() < firstAnimPercentDuration)
 		{
 			float firstAnimPercent = GetPercent() / firstAnimPercentDuration;
 
@@ -127,8 +127,12 @@ public class Portal : BaseBehaviour
 
 	IEnumerator SecondPartAnimRoutine(Transform player, Transform[] pieces)
 	{
+		// children pieces to portal
+		foreach (Transform piece in pieces)
+			piece.SetParent(transform);
+
 		// move pieces to portal
-		while (GetPercent() <= secondAnimPercentDuration)
+		while (GetPercent() < secondAnimPercentDuration)
 		{
 			float secondAnimPercent = (GetPercent() - firstAnimPercentDuration) / (secondAnimPercentDuration - firstAnimPercentDuration);
 
@@ -171,9 +175,6 @@ public class Portal : BaseBehaviour
 			return;
 
 		StartCoroutine(AnimatePiecesRoutine(player, pieces));
-
-		foreach (Transform piece in pieces)
-			piece.SetParent(transform);
 
 		renderInsidePortal.transform.localScale = Vector3.zero;
 		renderInsidePortal.gameObject.SetActive(true);
