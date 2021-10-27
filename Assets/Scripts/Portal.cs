@@ -132,10 +132,9 @@ public class Portal : BaseBehaviour
 	IEnumerator SecondPartAnimRoutine(Transform player, Transform[] pieces)
 	{
 		// move pieces to portal
-		while (GetPercent() < secondAnimPercentDuration)
+		while (GetPercent() < firstAnimPercentDuration + secondAnimPercentDuration)
 		{
-			float secondAnimPercent = (GetPercent() - firstAnimPercentDuration) / (secondAnimPercentDuration - firstAnimPercentDuration);
-
+			float secondAnimPercent = (GetPercent() - firstAnimPercentDuration) / secondAnimPercentDuration;
 			float currentPercent = secondPartAnimCurve.Evaluate(secondAnimPercent);
 
 			for (int i = 0; i < 10; i++)
@@ -157,11 +156,12 @@ public class Portal : BaseBehaviour
 
 	IEnumerator ThirdPartAnimRoutine()
 	{
+		float previousDurations = firstAnimPercentDuration + secondAnimPercentDuration;
+
 		// animate portal mesh
-		while (GetPercent() <= thirdAnimPercentDuration)
+		while (GetPercent() < previousDurations + thirdAnimPercentDuration)
 		{
-			float previousDurations = firstAnimPercentDuration + secondAnimPercentDuration;
-			float localPercent = (GetPercent() - previousDurations) / (thirdAnimPercentDuration - previousDurations);
+			float localPercent = (GetPercent() - previousDurations) / thirdAnimPercentDuration;
 
 			renderInsidePortal.transform.localScale = Vector3.one * thirdPartAnimCurve.Evaluate(localPercent) * circleRadius;
 
@@ -177,6 +177,7 @@ public class Portal : BaseBehaviour
 		StartCoroutine(AnimatePiecesRoutine(player, pieces));
 
 		renderInsidePortal.transform.localScale = Vector3.zero;
+
 		renderInsidePortal.gameObject.SetActive(true);
 		renderOutsidePortal.gameObject.SetActive(false);
 	}
