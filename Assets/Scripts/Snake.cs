@@ -387,7 +387,10 @@ public class Snake : BaseBehaviour
 			return null;
 
 		// start animation
-		spawnedPieces.ForEach(item => item.StartTrailAnimation());
+		for (int i = minSnakeLength; i < spawnedPieces.Count; i++)
+			spawnedPieces[i].StartTrailAnimation();
+
+		spawnedPieces[minSnakeLength - 1].Init(null, trailLength);
 
 		// extract transform list
 		Transform[] piecesTransform = new Transform[spawnedPieces.Count - minSnakeLength];

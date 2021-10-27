@@ -74,7 +74,7 @@ public class SnakePiece : BaseBehaviour
 		lineRenderer.positionCount = trailLength;
 		movementAnimations = true;
 
-		GetComponentInChildren<Renderer>().shadowCastingMode = ShadowCastingMode.Off;
+		transform.GetChild(0).GetComponent<MeshRenderer>().shadowCastingMode = ShadowCastingMode.Off;
 
 		lastPositions = new List<Vector3>();
 
