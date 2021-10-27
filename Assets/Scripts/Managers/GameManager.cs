@@ -127,6 +127,8 @@ public class GameManager : MonoBehaviour
 			playerData.selectedSettings,
 			() =>
 			{
+				snake.Reset();
+
 				snake.Unfreeze();
 				terrainManager.Unfreeze();
 			},
