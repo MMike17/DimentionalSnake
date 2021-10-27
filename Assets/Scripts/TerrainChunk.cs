@@ -108,6 +108,10 @@ public class TerrainChunk : BaseBehaviour
 	{
 		foreach (Rigidbody body in elements)
 		{
+			// skip if null
+			if(body == null)
+				continue;
+
 			body.useGravity = true;
 			body.isKinematic = false;
 
