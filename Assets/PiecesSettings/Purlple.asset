@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bea0108b3643c745a44300f3bc7858f, type: 3}
+  m_Name: Purlple
+  m_EditorClassIdentifier: 
+  settingsName: Purple
+  piecePrefab: {fileID: 3368115707100026861, guid: 75d25da7350dedc49a991cf4b110ceea, type: 3}
+  shopSnapshot: {fileID: 21300000, guid: 90040c04897d75a40b95907dd1d0b030, type: 3}

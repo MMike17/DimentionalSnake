@@ -1092,8 +1092,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0.029678369, b: 0, a: 1}
-      key1: {r: 1, g: 0.7118232, b: 0, a: 0}
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -5990,7 +5990,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 775e60932909f12498e7d18b7d25bc47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snakeSettings: []
+  snakeSettings:
+  - {fileID: 11400000, guid: 024454ed00f335a4584dcbbc9d23c32c, type: 2}
+  - {fileID: 11400000, guid: 6694b600ca66de64c803ef9171d2de15, type: 2}
+  - {fileID: 11400000, guid: 5cfbc2d37579b144f96fbcdadb76d196, type: 2}
+  - {fileID: 11400000, guid: aa14108e1d7b08541977069c1ee515a6, type: 2}
+  - {fileID: 11400000, guid: cfcef1a9c68be7d4bbe9735c90b37780, type: 2}
+  - {fileID: 11400000, guid: 42e3a71d2c5ae4b4fbc83a8cea712b3e, type: 2}
+  - {fileID: 11400000, guid: 94c6917c43efd0e468139a93b878fcc2, type: 2}
+  - {fileID: 11400000, guid: 3c47e3c30f5e5084ebe47ab56b8313bf, type: 2}
+  - {fileID: 11400000, guid: 296c3a45c29260048bd15648505f7cb1, type: 2}
   unlockSlider: {fileID: 555461676}
   unlockCount: {fileID: 1799940679}
   listHolder: {fileID: 1815189525}

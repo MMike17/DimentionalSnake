@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bea0108b3643c745a44300f3bc7858f, type: 3}
+  m_Name: Light
+  m_EditorClassIdentifier: 
+  settingsName: Light
+  piecePrefab: {fileID: 6569817098859146668, guid: 3b898f505cbeb1f4f95ed5c53c15db87, type: 3}
+  shopSnapshot: {fileID: 21300000, guid: 7963661731caaa947afb3e64700a1a62, type: 3}
