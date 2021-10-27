@@ -410,8 +410,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -573,6 +573,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AdButton
       objectReference: {fileID: 0}
+    - target: {fileID: 7489145965026518617, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 20a24891f9c879a45bbd0a65619a2e6a, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
 --- !u!224 &177272749 stripped
@@ -1162,7 +1166,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_AnchorMin.x
@@ -1170,7 +1174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_SizeDelta.x
@@ -1178,7 +1182,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 157
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1214,7 +1218,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -78.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1232,6 +1236,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShopButton
       objectReference: {fileID: 0}
+    - target: {fileID: 7489145965026518617, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 069927e8d5597bc4aaaf35a564cff919, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
 --- !u!224 &414261302 stripped
@@ -1565,7 +1573,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_AnchorMin.x
@@ -1573,7 +1581,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_SizeDelta.x
@@ -1581,7 +1589,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 157
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1617,7 +1625,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -78.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1635,6 +1643,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LikeButton
       objectReference: {fileID: 0}
+    - target: {fileID: 7489145965026518617, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 213006b962896214f8b7aa7aa4076f3f, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
 --- !u!224 &550177484 stripped
@@ -1723,7 +1735,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 0
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 555461677}
   m_FillRect: {fileID: 698273954}
   m_HandleRect: {fileID: 0}
   m_Direction: 0
@@ -1754,8 +1766,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 6945f6a9c9537b54fa7a2eb5b845ca66, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1763,7 +1775,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 2.5
 --- !u!222 &555461678
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1926,7 +1938,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &592024810
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2666,7 +2678,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 45345df2cfca02548b1cf914c50b1200, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2791,8 +2803,8 @@ RectTransform:
   m_Children:
   - {fileID: 2112188838}
   - {fileID: 1322372401}
-  - {fileID: 1800938903}
   - {fileID: 932470307}
+  - {fileID: 1800938903}
   - {fileID: 1370514001}
   - {fileID: 606001798}
   - {fileID: 1761157674}
@@ -2973,7 +2985,7 @@ RectTransform:
   - {fileID: 740227295}
   - {fileID: 1508063745}
   m_Father: {fileID: 882630073}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3256,7 +3268,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: eecfbd4562e7e1e4a8cf2a047aeccb0a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3769,7 +3781,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278190080
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -3932,6 +3944,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShopButton
       objectReference: {fileID: 0}
+    - target: {fileID: 7489145965026518617, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 069927e8d5597bc4aaaf35a564cff919, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
 --- !u!224 &1164594755 stripped
@@ -4365,9 +4381,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: -6.4999924}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1228309999
 MonoBehaviour:
@@ -4382,14 +4398,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 94838c79e1af5614092a1b626deabd75, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4886,6 +4902,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ReturnButton
       objectReference: {fileID: 0}
+    - target: {fileID: 7489145965026518617, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a5c69c117d48e58408f2ea4114a204c3, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
 --- !u!224 &1348160871 stripped
@@ -5061,7 +5081,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1370514001
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5194,7 +5214,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5499,7 +5519,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 94838c79e1af5614092a1b626deabd75, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5612,6 +5632,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: StoreButton
       objectReference: {fileID: 0}
+    - target: {fileID: 7489145965026518617, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c068b41de873819489b114d4160ba796, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
 --- !u!224 &1585577650 stripped
@@ -5947,7 +5971,7 @@ RectTransform:
   - {fileID: 113844272}
   - {fileID: 592024810}
   m_Father: {fileID: 882630073}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -6621,8 +6645,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2c36a8a98d01934fa3165205ecc1b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasSoundSprite: {fileID: 0}
-  noSoundSprite: {fileID: 0}
+  hasSoundSprite: {fileID: 21300000, guid: 495c1e6db665769429de5575862c2380, type: 3}
+  noSoundSprite: {fileID: 21300000, guid: 552f2fe95fa0b6c4bb2ce9f8f79425bc, type: 3}
   shopButton: {fileID: 1673832374}
   facebookButton: {fileID: 261247883}
   stopSoundButton: {fileID: 37244525}
@@ -6844,7 +6868,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_AnchorMin.x
@@ -6852,7 +6876,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_SizeDelta.x
@@ -6860,7 +6884,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 157
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6892,11 +6916,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 480
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -78.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7489145963553474070, guid: 0eed293d7700b2c4bba0e5c85b462a53, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
