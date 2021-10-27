@@ -4,7 +4,8 @@ using UnityEngine;
 /// <summary>Manages all camera movements</summary>
 public class CameraManager : BaseBehaviour
 {
-	const int BONUS_RENDER_LAYER = 3;
+	public const int BONUS_RENDER_LAYER = 3;
+
 	const int UI_RENDER_LAYER = 5;
 	const int PLAYER_RENDER_LAYER = 6;
 

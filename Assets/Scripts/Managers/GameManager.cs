@@ -74,6 +74,8 @@ public class GameManager : MonoBehaviour
 			interfaceManager.UpdatePiecesCount,
 			portal =>
 			{
+				terrainManager.HideTerrain();
+
 				bonusTerrainManager.StartBonus();
 
 				portal.SwitchWorlds();
@@ -156,6 +158,7 @@ public class GameManager : MonoBehaviour
 		fakeAdManager.Init();
 		cameraManager.Init(snake.transform);
 		bonusTerrainManager.Init(
+			CameraManager.BONUS_RENDER_LAYER,
 			distance => scoreManager.AddPlayerScore(distance),
 			cameraManager.SetRendererToCamera,
 			difficultyManager.GetCurrentSpeed,

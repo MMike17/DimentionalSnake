@@ -249,4 +249,12 @@ public class TerrainManager : BaseBehaviour
 
 		return spawnedChunks[spawnedChunks.Count - 1].transform.position;
 	}
+
+	public void HideTerrain()
+	{
+		if(!CheckInitialized())
+			return;
+
+		spawnedChunks[spawnedChunks.Count - 1].gameObject.SetActive(false);
+	}
 }

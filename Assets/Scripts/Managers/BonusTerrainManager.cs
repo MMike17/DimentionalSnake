@@ -16,16 +16,20 @@ public class BonusTerrainManager : BaseBehaviour
 
 	List<TerrainChunk> spawnedChunks;
 	List<Transform> spawnedPortals;
+	Portal startPortal, endPortal;
 	Func<Vector3, float> GetPositionPercent;
 	Func<Vector3, bool> IsBehindCamera;
 	Func<float> GetCurrentSpeed;
 	Action<Renderer> SetRendererToCamera;
 	Action<float> AddDistance;
 	float currentSpeed;
+	int layer;
 	bool inBonus;
 
-	public void Init(Action<float> addDistance, Action<Renderer> setRendererToCamera, Func<float> getCurrentSpeed, Func<Vector3, bool> isBehindCamera, Func<Vector3, float> getPositionPercent)
+	public void Init(int layer, Action<float> addDistance, Action<Renderer> setRendererToCamera, Func<float> getCurrentSpeed, Func<Vector3, bool> isBehindCamera, Func<Vector3, float> getPositionPercent)
 	{
+		this.layer = layer;
+
 		AddDistance = addDistance;
 		SetRendererToCamera = setRendererToCamera;
 		GetCurrentSpeed = getCurrentSpeed;
@@ -104,16 +108,19 @@ public class BonusTerrainManager : BaseBehaviour
 		inBonus = false;
 
 		Vector3 lastChunkPos = GetLastChunkPos();
+		float chunkSize = emptyChunkPrefab.transform.GetChild(0).localScale.z;
+
+		// spawn empty chunk to link with normal terrain
+		SpawnEmptyChunk(lastChunkPos);
 
 		// spawns start portal
 		Transform[] playerPieces = player.GetPiecesTransforms();
 
-		Portal startPortal = SpawnPortal(lastChunkPos);
+		startPortal = SpawnPortal(lastChunkPos);
 		startPortal.name = "StartPortal";
 		startPortal.StartAnimation(player.transform, playerPieces);
 
 		// spawning empty chunk first
-		float chunkSize = emptyChunkPrefab.transform.GetChild(0).localScale.z;
 		Vector3 spawnPos = lastChunkPos + Vector3.forward * chunkSize;
 		SpawnEmptyChunk(spawnPos);
 
@@ -149,7 +156,7 @@ public class BonusTerrainManager : BaseBehaviour
 		}
 
 		// spawns end portal
-		Portal endPortal = SpawnPortal(spawnPos);
+		endPortal = SpawnPortal(spawnPos);
 		endPortal.name = "EndPortal";
 
 		// spawns pieces copies
@@ -165,6 +172,9 @@ public class BonusTerrainManager : BaseBehaviour
 
 			copiedPieces[i] = pieceCopy;
 		}
+
+		// make portal only visible inside bonus
+		endPortal.SetLayer(layer);
 
 		// link pieces
 		for (int i = 0; i < 9; i++)
@@ -188,5 +198,6 @@ public class BonusTerrainManager : BaseBehaviour
 			return;
 
 		inBonus = true;
+		startPortal.SetLayer(layer);
 	}
 }

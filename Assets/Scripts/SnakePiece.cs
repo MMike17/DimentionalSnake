@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 /// <summary>Manages rendereing of lines between snake pieces</summary>
 [RequireComponent(typeof(LineRenderer))]
@@ -72,6 +73,8 @@ public class SnakePiece : BaseBehaviour
 
 		lineRenderer.positionCount = trailLength;
 		movementAnimations = true;
+
+		GetComponentInChildren<Renderer>().shadowCastingMode = ShadowCastingMode.Off;
 
 		lastPositions = new List<Vector3>();
 

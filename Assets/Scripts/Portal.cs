@@ -75,6 +75,7 @@ public class Portal : BaseBehaviour
 		renderOutsidePortal.gameObject.SetActive(false);
 
 		SetRenderCamera(renderInsidePortal);
+		SetRenderCamera(renderOutsidePortal);
 
 		InitInternal();
 	}
