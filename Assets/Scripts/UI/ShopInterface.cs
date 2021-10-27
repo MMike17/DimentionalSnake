@@ -24,12 +24,12 @@ public class ShopInterface : BaseInterface
 
 	List<SettingsTicket> spawnedTickets;
 	bool[] unlocks;
-	int selectedIndex;
+	int playerSelectedIndex;
 
 	public void Init(bool[] unlocks, int selectedIndex, Action<Action> startFakeAd, Action<int> giveMoney, Action<int> takeMoney, Action<int> selectIndex, Func<bool> canBuy)
 	{
 		this.unlocks = unlocks;
-		this.selectedIndex = selectedIndex;
+		this.playerSelectedIndex = selectedIndex;
 
 		UpdateUnlocks();
 		SpawnTickets(selectedIndex, takeMoney, selectIndex, canBuy);
@@ -102,7 +102,7 @@ public class ShopInterface : BaseInterface
 				() =>
 				{
 					unlocks[index] = true;
-					selectedIndex = index;
+					playerSelectedIndex = index;
 
 					spawnedTickets.ForEach(item => item.Unselect());
 
@@ -112,7 +112,7 @@ public class ShopInterface : BaseInterface
 				{
 					spawnedTickets.ForEach(item => item.Unselect());
 
-					selectedIndex = index;
+					playerSelectedIndex = index;
 					selectIndex(index);
 				},
 				canBuy
@@ -124,7 +124,7 @@ public class ShopInterface : BaseInterface
 
 	public ShopPlayerSetting GetShopPlayerSetting()
 	{
-		return new ShopPlayerSetting(unlocks, selectedIndex);
+		return new ShopPlayerSetting(unlocks, playerSelectedIndex);
 	}
 
 	public struct ShopPlayerSetting
