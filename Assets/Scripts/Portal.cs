@@ -69,6 +69,11 @@ public class Portal : BaseBehaviour
 		GetPercent = getPercent;
 		IsBehindCamera = isBehindCamera;
 
+		renderInsidePortal.transform.localScale = Vector3.one * circleRadius * 2;
+
+		renderInsidePortal.gameObject.SetActive(true);
+		renderOutsidePortal.gameObject.SetActive(false);
+
 		SetRenderCamera(renderInsidePortal);
 
 		InitInternal();
@@ -177,9 +182,6 @@ public class Portal : BaseBehaviour
 		StartCoroutine(AnimatePiecesRoutine(player, pieces));
 
 		renderInsidePortal.transform.localScale = Vector3.zero;
-
-		renderInsidePortal.gameObject.SetActive(true);
-		renderOutsidePortal.gameObject.SetActive(false);
 	}
 
 	public void SwitchWorlds()

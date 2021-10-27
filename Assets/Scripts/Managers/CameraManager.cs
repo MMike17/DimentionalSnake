@@ -42,6 +42,8 @@ public class CameraManager : BaseBehaviour
 		initialRot = mainCamera.transform.rotation;
 
 		portalTexture = new RenderTexture(Screen.width, Screen.height, 24);
+		portalTexture.name = "PortalTex";
+		portalTexture.Create();
 
 		loseTimer = 0;
 		startAnim = false;
@@ -124,8 +126,7 @@ public class CameraManager : BaseBehaviour
 		if(!CheckInitialized())
 			return;
 
-		// TODO : may have to change to instantiated material
-		renderer.sharedMaterial.SetTexture("Texture", portalTexture);
+		renderer.material.SetTexture("_MainTex", portalTexture);
 	}
 
 	public void SwitchCamera()

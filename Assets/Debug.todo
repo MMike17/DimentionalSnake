@@ -7,6 +7,8 @@ x Portal trails don't show up correctly
 x Portal is animated way too big
 x Pieces animation are weird (2 first anims)
 x Obstacles poping doesn't work
-- Render textures of portals don't work
+x Render textures of portals don't work
 x Bonus chunks don't move
 - Camera switching layers doesn't work correctly
+- End portal texture bug
+- Pieces count doesn't change after portal opening
