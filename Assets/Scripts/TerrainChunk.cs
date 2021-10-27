@@ -4,10 +4,6 @@ using UnityEngine;
 /// <summary>Manages the difficulty and modulation of a terrain chunk</summary>
 public class TerrainChunk : BaseBehaviour
 {
-	[Header("Settings")]
-	public int[] obstaclesPerDifficulty;
-	public int[] piecesPerDifficulty;
-
 	[Header("Scene references")]
 	public GameObject[] obstacles;
 	public GameObject[] pieces;
@@ -29,7 +25,7 @@ public class TerrainChunk : BaseBehaviour
 		if(obstacles.Length != 0)
 		{
 			int obstaclesDifficulty = GetObstaclesDifficulty(difficulty);
-			selectedIndexes = GetSelectedIndexes(obstacles.Length, obstaclesPerDifficulty[obstaclesDifficulty], obstaclesDifficulty);
+			selectedIndexes = GetSelectedIndexes(obstacles.Length, obstaclesDifficulty);
 
 			for (int i = 0; i < obstacles.Length; i++)
 				obstacles[i].SetActive(selectedIndexes.Contains(i));
@@ -39,7 +35,7 @@ public class TerrainChunk : BaseBehaviour
 		if(pieces.Length != 0)
 		{
 			int piecesDifficulty = GetPiecesDifficulty(difficulty);
-			selectedIndexes = GetSelectedIndexes(pieces.Length, piecesPerDifficulty[piecesDifficulty], piecesDifficulty);
+			selectedIndexes = GetSelectedIndexes(pieces.Length, piecesDifficulty);
 
 			for (int i = 0; i < pieces.Length; i++)
 				pieces[i].SetActive(selectedIndexes.Contains(i));
@@ -64,15 +60,15 @@ public class TerrainChunk : BaseBehaviour
 
 	int GetObstaclesDifficulty(float difficulty)
 	{
-		return Mathf.FloorToInt(difficulty * (obstaclesPerDifficulty.Length - 1));
+		return Mathf.FloorToInt(difficulty * obstacles.Length);
 	}
 
 	int GetPiecesDifficulty(float difficulty)
 	{
-		return Mathf.FloorToInt(difficulty * (piecesPerDifficulty.Length - 1));
+		return Mathf.FloorToInt(difficulty * pieces.Length);
 	}
 
-	List<int> GetSelectedIndexes(int arrayCount, int pickCount, int difficulty)
+	List<int> GetSelectedIndexes(int arrayCount, int pickCount)
 	{
 		List<int> selectedIndexes = new List<int>();
 		List<int> availableIndexes = new List<int>();
