@@ -21,13 +21,13 @@ public class Snake : BaseBehaviour
 	public Vector3 checkGroundBoxSize;
 
 	[Header("Scene references")]
-	public SnakePiece piecePrefab;
 	public SnakePiece head;
 	public Transform checkGroundBoxPos;
 
 	List<SnakePiece> spawnedPieces;
 	List<ReferencePoint> referencePoints;
 	Rigidbody rigid;
+	SnakePiece piecePrefab;
 	Func<float> GetCurrentSpeed;
 	Action<Portal> StartWarpLevel, ExitBonus;
 	Action<int> UpdatePieceCount;
@@ -55,10 +55,11 @@ public class Snake : BaseBehaviour
 		}
 	}
 
-	public void Init(float minX, float maxX, Action getMoney, Action loseGame, Action loseGameByFall, Action startPortal, Action<Portal> exitBonus, Action<int> updatePieceCount, Action<Portal> startWarpLevel, Func<float> getCurrentSpeed)
+	public void Init(float minX, float maxX, SnakePiece piecePrefab, Action getMoney, Action loseGame, Action loseGameByFall, Action startPortal, Action<Portal> exitBonus, Action<int> updatePieceCount, Action<Portal> startWarpLevel, Func<float> getCurrentSpeed)
 	{
 		this.minX = minX;
 		this.maxX = maxX;
+		this.piecePrefab = piecePrefab;
 		GetMoney = getMoney;
 		LoseGame = loseGame;
 		LoseGameByFall = loseGameByFall;
@@ -408,6 +409,14 @@ public class Snake : BaseBehaviour
 		spawnedPieces = new List<SnakePiece>(newPieces);
 
 		return piecesTransform;
+	}
+
+	public void SetSnakePrefab(SnakePiece piecePrefab)
+	{
+		if(!CheckInitialized())
+			return;
+
+		this.piecePrefab = piecePrefab;
 	}
 
 	class ReferencePoint

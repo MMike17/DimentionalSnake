@@ -43,4 +43,12 @@ public class SettingsTicket : BaseBehaviour
 
 		InitInternal();
 	}
+
+	public void Unselect()
+	{
+		if(!CheckInitialized())
+			return;
+
+		selectedPicto.SetActive(false);
+	}
 }

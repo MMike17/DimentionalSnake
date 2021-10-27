@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,16 +22,17 @@ public class ShopInterface : BaseInterface
 	[Space]
 	public Button rewardPanel;
 
+	List<SettingsTicket> spawnedTickets;
 	bool[] unlocks;
 	int selectedIndex;
 
-	public void Init(bool[] unlocks, int selectedIndex, Action<Action> startFakeAd, Action<int> giveMoney, Action<int> takeMoney, Func<bool> canBuy)
+	public void Init(bool[] unlocks, int selectedIndex, Action<Action> startFakeAd, Action<int> giveMoney, Action<int> takeMoney, Action<int> selectIndex, Func<bool> canBuy)
 	{
 		this.unlocks = unlocks;
 		this.selectedIndex = selectedIndex;
 
 		UpdateUnlocks();
-		SpawnTickets(selectedIndex, takeMoney, canBuy);
+		SpawnTickets(selectedIndex, takeMoney, selectIndex, canBuy);
 
 		watchAdButton.onClick.AddListener(() => startFakeAd(() => rewardPanel.gameObject.SetActive(true)));
 		returnButton.onClick.AddListener(() => Hide());
@@ -44,18 +46,27 @@ public class ShopInterface : BaseInterface
 		InitInternal();
 	}
 
+	void Update()
+	{
+		foreach (LayoutGroup layout in FindObjectsOfType<LayoutGroup>())
+			LayoutRebuilder.ForceRebuildLayoutImmediate(layout.GetComponent<RectTransform>());
+	}
+
 	void UpdateUnlocks()
 	{
 		int unlockedCount = 0;
 
 		foreach (bool unlock in unlocks)
-			unlockedCount++;
+		{
+			if(unlock)
+				unlockedCount++;
+		}
 
 		unlockSlider.value = (float) unlockedCount / snakeSettings.Length;
 		unlockCount.text = string.Format(COUNT_FORMAT, unlockedCount, snakeSettings.Length);
 	}
 
-	void SpawnTickets(int selectedIndex, Action<int> takeMoney, Func<bool> canBuy)
+	void SpawnTickets(int selectedIndex, Action<int> takeMoney, Action<int> selectIndex, Func<bool> canBuy)
 	{
 		// spawn lines
 		int linesCount = Mathf.CeilToInt(snakeSettings.Length / 3);
@@ -67,10 +78,12 @@ public class ShopInterface : BaseInterface
 		int currentLine = 0;
 
 		float totalWidth = listHolder.GetComponent<RectTransform>().rect.width;
-		float ticketWidth = totalWidth;
-		ticketWidth = (ticketWidth - ticketWidth / 10) / 3;
+		float ticketWidth = (totalWidth - totalWidth / 10);
 
 		listHolder.spacing = (totalWidth - ticketWidth) / 2;
+		ticketWidth /= 3;
+
+		spawnedTickets = new List<SettingsTicket>();
 
 		for (int i = 0; i < snakeSettings.Length; i++)
 		{
@@ -82,18 +95,30 @@ public class ShopInterface : BaseInterface
 
 			SettingsTicket ticket = Instantiate(ticketPrefab, listHolder.transform.GetChild(currentLine));
 			ticket.Init(
-				snakeSettings[i],
-				unlocks[i],
-				i == selectedIndex,
+				snakeSettings[index],
+				unlocks[index],
+				index == selectedIndex,
 				ticketWidth,
 				() =>
 				{
 					unlocks[index] = true;
+					selectedIndex = index;
+
+					spawnedTickets.ForEach(item => item.Unselect());
+
 					takeMoney(200);
 				},
-				() => selectedIndex = index,
+				() =>
+				{
+					spawnedTickets.ForEach(item => item.Unselect());
+
+					selectedIndex = index;
+					selectIndex(index);
+				},
 				canBuy
 			);
+
+			spawnedTickets.Add(ticket);
 		}
 	}
 

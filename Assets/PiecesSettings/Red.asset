@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Red
   m_EditorClassIdentifier: 
   settingsName: Red
-  piecePrefab: {fileID: 71533931301094581, guid: 4cb934f2eced3b24bb1121bf04ab13ec, type: 3}
+  piecePrefab: {fileID: 2603702867014739561, guid: 4cb934f2eced3b24bb1121bf04ab13ec, type: 3}
   shopSnapshot: {fileID: 21300000, guid: 128574d9a21961848b790656130e38b7, type: 3}

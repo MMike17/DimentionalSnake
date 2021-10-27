@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Swamp
   m_EditorClassIdentifier: 
   settingsName: Swamp
-  piecePrefab: {fileID: 2267684551186575761, guid: 4359f8dcaa9980f4bab2a4fb39f0b9d3, type: 3}
+  piecePrefab: {fileID: 2267684551186575760, guid: 4359f8dcaa9980f4bab2a4fb39f0b9d3, type: 3}
   shopSnapshot: {fileID: 21300000, guid: 24ece9a79f65b0a45b0316aa9704bdc9, type: 3}

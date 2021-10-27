@@ -726,7 +726,6 @@ MonoBehaviour:
   minSpeedRatio: 0.1
   headAlignmentPercent: 0.8
   checkGroundBoxSize: {x: 0.1, y: 0.2, z: 1}
-  piecePrefab: {fileID: 2679361749872123852, guid: ada77668d5f37ec43aa80e88e225336a, type: 3}
   head: {fileID: 322125708}
   checkGroundBoxPos: {fileID: 35703256}
 --- !u!54 &233817845
@@ -1455,7 +1454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 1815189524}
-  m_Horizontal: 1
+  m_Horizontal: 0
   m_Vertical: 1
   m_MovementType: 1
   m_Elasticity: 0.1
@@ -1938,7 +1937,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &592024810
 RectTransform:
   m_ObjectHideFlags: 0

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Neon
   m_EditorClassIdentifier: 
   settingsName: Neon
-  piecePrefab: {fileID: 223875745276253816, guid: 486fc8529a331ea49b2839747f750557, type: 3}
+  piecePrefab: {fileID: 223875745276253819, guid: 486fc8529a331ea49b2839747f750557, type: 3}
   shopSnapshot: {fileID: 21300000, guid: a103404f856a2404d94671ffce8fff00, type: 3}

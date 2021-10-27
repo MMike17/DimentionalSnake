@@ -17,5 +17,6 @@ public class PlayerData
 		hasSound = true;
 
 		unlockedSettings = new bool[settingsCount];
+		unlockedSettings[0] = true;
 	}
 }

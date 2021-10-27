@@ -16,7 +16,7 @@ public class InterfaceManager : BaseBehaviour
 	public LoseInterface loseInterface;
 	public GameObject introInterface;
 
-	public void Init(bool initialSoundState, bool[] unlocks, int selectedIndex, Action startGame, Action reset, Action<int> giveMoney, Action<int> takeMoney, Action<bool> setSoundState, Action<Action> startFakeAd, Func<bool> canBuy, Func<Vector3> getPlayerScreenPos)
+	public void Init(bool initialSoundState, bool[] unlocks, int selectedIndex, Action startGame, Action reset, Action<int> giveMoney, Action<int> takeMoney, Action<int> selectIndex, Action<bool> setSoundState, Action<Action> startFakeAd, Func<bool> canBuy, Func<Vector3> getPlayerScreenPos)
 	{
 		gameInterface.Init(getPlayerScreenPos);
 		mainInterface.Init(
@@ -37,6 +37,7 @@ public class InterfaceManager : BaseBehaviour
 			startFakeAd,
 			giveMoney,
 			takeMoney,
+			selectIndex,
 			canBuy
 		);
 		loseInterface.Init(

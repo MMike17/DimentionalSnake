@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Ugly
   m_EditorClassIdentifier: 
   settingsName: Ugly
-  piecePrefab: {fileID: 6969596487179271471, guid: ef8a2e70b58557e4d9a6268dcfbe1a75, type: 3}
+  piecePrefab: {fileID: 6969596487179271464, guid: ef8a2e70b58557e4d9a6268dcfbe1a75, type: 3}
   shopSnapshot: {fileID: 21300000, guid: 42c6d78aab789b94ba28110073af4765, type: 3}

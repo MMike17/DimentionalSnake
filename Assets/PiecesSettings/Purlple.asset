@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Purlple
   m_EditorClassIdentifier: 
   settingsName: Purple
-  piecePrefab: {fileID: 3368115707100026861, guid: 75d25da7350dedc49a991cf4b110ceea, type: 3}
+  piecePrefab: {fileID: 3368115707100026860, guid: 75d25da7350dedc49a991cf4b110ceea, type: 3}
   shopSnapshot: {fileID: 21300000, guid: 90040c04897d75a40b95907dd1d0b030, type: 3}

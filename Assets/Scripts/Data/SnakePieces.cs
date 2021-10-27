@@ -5,6 +5,6 @@ using UnityEngine;
 public class SnakePieces : ScriptableObject
 {
 	public string settingsName;
-	public GameObject piecePrefab;
+	public SnakePiece piecePrefab;
 	public Sprite shopSnapshot;
 }

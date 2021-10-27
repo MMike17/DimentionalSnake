@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Green
   m_EditorClassIdentifier: 
   settingsName: Green
-  piecePrefab: {fileID: 1914575923921082706, guid: 7fde8702f6c382149a570a50f6b94a6f, type: 3}
+  piecePrefab: {fileID: 1914575923921082717, guid: 7fde8702f6c382149a570a50f6b94a6f, type: 3}
   shopSnapshot: {fileID: 21300000, guid: 2de807d5d3986bd4b894faa3c0b6fbfa, type: 3}

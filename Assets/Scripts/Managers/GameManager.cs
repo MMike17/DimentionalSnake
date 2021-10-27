@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
 		snake.Init(
 			terrainManager.minX.position.x,
 			terrainManager.maxX.position.x,
+			interfaceManager.shopInterface.snakeSettings[playerData.selectedSettings].piecePrefab,
 			() => scoreManager.GiveMoney(),
 			() =>
 			{
@@ -137,7 +138,14 @@ public class GameManager : MonoBehaviour
 				terrainManager.Reset();
 			},
 			amount => scoreManager.GiveMoney(amount),
-			amount => scoreManager.TakeMoney(amount),
+			amount =>
+			{
+				ShopPlayerSetting settings = interfaceManager.shopInterface.GetShopPlayerSetting();
+
+				scoreManager.TakeMoney(amount);
+				snake.SetSnakePrefab(interfaceManager.shopInterface.snakeSettings[settings.selectedIndex].piecePrefab);
+			},
+			index => snake.SetSnakePrefab(interfaceManager.shopInterface.snakeSettings[index].piecePrefab),
 			state =>
 			{
 				playerData.hasSound = state;

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Dark
   m_EditorClassIdentifier: 
   settingsName: Dark
-  piecePrefab: {fileID: 8157286915111536934, guid: 3cb19a284ec23ea43bc86179fdc9d1cd, type: 3}
+  piecePrefab: {fileID: 8157286915111536929, guid: 3cb19a284ec23ea43bc86179fdc9d1cd, type: 3}
   shopSnapshot: {fileID: 21300000, guid: 23d1088056f3e4f4b9a44470c5d1c5a3, type: 3}
