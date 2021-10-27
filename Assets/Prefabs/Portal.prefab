@@ -73,24 +73,24 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  secondPartAnimDuration: 2
+  secondPartAnimDuration: 4
   secondPartAnimCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2
-      outSlope: 2
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.5
-      value: 0.85
-      inSlope: 1.0155157
-      outSlope: 1.0155157
+      time: 0.75
+      value: 0.9
+      inSlope: 1.1378794
+      outSlope: 1.1378794
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334

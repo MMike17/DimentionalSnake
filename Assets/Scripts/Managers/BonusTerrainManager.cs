@@ -16,16 +16,18 @@ public class BonusTerrainManager : BaseBehaviour
 
 	List<TerrainChunk> spawnedChunks;
 	List<Transform> spawnedPortals;
+	Func<Vector3, float> GetPositionPercent;
 	Func<Vector3, bool> IsBehindCamera;
 	Action<Renderer> SetRendererToCamera;
 	Action<float> AddDistance;
 	float currentSpeed;
 
-	public void Init(Action<float> addDistance, Action<Renderer> setRendererToCamera, Func<Vector3, bool> isBehindCamera)
+	public void Init(Action<float> addDistance, Action<Renderer> setRendererToCamera, Func<Vector3, bool> isBehindCamera, Func<Vector3, float> getPositionPercent)
 	{
 		AddDistance = addDistance;
 		SetRendererToCamera = setRendererToCamera;
 		IsBehindCamera = isBehindCamera;
+		GetPositionPercent = getPositionPercent;
 
 		spawnedChunks = new List<TerrainChunk>();
 		spawnedPortals = new List<Transform>();
@@ -61,13 +63,13 @@ public class BonusTerrainManager : BaseBehaviour
 		spawnedChunks.Add(emptyChunk);
 	}
 
-	void SpawnPortal(Vector3 position, Transform player, Transform[] playerPieces)
+	Portal SpawnPortal(Vector3 position)
 	{
-		Portal startPortal = Instantiate(portalPrefab, position, Quaternion.identity);
-		startPortal.Init(SetRendererToCamera, IsBehindCamera);
-		startPortal.StartAnimation(player, playerPieces);
+		Portal portal = Instantiate(portalPrefab, position, Quaternion.identity);
+		portal.Init(SetRendererToCamera, () => { return GetPositionPercent(portal.transform.position); }, IsBehindCamera);
 
-		spawnedPortals.Add(startPortal.transform);
+		spawnedPortals.Add(portal.transform);
+		return portal;
 	}
 
 	public void SpawnTerrain(float difficulty, float currentSpeed, Vector3 lastChunkPos, Snake player)
@@ -79,7 +81,9 @@ public class BonusTerrainManager : BaseBehaviour
 
 		// spawns start portal
 		Transform[] playerPieces = player.GetPiecesTransforms();
-		SpawnPortal(lastChunkPos, player.transform, playerPieces);
+
+		Portal startPortal = SpawnPortal(lastChunkPos);
+		startPortal.StartAnimation(player.transform, playerPieces);
 
 		// spawning empty chunk first
 		float chunkSize = emptyChunkPrefab.transform.GetChild(0).localScale.z;
@@ -118,7 +122,27 @@ public class BonusTerrainManager : BaseBehaviour
 		}
 
 		// spawns end portal
-		SpawnPortal(spawnPos, player.transform, playerPieces);
+		Portal endPortal = SpawnPortal(spawnPos);
+
+		// spawns pieces copies
+		Transform[] copiedPieces = new Transform[10];
+
+		for (int i = 0; i < 10; i++)
+		{
+			Transform pieceCopy = Instantiate(playerPieces[i]);
+
+			// position new pieces
+			pieceCopy.SetParent(endPortal.transform);
+			pieceCopy.position = endPortal.targetPositions[i].position;
+
+			copiedPieces[i] = pieceCopy;
+		}
+
+		// link pieces
+		for (int i = 0; i < 9; i++)
+			copiedPieces[i].GetComponent<SnakePiece>().Init(copiedPieces[i + 1], 0);
+
+		copiedPieces[copiedPieces.Length - 1].GetComponent<SnakePiece>().Init(copiedPieces[0], 0);
 	}
 
 	public void DestroyTerrain()

@@ -13,15 +13,19 @@ public class Portal : BaseBehaviour
 
 	[Header("First anim")]
 	public float minAnimRadius;
-	public float maxAnimRadius, firstPartAnimDuration;
+	public float maxAnimRadius;
+	[Range(0, 1)]
+	public float firstAnimPercentDuration;
 	public AnimationCurve firstPartAnimCurve;
 
 	[Header("Second anim")]
-	public float secondPartAnimDuration;
+	[Range(0, 1)]
+	public float secondAnimPercentDuration;
 	public AnimationCurve secondPartAnimCurve;
 
 	[Header("Third anim")]
-	public float thirdPartAnimDuration;
+	[Range(0, 1)]
+	public float thirdAnimPercentDuration;
 	public AnimationCurve thirdPartAnimCurve;
 
 	[Header("Scene references")]
@@ -30,6 +34,7 @@ public class Portal : BaseBehaviour
 	public Transform[] targetPositions;
 
 	Func<Vector3, bool> IsBehindCamera;
+	Func<float> GetPercent;
 	Vector2[] targetOffsets;
 	Vector3 animOffset;
 
@@ -54,10 +59,14 @@ public class Portal : BaseBehaviour
 			foreach (Transform target in targetPositions)
 				Gizmos.DrawSphere(target.position, 0.5f);
 		}
+
+		if(firstAnimPercentDuration + secondAnimPercentDuration + thirdAnimPercentDuration > 1)
+			thirdAnimPercentDuration = 1 - firstAnimPercentDuration - secondAnimPercentDuration;
 	}
 
-	public void Init(Action<Renderer> SetRenderCamera, Func<Vector3, bool> isBehindCamera)
+	public void Init(Action<Renderer> SetRenderCamera, Func<float> getPercent, Func<Vector3, bool> isBehindCamera)
 	{
+		GetPercent = getPercent;
 		IsBehindCamera = isBehindCamera;
 
 		SetRenderCamera(renderInsidePortal);
@@ -95,15 +104,15 @@ public class Portal : BaseBehaviour
 		}
 
 		// animate pieces
-		float timer = 0;
-
-		while (timer <= firstPartAnimDuration)
+		while (GetPercent() <= firstAnimPercentDuration)
 		{
+			float firstAnimPercent = GetPercent() / firstAnimPercentDuration;
+
 			for (int i = 0; i < pieces.Length; i++)
 			{
 				Transform piece = pieces[i];
 				Vector2 offset = targetOffsets[i];
-				float currentPercent = firstPartAnimCurve.Evaluate(timer / firstPartAnimDuration);
+				float currentPercent = firstPartAnimCurve.Evaluate(firstAnimPercent);
 
 				Vector3 initialPosition = new Vector3(player.position.x, player.position.y, piece.position.z);
 				Vector3 targetPos = new Vector3(player.position.x + offset.x, player.position.y + offset.y, piece.position.z);
@@ -112,7 +121,6 @@ public class Portal : BaseBehaviour
 				piece.position = Vector3.Lerp(initialPosition, targetPos, currentPercent);
 			}
 
-			timer += Time.deltaTime;
 			yield return null;
 		}
 	}
@@ -120,30 +128,19 @@ public class Portal : BaseBehaviour
 	IEnumerator SecondPartAnimRoutine(Transform player, Transform[] pieces)
 	{
 		// move pieces to portal
-		float timer = 0;
-
-		while (timer <= secondPartAnimDuration)
+		while (GetPercent() <= secondAnimPercentDuration)
 		{
+			float secondAnimPercent = (GetPercent() - firstAnimPercentDuration) / (secondAnimPercentDuration - firstAnimPercentDuration);
+
 			for (int i = 0; i < 10; i++)
 			{
 				Transform piece = pieces[i];
 				Vector3 initialPosition = new Vector3(player.position.x, player.position.y, piece.position.z);
-				float currentPercent = secondPartAnimCurve.Evaluate(timer / secondPartAnimDuration);
+				float currentPercent = secondPartAnimCurve.Evaluate(secondAnimPercent);
 
 				piece.position = Vector3.Lerp(initialPosition, targetPositions[i].position, currentPercent);
-
-				// away
-				if(timer < secondPartAnimDuration * 2 / 3)
-				{
-					piece.rotation = Quaternion.Lerp(player.rotation, Quaternion.LookRotation(targetPositions[i].position - piece.position), currentPercent);
-				}
-				else // close
-				{
-					piece.rotation = Quaternion.Lerp(Quaternion.LookRotation(targetPositions[i].position - piece.position), Quaternion.LookRotation(Vector3.forward), currentPercent);
-				}
 			}
 
-			timer += Time.deltaTime;
 			yield return null;
 		}
 
@@ -156,14 +153,14 @@ public class Portal : BaseBehaviour
 
 	IEnumerator ThirdPartAnimRoutine()
 	{
-		float timer = 0;
-
 		// animate portal mesh
-		while (timer <= thirdPartAnimDuration)
+		while (GetPercent() <= thirdAnimPercentDuration)
 		{
-			renderInsidePortal.transform.localScale = Vector3.one * thirdPartAnimCurve.Evaluate(timer / thirdPartAnimDuration) * circleRadius;
+			float previousDurations = firstAnimPercentDuration + secondAnimPercentDuration;
+			float localPercent = (GetPercent() - previousDurations) / (thirdAnimPercentDuration - previousDurations);
 
-			timer += Time.deltaTime;
+			renderInsidePortal.transform.localScale = Vector3.one * thirdPartAnimCurve.Evaluate(localPercent) * circleRadius;
+
 			yield return null;
 		}
 	}
