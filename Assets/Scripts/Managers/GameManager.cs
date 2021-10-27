@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
 				bonusTerrainManager.SpawnTerrain(
 					difficultyManager.GetDifficulty(),
 					difficultyManager.GetSpeedFromDifficulty(difficultyManager.GetDifficulty()),
-					terrainManager.GetLastChunkPosition(),
+					() => { return terrainManager.GetLastChunkPosition(); },
 					snake
 				);
 
@@ -73,6 +73,8 @@ public class GameManager : MonoBehaviour
 			interfaceManager.UpdatePiecesCount,
 			portal =>
 			{
+				bonusTerrainManager.StartBonus();
+
 				portal.SwitchWorlds();
 				cameraManager.SwitchCamera();
 			},
@@ -155,6 +157,7 @@ public class GameManager : MonoBehaviour
 		bonusTerrainManager.Init(
 			distance => scoreManager.AddPlayerScore(distance),
 			cameraManager.SetRendererToCamera,
+			difficultyManager.GetCurrentSpeed,
 			position => { return position.z < cameraManager.mainCamera.transform.position.z; },
 			position => { return 1 - (position.z / terrainManager.spawnPoint.position.z); }
 		);

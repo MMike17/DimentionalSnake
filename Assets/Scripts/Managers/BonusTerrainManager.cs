@@ -18,14 +18,17 @@ public class BonusTerrainManager : BaseBehaviour
 	List<Transform> spawnedPortals;
 	Func<Vector3, float> GetPositionPercent;
 	Func<Vector3, bool> IsBehindCamera;
+	Func<float> GetCurrentSpeed;
 	Action<Renderer> SetRendererToCamera;
 	Action<float> AddDistance;
 	float currentSpeed;
+	bool inBonus;
 
-	public void Init(Action<float> addDistance, Action<Renderer> setRendererToCamera, Func<Vector3, bool> isBehindCamera, Func<Vector3, float> getPositionPercent)
+	public void Init(Action<float> addDistance, Action<Renderer> setRendererToCamera, Func<float> getCurrentSpeed, Func<Vector3, bool> isBehindCamera, Func<Vector3, float> getPositionPercent)
 	{
 		AddDistance = addDistance;
 		SetRendererToCamera = setRendererToCamera;
+		GetCurrentSpeed = getCurrentSpeed;
 		IsBehindCamera = isBehindCamera;
 		GetPositionPercent = getPositionPercent;
 
@@ -40,6 +43,12 @@ public class BonusTerrainManager : BaseBehaviour
 		if(!initialized)
 			return;
 
+		ManagePortals();
+		ManageChunks();
+	}
+
+	void ManagePortals()
+	{
 		// move portals back
 		List<Transform> toRemove = new List<Transform>();
 
@@ -48,11 +57,25 @@ public class BonusTerrainManager : BaseBehaviour
 			if(item == null)
 				toRemove.Add(item);
 			else
-				item.Translate(0, 0, -currentSpeed * Time.deltaTime);
+			{
+				float speed = inBonus ? currentSpeed : GetCurrentSpeed();
+				item.Translate(0, 0, -speed * Time.deltaTime);
+			}
 		});
 
 		// clean portal list
 		toRemove.ForEach(item => spawnedPortals.Remove(item));
+	}
+
+	void ManageChunks()
+	{
+		// move chunks
+		foreach (TerrainChunk chunk in spawnedChunks)
+		{
+			float speed = inBonus ? currentSpeed : GetCurrentSpeed();
+			chunk.transform.Translate(0, 0, -speed * Time.deltaTime);
+			AddDistance(speed * Time.deltaTime);
+		}
 	}
 
 	void SpawnEmptyChunk(Vector3 position)
@@ -72,12 +95,15 @@ public class BonusTerrainManager : BaseBehaviour
 		return portal;
 	}
 
-	public void SpawnTerrain(float difficulty, float currentSpeed, Vector3 lastChunkPos, Snake player)
+	public void SpawnTerrain(float difficulty, float currentSpeed, Func<Vector3> GetLastChunkPos, Snake player)
 	{
 		if(!CheckInitialized())
 			return;
 
 		this.currentSpeed = currentSpeed;
+		inBonus = false;
+
+		Vector3 lastChunkPos = GetLastChunkPos();
 
 		// spawns start portal
 		Transform[] playerPieces = player.GetPiecesTransforms();
@@ -154,5 +180,13 @@ public class BonusTerrainManager : BaseBehaviour
 
 		spawnedChunks.ForEach(item => Destroy(item.gameObject));
 		spawnedChunks.Clear();
+	}
+
+	public void StartBonus()
+	{
+		if(!CheckInitialized())
+			return;
+
+		inBonus = true;
 	}
 }
