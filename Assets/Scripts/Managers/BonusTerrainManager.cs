@@ -57,7 +57,7 @@ public class BonusTerrainManager : BaseBehaviour
 
 	void SpawnEmptyChunk(Vector3 position)
 	{
-		TerrainChunk emptyChunk = Instantiate(emptyChunkPrefab, transform.position, Quaternion.identity);
+		TerrainChunk emptyChunk = Instantiate(emptyChunkPrefab, position, Quaternion.identity, transform);
 		emptyChunk.Init();
 
 		spawnedChunks.Add(emptyChunk);
@@ -83,17 +83,18 @@ public class BonusTerrainManager : BaseBehaviour
 		Transform[] playerPieces = player.GetPiecesTransforms();
 
 		Portal startPortal = SpawnPortal(lastChunkPos);
+		startPortal.name = "StartPortal";
 		startPortal.StartAnimation(player.transform, playerPieces);
 
 		// spawning empty chunk first
 		float chunkSize = emptyChunkPrefab.transform.GetChild(0).localScale.z;
-		SpawnEmptyChunk(lastChunkPos + Vector3.forward * chunkSize);
+		Vector3 spawnPos = lastChunkPos + Vector3.forward * chunkSize;
+		SpawnEmptyChunk(spawnPos);
 
 		// spawning chunks
 		float currentDifficulty = difficulty + Mathf.Lerp(difficulty, 1, 0.5f);
 		int currentSize = Mathf.RoundToInt(Mathf.Lerp(minTerrainSize, maxTerrainSize, difficulty));
 
-		Vector3 spawnPos = spawnedChunks[0].transform.position;
 		List<int> availableIndexes = new List<int>();
 
 		for (int i = 0; i < terrainChunks.Length; i++)
@@ -115,7 +116,7 @@ public class BonusTerrainManager : BaseBehaviour
 			// spawn chunk
 			spawnPos += Vector3.forward * chunkSize;
 
-			TerrainChunk spawnedChunk = Instantiate(terrainChunks[index], spawnPos, Quaternion.identity);
+			TerrainChunk spawnedChunk = Instantiate(terrainChunks[index], spawnPos, Quaternion.identity, transform);
 			spawnedChunk.Init(currentDifficulty);
 
 			spawnedChunks.Add(spawnedChunk);
@@ -123,6 +124,7 @@ public class BonusTerrainManager : BaseBehaviour
 
 		// spawns end portal
 		Portal endPortal = SpawnPortal(spawnPos);
+		endPortal.name = "EndPortal";
 
 		// spawns pieces copies
 		Transform[] copiedPieces = new Transform[10];

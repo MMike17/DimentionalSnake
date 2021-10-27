@@ -127,7 +127,10 @@ public class TerrainChunk : BaseBehaviour
 		DelayedActionsManager.SceduleAction(() =>
 		{
 			foreach (Rigidbody body in elements)
-				Destroy(body.gameObject);
+			{
+				if(body != null)
+					Destroy(body.gameObject);
+			}
 		}, destroyDelay);
 	}
 }
