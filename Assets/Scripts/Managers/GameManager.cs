@@ -163,7 +163,6 @@ public class GameManager : MonoBehaviour
 		bonusTerrainManager.Init(
 			CameraManager.BONUS_RENDER_LAYER,
 			CameraManager.PORTAL_RENDER_LAYER,
-			distance => scoreManager.AddPlayerScore(distance),
 			cameraManager.SetRendererToCamera,
 			difficultyManager.GetCurrentSpeed,
 			position => { return position.z < cameraManager.mainCamera.transform.position.z; },

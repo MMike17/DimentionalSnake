@@ -21,17 +21,15 @@ public class BonusTerrainManager : BaseBehaviour
 	Func<Vector3, bool> IsBehindCamera;
 	Func<float> GetCurrentSpeed;
 	Action<Renderer, bool> SetRendererToCamera;
-	Action<float> AddDistance;
 	float currentSpeed;
 	int bonusLayer, normalLayer;
 	bool inBonus;
 
-	public void Init(int bonusLayer, int normalLayer, Action<float> addDistance, Action<Renderer, bool> setRendererToCamera, Func<float> getCurrentSpeed, Func<Vector3, bool> isBehindCamera, Func<Vector3, float> getPositionPercent)
+	public void Init(int bonusLayer, int normalLayer, Action<Renderer, bool> setRendererToCamera, Func<float> getCurrentSpeed, Func<Vector3, bool> isBehindCamera, Func<Vector3, float> getPositionPercent)
 	{
 		this.bonusLayer = bonusLayer;
 		this.normalLayer = normalLayer;
 
-		AddDistance = addDistance;
 		SetRendererToCamera = setRendererToCamera;
 		GetCurrentSpeed = getCurrentSpeed;
 		IsBehindCamera = isBehindCamera;
@@ -79,7 +77,6 @@ public class BonusTerrainManager : BaseBehaviour
 		{
 			float speed = inBonus ? currentSpeed : GetCurrentSpeed();
 			chunk.transform.Translate(0, 0, -speed * Time.deltaTime);
-			AddDistance(speed * Time.deltaTime);
 		}
 	}
 
