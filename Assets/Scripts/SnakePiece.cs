@@ -44,12 +44,10 @@ public class SnakePiece : BaseBehaviour
 
 		if(movementAnimations)
 		{
-			// TODO : May have to reverse this
-
-			lastPositions.Add(initialPos);
+			lastPositions.Insert(0, initialPos);
 
 			if(lastPositions.Count > trailLength)
-				lastPositions.RemoveAt(0);
+				lastPositions.RemoveAt(lastPositions.Count - 1);
 
 			lineRenderer.SetPositions(lastPositions.ToArray());
 		}
