@@ -5,8 +5,8 @@ using UnityEngine;
 public class CameraManager : BaseBehaviour
 {
 	const int BONUS_RENDER_LAYER = 3;
-	const int PLAYER_RENDER_LAYER = 6;
 	const int UI_RENDER_LAYER = 5;
+	const int PLAYER_RENDER_LAYER = 6;
 
 	[Header("Settings")]
 	public float loseAnimDuration;
@@ -115,7 +115,7 @@ public class CameraManager : BaseBehaviour
 
 		isInBonus = false;
 
-		bonusCamera.cullingMask = BONUS_RENDER_LAYER;
+		bonusCamera.cullingMask = (1 << BONUS_RENDER_LAYER);
 		bonusCamera.targetTexture = portalTexture;
 
 		mainCamera.targetTexture = null;
@@ -137,9 +137,9 @@ public class CameraManager : BaseBehaviour
 		isInBonus = !isInBonus;
 
 		if(isInBonus)
-			bonusCamera.cullingMask = PLAYER_RENDER_LAYER | BONUS_RENDER_LAYER | UI_RENDER_LAYER;
+			bonusCamera.cullingMask = (1 << BONUS_RENDER_LAYER) | (1 << PLAYER_RENDER_LAYER) | (1 << UI_RENDER_LAYER);
 		else
-			bonusCamera.cullingMask = BONUS_RENDER_LAYER;
+			bonusCamera.cullingMask = (1 << BONUS_RENDER_LAYER);
 
 		bonusCamera.targetTexture = isInBonus ? null : portalTexture;
 		mainCamera.targetTexture = isInBonus ? portalTexture : null;

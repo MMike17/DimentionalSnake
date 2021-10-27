@@ -4249,10 +4249,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minTerrainSize: 4
   maxTerrainSize: 8
-  emptyChunkPrefab: {fileID: 6820148526937881430, guid: 31bd8b86ca2ea9148835aa54bd285d4f, type: 3}
+  emptyChunkPrefab: {fileID: 6820148526937881430, guid: 3424eb63b43ebf0429651ac514404497, type: 3}
   terrainChunks:
-  - {fileID: 5555381305150969469, guid: 1e78d9b4a5a83704e951afc89124f02d, type: 3}
-  - {fileID: 6820148526937881430, guid: 31bd8b86ca2ea9148835aa54bd285d4f, type: 3}
+  - {fileID: 5555381305150969469, guid: 2845bbe4dae4b39469ad52735c3c932f, type: 3}
+  - {fileID: 6820148526937881430, guid: 3424eb63b43ebf0429651ac514404497, type: 3}
   portalPrefab: {fileID: 6472351587238882686, guid: 9023d2a5e687a744386e71fc4db133b6, type: 3}
 --- !u!1 &1217935115
 GameObject:

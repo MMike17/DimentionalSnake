@@ -174,6 +174,14 @@ public class Portal : BaseBehaviour
 		}
 	}
 
+	void SetLayerRecursive(Transform parent, int layer)
+	{
+		parent.gameObject.layer = layer;
+
+		foreach (Transform child in parent)
+			SetLayerRecursive(child, layer);
+	}
+
 	public void StartAnimation(Transform player, Transform[] pieces)
 	{
 		if(!CheckInitialized())
@@ -191,5 +199,13 @@ public class Portal : BaseBehaviour
 
 		renderInsidePortal.gameObject.SetActive(false);
 		renderOutsidePortal.gameObject.SetActive(true);
+	}
+
+	public void SetLayer(int layer)
+	{
+		if(!CheckInitialized())
+			return;
+
+		SetLayerRecursive(transform, layer);
 	}
 }
