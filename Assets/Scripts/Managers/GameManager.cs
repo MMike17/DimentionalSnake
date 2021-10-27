@@ -143,6 +143,7 @@ public class GameManager : MonoBehaviour
 
 				snake.Reset();
 				terrainManager.Reset();
+				bonusTerrainManager.Reset();
 
 				scoreManager.Reset();
 			},
@@ -181,6 +182,7 @@ public class GameManager : MonoBehaviour
 			CameraManager.BONUS_RENDER_LAYER,
 			CameraManager.PORTAL_RENDER_LAYER,
 			cameraManager.SetRendererToCamera,
+			terrainManager.GetCanMove,
 			difficultyManager.GetCurrentSpeed,
 			position => { return position.z < cameraManager.mainCamera.transform.position.z; },
 			position => { return 1 - (position.z / terrainManager.spawnPoint.position.z); }

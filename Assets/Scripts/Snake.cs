@@ -101,6 +101,7 @@ public class Snake : BaseBehaviour
 
 		if(shouldFall)
 		{
+			rigid.useGravity = true;
 			SlowTerrain();
 
 			if(CheckFallDone())

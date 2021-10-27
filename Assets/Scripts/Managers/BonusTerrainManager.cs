@@ -20,17 +20,19 @@ public class BonusTerrainManager : BaseBehaviour
 	Func<Vector3, float> GetPositionPercent;
 	Func<Vector3, bool> IsBehindCamera;
 	Func<float> GetCurrentSpeed;
+	Func<bool> GetCanMove;
 	Action<Renderer, bool> SetRendererToCamera;
 	float currentSpeed;
 	int bonusLayer, normalLayer;
 	bool inBonus;
 
-	public void Init(int bonusLayer, int normalLayer, Action<Renderer, bool> setRendererToCamera, Func<float> getCurrentSpeed, Func<Vector3, bool> isBehindCamera, Func<Vector3, float> getPositionPercent)
+	public void Init(int bonusLayer, int normalLayer, Action<Renderer, bool> setRendererToCamera, Func<bool> getCanMove, Func<float> getCurrentSpeed, Func<Vector3, bool> isBehindCamera, Func<Vector3, float> getPositionPercent)
 	{
 		this.bonusLayer = bonusLayer;
 		this.normalLayer = normalLayer;
 
 		SetRendererToCamera = setRendererToCamera;
+		GetCanMove = getCanMove;
 		GetCurrentSpeed = getCurrentSpeed;
 		IsBehindCamera = isBehindCamera;
 		GetPositionPercent = getPositionPercent;
@@ -43,7 +45,7 @@ public class BonusTerrainManager : BaseBehaviour
 
 	void Update()
 	{
-		if(!initialized)
+		if(!initialized || !GetCanMove())
 			return;
 
 		ManagePortals();
@@ -202,5 +204,20 @@ public class BonusTerrainManager : BaseBehaviour
 
 		inBonus = true;
 		startPortal.SetLayer(bonusLayer);
+	}
+
+	public void Reset()
+	{
+		if(!CheckInitialized())
+			return;
+
+		// destroy chunks
+		spawnedChunks.ForEach(item => Destroy(item.gameObject));
+		spawnedChunks.Clear();
+
+		// destroy portals
+		spawnedPortals.ForEach(item => Destroy(item.gameObject));
+
+		inBonus = false;
 	}
 }

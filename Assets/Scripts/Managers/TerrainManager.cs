@@ -223,6 +223,14 @@ public class TerrainManager : BaseBehaviour
 		canMove = true;
 	}
 
+	public bool GetCanMove()
+	{
+		if(!CheckInitialized())
+			return true;
+
+		return canMove;
+	}
+
 	public void StartBonus()
 	{
 		if(!CheckInitialized())
