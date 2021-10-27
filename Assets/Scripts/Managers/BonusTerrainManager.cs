@@ -20,13 +20,13 @@ public class BonusTerrainManager : BaseBehaviour
 	Func<Vector3, float> GetPositionPercent;
 	Func<Vector3, bool> IsBehindCamera;
 	Func<float> GetCurrentSpeed;
-	Action<Renderer> SetRendererToCamera;
+	Action<Renderer, bool> SetRendererToCamera;
 	Action<float> AddDistance;
 	float currentSpeed;
 	int layer;
 	bool inBonus;
 
-	public void Init(int layer, Action<float> addDistance, Action<Renderer> setRendererToCamera, Func<float> getCurrentSpeed, Func<Vector3, bool> isBehindCamera, Func<Vector3, float> getPositionPercent)
+	public void Init(int layer, Action<float> addDistance, Action<Renderer, bool> setRendererToCamera, Func<float> getCurrentSpeed, Func<Vector3, bool> isBehindCamera, Func<Vector3, float> getPositionPercent)
 	{
 		this.layer = layer;
 
@@ -90,10 +90,10 @@ public class BonusTerrainManager : BaseBehaviour
 		spawnedChunks.Add(emptyChunk);
 	}
 
-	Portal SpawnPortal(Vector3 position)
+	Portal SpawnPortal(Vector3 position, bool isEnd)
 	{
 		Portal portal = Instantiate(portalPrefab, position, Quaternion.identity);
-		portal.Init(SetRendererToCamera, () => { return GetPositionPercent(portal.transform.position); }, IsBehindCamera);
+		portal.Init(isEnd, SetRendererToCamera, () => { return GetPositionPercent(portal.transform.position); }, IsBehindCamera);
 
 		spawnedPortals.Add(portal.transform);
 		return portal;
@@ -116,7 +116,7 @@ public class BonusTerrainManager : BaseBehaviour
 		// spawns start portal
 		Transform[] playerPieces = player.GetPiecesTransforms();
 
-		startPortal = SpawnPortal(lastChunkPos);
+		startPortal = SpawnPortal(lastChunkPos, false);
 		startPortal.name = "StartPortal";
 		startPortal.StartAnimation(player.transform, playerPieces);
 
@@ -156,7 +156,7 @@ public class BonusTerrainManager : BaseBehaviour
 		}
 
 		// spawns end portal
-		endPortal = SpawnPortal(spawnPos);
+		endPortal = SpawnPortal(spawnPos, true);
 		endPortal.name = "EndPortal";
 
 		// spawns pieces copies

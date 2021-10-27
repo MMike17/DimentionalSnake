@@ -10,7 +10,8 @@ x Obstacles poping doesn't work
 x Render textures of portals don't work
 x Bonus chunks don't move
 x Camera switching layers doesn't work correctly
-- End portal texture bug
 x Pieces count doesn't change after portal opening
 x End portal shows up on normal world when it shouldn't
 x Pieces trail animation is active for pieces which stay on snake
+- End portal texture bug
+- Bug on end portal touch

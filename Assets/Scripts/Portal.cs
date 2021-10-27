@@ -64,7 +64,7 @@ public class Portal : BaseBehaviour
 			thirdAnimPercentDuration = 1 - firstAnimPercentDuration - secondAnimPercentDuration;
 	}
 
-	public void Init(Action<Renderer> SetRenderCamera, Func<float> getPercent, Func<Vector3, bool> isBehindCamera)
+	public void Init(bool isEnd, Action<Renderer, bool> SetRenderCamera, Func<float> getPercent, Func<Vector3, bool> isBehindCamera)
 	{
 		GetPercent = getPercent;
 		IsBehindCamera = isBehindCamera;
@@ -74,8 +74,8 @@ public class Portal : BaseBehaviour
 		renderInsidePortal.gameObject.SetActive(true);
 		renderOutsidePortal.gameObject.SetActive(false);
 
-		SetRenderCamera(renderInsidePortal);
-		SetRenderCamera(renderOutsidePortal);
+		SetRenderCamera(renderInsidePortal, isEnd);
+		SetRenderCamera(renderOutsidePortal, false);
 
 		InitInternal();
 	}

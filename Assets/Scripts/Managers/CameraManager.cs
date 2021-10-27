@@ -17,10 +17,10 @@ public class CameraManager : BaseBehaviour
 
 	[Header("Scene references")]
 	public Camera mainCamera;
-	public Camera bonusCamera;
+	public Camera bonusCamera, extraCamera;
 
 	Transform player;
-	RenderTexture portalTexture;
+	RenderTexture portalTexture, extrapPortalTexture;
 	Vector3 initialPos, targetPos;
 	Quaternion initialRot, targetRot;
 	Action OnLoseAnimDone;
@@ -43,8 +43,14 @@ public class CameraManager : BaseBehaviour
 		initialRot = mainCamera.transform.rotation;
 
 		portalTexture = new RenderTexture(Screen.width, Screen.height, 24);
-		portalTexture.name = "PortalTex";
+		portalTexture.name = "PortalTexture";
 		portalTexture.Create();
+
+		extrapPortalTexture = new RenderTexture(Screen.width, Screen.height, 24);
+		extrapPortalTexture.name = "ExtraPortalTexture";
+		extrapPortalTexture.Create();
+
+		extraCamera.targetTexture = extrapPortalTexture;
 
 		loseTimer = 0;
 		startAnim = false;
@@ -122,12 +128,12 @@ public class CameraManager : BaseBehaviour
 		mainCamera.targetTexture = null;
 	}
 
-	public void SetRendererToCamera(Renderer renderer)
+	public void SetRendererToCamera(Renderer renderer, bool needsExtra)
 	{
 		if(!CheckInitialized())
 			return;
 
-		renderer.material.SetTexture("_MainTex", portalTexture);
+		renderer.material.SetTexture("_MainTex", needsExtra ? extrapPortalTexture : portalTexture);
 	}
 
 	public void SwitchCamera()
