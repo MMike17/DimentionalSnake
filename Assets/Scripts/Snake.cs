@@ -31,7 +31,7 @@ public class Snake : BaseBehaviour
 	Func<float> GetCurrentSpeed;
 	Action<Portal> StartWarpLevel, ExitBonus;
 	Action<int> UpdatePieceCount;
-	Action GetMoney, LoseGame, LoseGameByFall, StartPortal;
+	Action GetMoney, LoseGame, LoseGameByFall, StartPortal, SlowTerrain;
 	Vector3 initialPos, targetPos;
 	float minX, maxX, smoothMinX, smoothMaxX, currentSpeed;
 	bool canMove, shouldFall, startedPortal;
@@ -55,7 +55,7 @@ public class Snake : BaseBehaviour
 		}
 	}
 
-	public void Init(float minX, float maxX, SnakePiece piecePrefab, Action getMoney, Action loseGame, Action loseGameByFall, Action startPortal, Action<Portal> exitBonus, Action<int> updatePieceCount, Action<Portal> startWarpLevel, Func<float> getCurrentSpeed)
+	public void Init(float minX, float maxX, SnakePiece piecePrefab, Action getMoney, Action loseGame, Action loseGameByFall, Action startPortal, Action slowTerrain, Action<Portal> exitBonus, Action<int> updatePieceCount, Action<Portal> startWarpLevel, Func<float> getCurrentSpeed)
 	{
 		this.minX = minX;
 		this.maxX = maxX;
@@ -64,6 +64,7 @@ public class Snake : BaseBehaviour
 		LoseGame = loseGame;
 		LoseGameByFall = loseGameByFall;
 		StartPortal = startPortal;
+		SlowTerrain = slowTerrain;
 		ExitBonus = exitBonus;
 		UpdatePieceCount = updatePieceCount;
 		StartWarpLevel = startWarpLevel;
@@ -101,6 +102,8 @@ public class Snake : BaseBehaviour
 
 		if(shouldFall)
 		{
+			SlowTerrain();
+
 			if(CheckFallDone())
 			{
 				rigid.isKinematic = true;
@@ -377,6 +380,7 @@ public class Snake : BaseBehaviour
 			return;
 
 		canMove = true;
+		shouldFall = false;
 		rigid.isKinematic = false;
 
 		targetPos = Vector3.zero;

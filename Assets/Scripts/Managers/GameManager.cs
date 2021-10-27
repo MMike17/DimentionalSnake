@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
 				terrainManager.StartBonus();
 				interfaceManager.UpdatePiecesCount(0);
 			},
+			difficultyManager.ForceSpeedDown,
 			portal =>
 			{
 				terrainManager.StopBonus();
@@ -131,6 +132,7 @@ public class GameManager : MonoBehaviour
 			() =>
 			{
 				snake.Reset();
+				difficultyManager.Reset();
 
 				snake.Unfreeze();
 				terrainManager.Unfreeze();

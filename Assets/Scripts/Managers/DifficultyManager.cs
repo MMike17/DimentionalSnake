@@ -10,11 +10,14 @@ public class DifficultyManager : BaseBehaviour
 
 	Func<float> GetCurrentDistance;
 	float highscore, currentDifficulty;
+	bool forceDifficulty;
 
 	public void Init(float highscore, Func<float> getCurrentDistance)
 	{
 		this.highscore = highscore;
 		GetCurrentDistance = getCurrentDistance;
+
+		forceDifficulty = false;
 
 		InitInternal();
 	}
@@ -25,6 +28,7 @@ public class DifficultyManager : BaseBehaviour
 			return;
 
 		float currentDistance = GetCurrentDistance();
+
 		currentDifficulty = currentDistance >= highscore ? 1 : currentDistance / highscore;
 	}
 
@@ -49,7 +53,7 @@ public class DifficultyManager : BaseBehaviour
 		if(!CheckInitialized())
 			return 0;
 
-		return Mathf.Lerp(minSpeed, maxSpeed, currentDifficulty);
+		return forceDifficulty ? minSpeed / 2 : Mathf.Lerp(minSpeed, maxSpeed, currentDifficulty);
 	}
 
 	public float GetSpeedFromDifficulty(float difficulty)
@@ -58,5 +62,21 @@ public class DifficultyManager : BaseBehaviour
 			return 0;
 
 		return Mathf.Lerp(minSpeed, maxSpeed, difficulty);
+	}
+
+	public void ForceSpeedDown()
+	{
+		if(!CheckInitialized())
+			return;
+
+		forceDifficulty = true;
+	}
+
+	public void Reset()
+	{
+		if(!CheckInitialized())
+			return;
+
+		forceDifficulty = false;
 	}
 }
