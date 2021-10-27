@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3306001430612835342}
   - component: {fileID: 3306001430612835343}
   - component: {fileID: 3306001430612835328}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Mesh
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -3574,7 +3574,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3306001431822878474}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Obstacles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3609,7 +3609,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3306001432206570087}
   - component: {fileID: 3306001432206570086}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: CenterHolesLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3660,7 +3660,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3306001432469755134}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Money
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3741,6 +3741,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Obstacle (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5434888739414921797, guid: 9996eea6b81be0f4ea300190d3a26af6, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9996eea6b81be0f4ea300190d3a26af6, type: 3}
 --- !u!4 &7389804775691656179 stripped
@@ -3820,6 +3824,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Coin (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6398683305354712718, guid: 60848b8247d512b41a2866521205380b, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60848b8247d512b41a2866521205380b, type: 3}
 --- !u!4 &8443675741008182392 stripped
@@ -3881,6 +3889,10 @@ PrefabInstance:
     - target: {fileID: 5434888739414921797, guid: 9996eea6b81be0f4ea300190d3a26af6, type: 3}
       propertyPath: m_Name
       value: Obstacle (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5434888739414921797, guid: 9996eea6b81be0f4ea300190d3a26af6, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9996eea6b81be0f4ea300190d3a26af6, type: 3}
@@ -3961,6 +3973,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Coin
       objectReference: {fileID: 0}
+    - target: {fileID: 6398683305354712718, guid: 60848b8247d512b41a2866521205380b, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60848b8247d512b41a2866521205380b, type: 3}
 --- !u!4 &8443675742315926298 stripped
@@ -4022,6 +4038,10 @@ PrefabInstance:
     - target: {fileID: 5434888739414921797, guid: 9996eea6b81be0f4ea300190d3a26af6, type: 3}
       propertyPath: m_Name
       value: Obstacle (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5434888739414921797, guid: 9996eea6b81be0f4ea300190d3a26af6, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9996eea6b81be0f4ea300190d3a26af6, type: 3}
@@ -4102,6 +4122,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Coin (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6398683305354712718, guid: 60848b8247d512b41a2866521205380b, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60848b8247d512b41a2866521205380b, type: 3}
 --- !u!4 &8443675742623292992 stripped
@@ -4163,6 +4187,10 @@ PrefabInstance:
     - target: {fileID: 5434888739414921797, guid: 9996eea6b81be0f4ea300190d3a26af6, type: 3}
       propertyPath: m_Name
       value: Obstacle
+      objectReference: {fileID: 0}
+    - target: {fileID: 5434888739414921797, guid: 9996eea6b81be0f4ea300190d3a26af6, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9996eea6b81be0f4ea300190d3a26af6, type: 3}
@@ -4255,6 +4283,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Coin (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 6398683305354712718, guid: 60848b8247d512b41a2866521205380b, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60848b8247d512b41a2866521205380b, type: 3}
 --- !u!4 &371403820805058896 stripped
@@ -4340,6 +4372,10 @@ PrefabInstance:
     - target: {fileID: 6398683305354712718, guid: 60848b8247d512b41a2866521205380b, type: 3}
       propertyPath: m_Name
       value: Coin (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6398683305354712718, guid: 60848b8247d512b41a2866521205380b, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60848b8247d512b41a2866521205380b, type: 3}

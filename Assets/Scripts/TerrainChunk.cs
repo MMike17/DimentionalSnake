@@ -65,7 +65,7 @@ public class TerrainChunk : BaseBehaviour
 
 	int GetPiecesDifficulty(float difficulty)
 	{
-		return Mathf.FloorToInt(difficulty * pieces.Length);
+		return Mathf.CeilToInt(difficulty * pieces.Length);
 	}
 
 	List<int> GetSelectedIndexes(int arrayCount, int pickCount)

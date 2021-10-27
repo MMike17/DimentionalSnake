@@ -279,7 +279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSpeed: 15
-  maxSpeed: 40
+  maxSpeed: 30
 --- !u!1 &113844271
 GameObject:
   m_ObjectHideFlags: 0
@@ -734,13 +734,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minSnakeLength: 2
   trailLength: 30
-  horizontalSpeed: 8
+  horizontalSpeed: 10
   zPieceDistanceFromCore: 1
-  fallZPos: -5
+  fallZPos: -2
   smoothingPercent: 0.75
   minSpeedRatio: 0.1
   headAlignmentPercent: 0.8
-  checkGroundBoxSize: {x: 0.1, y: 0.2, z: 1}
+  checkGroundBoxSize: {x: 0.3, y: 0.2, z: 1}
   head: {fileID: 322125708}
   checkGroundBoxPos: {fileID: 35703256}
 --- !u!54 &233817845
@@ -1155,6 +1155,57 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &412949851
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 412949852}
+  - component: {fileID: 412949853}
+  m_Layer: 0
+  m_Name: BackgroundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &412949852
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412949851}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2018717052}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &412949853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412949851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a54a3681426557f46a51a96845b45c33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  memorySize: 2
+  backgrounds:
+  - {fileID: 21300000, guid: 8a93f3e3fc7a3d44faad1e9b5aadd7f3, type: 3}
+  - {fileID: 21300000, guid: dcef189d7240cf54eba2750475f60e97, type: 3}
+  - {fileID: 21300000, guid: 9667b1bd57919ba42970e9e4a92f10ae, type: 3}
+  - {fileID: 21300000, guid: 5f0fed8589312b9448061e1ffd7170e5, type: 3}
+  - {fileID: 21300000, guid: 0be24c94d83414346b598ec8c6ce0610, type: 3}
+  backgroundUI: {fileID: 1815735646}
 --- !u!1001 &414261301
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4269,12 +4320,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abf48cae8f4f40f4c8f1dad44e26afc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minTerrainSize: 5
+  minTerrainSize: 4
   maxTerrainSize: 10
-  emptyChunkPrefab: {fileID: 6820148526937881430, guid: 3424eb63b43ebf0429651ac514404497, type: 3}
+  emptyChunkPrefab: {fileID: 6820148526937881430, guid: 06d6de0b34ab01b4a889ef005b586cad, type: 3}
   terrainChunks:
-  - {fileID: 5555381305150969469, guid: 2845bbe4dae4b39469ad52735c3c932f, type: 3}
-  - {fileID: 6820148526937881430, guid: 3424eb63b43ebf0429651ac514404497, type: 3}
+  - {fileID: 6714244995718751876, guid: a2e62f54e26ad9f409cf50ffd9732fbb, type: 3}
+  - {fileID: 3306001432206570086, guid: 674a358a03ac11f4dbb8e1e0cf27f4ba, type: 3}
+  - {fileID: 5393758500418685702, guid: d575338354719be409fae8c5cd40c61c, type: 3}
+  - {fileID: 8859639068719208781, guid: f33efb28fd3a87440821c5e24c86e4fa, type: 3}
+  - {fileID: 2031935893001729029, guid: 68c71a4c3afeffc48b94e68fa4a4e11f, type: 3}
+  - {fileID: 2793978826599014807, guid: 56805d2619a123b49ae5fbcf5f686d15, type: 3}
   portalPrefab: {fileID: 6472351587238882686, guid: 9023d2a5e687a744386e71fc4db133b6, type: 3}
 --- !u!1 &1217935115
 GameObject:
@@ -6605,6 +6660,7 @@ MonoBehaviour:
   fakeAdManager: {fileID: 1164800852}
   cameraManager: {fileID: 422610018}
   bonusTerrainManager: {fileID: 1191167190}
+  backgroundManager: {fileID: 412949853}
   snake: {fileID: 233817844}
   playerInput: {fileID: 1440145832}
 --- !u!4 &2018717052
@@ -6625,6 +6681,7 @@ Transform:
   - {fileID: 1164800851}
   - {fileID: 422610017}
   - {fileID: 1191167189}
+  - {fileID: 412949852}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6868,23 +6925,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 462326f830ebb924e888e01fbada2211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  memorySize: 1
+  memorySize: 4
   deleteDistance: 10
   popUpForce: 20
   popSideForce: 10
   popDestroyDelay: 5
   emptyChunkPrefab: {fileID: 6820148526937881430, guid: 31bd8b86ca2ea9148835aa54bd285d4f, type: 3}
   terrainChunks:
+  - {fileID: 8310923696360070097, guid: b370fe063df26ff44a8dc90cbc0646b4, type: 3}
   - {fileID: 5317020424838737286, guid: 693bc2f7cfd0fbc4bb6d3ab74d477273, type: 3}
-  - {fileID: 8073418764242163102, guid: d9d523646a8772b48a38f1b90a2aef9e, type: 3}
-  - {fileID: 1270740766061701449, guid: 6b5e2b5f9f9ba15489c5496df2ef381e, type: 3}
   - {fileID: 8210638077317354116, guid: c8e0ca1f1247ed541886e4b00161872b, type: 3}
   - {fileID: 425937059612112181, guid: 1a11498dc6a48b4419241463d1d6c685, type: 3}
   - {fileID: 8445813548743981967, guid: 992ef9dcb7601684084868a6749c954b, type: 3}
   - {fileID: 3072562981410262591, guid: b68582c9b4d33db44a6a4ed0e7d071ab, type: 3}
   - {fileID: 3165890897851520251, guid: 29f8e279a3b66f84f8f8767aa6fd1944, type: 3}
   - {fileID: 7144978694340288127, guid: 51e4d855d2c987240ae86fa927d48c1e, type: 3}
-  - {fileID: 8310923696360070097, guid: b370fe063df26ff44a8dc90cbc0646b4, type: 3}
   minX: {fileID: 724882583}
   maxX: {fileID: 1510296767}
   newHighscorePrefab: {fileID: 6799309660039605671, guid: 25e35395185123a46b87ac03280df431, type: 3}

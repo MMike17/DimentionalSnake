@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
 	public FakeAdManager fakeAdManager;
 	public CameraManager cameraManager;
 	public BonusTerrainManager bonusTerrainManager;
+	public BackgroundManager backgroundManager;
 
 	[Header("Uniques")]
 	public Snake snake;
@@ -55,6 +56,8 @@ public class GameManager : MonoBehaviour
 			},
 			() =>
 			{
+				backgroundManager.PickNewBackground();
+
 				bonusTerrainManager.SpawnTerrain(
 					CameraManager.PORTAL_RENDER_LAYER,
 					difficultyManager.GetDifficulty(),
@@ -178,6 +181,7 @@ public class GameManager : MonoBehaviour
 			position => { return position.z < cameraManager.mainCamera.transform.position.z; },
 			position => { return 1 - (position.z / terrainManager.spawnPoint.position.z); }
 		);
+		backgroundManager.Init();
 	}
 
 	void SubscribePlayerInput()
