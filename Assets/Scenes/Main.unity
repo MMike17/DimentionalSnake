@@ -278,8 +278,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5442ba8f09db4484abfe0676651dcab8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpeed: 10
-  maxSpeed: 20
+  minSpeed: 15
+  maxSpeed: 40
 --- !u!1 &113844271
 GameObject:
   m_ObjectHideFlags: 0
@@ -714,8 +714,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSnakeLength: 2
-  trailLength: 10
-  horizontalSpeed: 5
+  trailLength: 30
+  horizontalSpeed: 8
   zPieceDistanceFromCore: 1
   fallZPos: -5
   smoothingPercent: 0.75
@@ -4239,8 +4239,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abf48cae8f4f40f4c8f1dad44e26afc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minTerrainSize: 4
-  maxTerrainSize: 8
+  minTerrainSize: 5
+  maxTerrainSize: 10
   emptyChunkPrefab: {fileID: 6820148526937881430, guid: 3424eb63b43ebf0429651ac514404497, type: 3}
   terrainChunks:
   - {fileID: 5555381305150969469, guid: 2845bbe4dae4b39469ad52735c3c932f, type: 3}
@@ -4322,15 +4322,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1217935115}
-  m_LocalRotation: {x: 0.08715578, y: -0, z: -0, w: 0.9961947}
-  m_LocalPosition: {x: 0, y: 3, z: -12}
+  m_LocalRotation: {x: 0.10452846, y: 0, z: 0, w: 0.9945219}
+  m_LocalPosition: {x: 0, y: 3.5, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1850684069}
   - {fileID: 963194228}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 10, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 12, y: 0, z: 0}
 --- !u!1 &1228309997
 GameObject:
   m_ObjectHideFlags: 0
@@ -6416,7 +6416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 077d209d5d1271e43baec57362c20be7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialHighscore: 30
+  initialHighscore: 100
 --- !u!1 &1979829348
 GameObject:
   m_ObjectHideFlags: 0
