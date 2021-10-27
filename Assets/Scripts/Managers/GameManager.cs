@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
 			() =>
 			{
 				bonusTerrainManager.SpawnTerrain(
+					CameraManager.PORTAL_RENDER_LAYER,
 					difficultyManager.GetDifficulty(),
 					difficultyManager.GetSpeedFromDifficulty(difficultyManager.GetDifficulty()),
 					() => { return terrainManager.GetLastChunkPosition(); },

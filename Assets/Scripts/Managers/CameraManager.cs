@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraManager : BaseBehaviour
 {
 	public const int BONUS_RENDER_LAYER = 3;
+	public const int PORTAL_RENDER_LAYER = 7;
 
 	const int UI_RENDER_LAYER = 5;
 	const int PLAYER_RENDER_LAYER = 6;

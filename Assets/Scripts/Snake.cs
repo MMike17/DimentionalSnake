@@ -282,9 +282,9 @@ public class Snake : BaseBehaviour
 				break;
 
 			case PORTAL_TAG:
-				StartWarpLevel(other.GetComponentInParent<Portal>());
-
-				if(!startedPortal)
+				if(startedPortal)
+					StartWarpLevel(other.GetComponentInParent<Portal>());
+				else
 					ExitBonus();
 
 				startedPortal = false;

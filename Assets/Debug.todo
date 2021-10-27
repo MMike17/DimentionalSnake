@@ -13,5 +13,5 @@ x Camera switching layers doesn't work correctly
 x Pieces count doesn't change after portal opening
 x End portal shows up on normal world when it shouldn't
 x Pieces trail animation is active for pieces which stay on snake
-- End portal texture bug
+x End portal texture bug
 - Bug on end portal touch

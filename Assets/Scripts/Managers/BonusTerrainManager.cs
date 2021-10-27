@@ -99,7 +99,7 @@ public class BonusTerrainManager : BaseBehaviour
 		return portal;
 	}
 
-	public void SpawnTerrain(float difficulty, float currentSpeed, Func<Vector3> GetLastChunkPos, Snake player)
+	public void SpawnTerrain(int portalLayer, float difficulty, float currentSpeed, Func<Vector3> GetLastChunkPos, Snake player)
 	{
 		if(!CheckInitialized())
 			return;
@@ -119,6 +119,7 @@ public class BonusTerrainManager : BaseBehaviour
 		startPortal = SpawnPortal(lastChunkPos, false);
 		startPortal.name = "StartPortal";
 		startPortal.StartAnimation(player.transform, playerPieces);
+		startPortal.SetLayer(portalLayer);
 
 		// spawning empty chunk first
 		Vector3 spawnPos = lastChunkPos + Vector3.forward * chunkSize;
