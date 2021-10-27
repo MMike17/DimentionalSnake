@@ -35,7 +35,7 @@ public class Portal : BaseBehaviour
 
 	Func<Vector3, bool> IsBehindCamera;
 	Func<float> GetPercent;
-	Vector2[] targetOffsets;
+	Vector3[] targetOffsets;
 	Vector3 animOffset;
 
 	void OnDrawGizmos()
@@ -93,7 +93,7 @@ public class Portal : BaseBehaviour
 	IEnumerator FirstPartAnimRoutine(Transform player, Transform[] pieces)
 	{
 		// decide pieces offsets
-		targetOffsets = new Vector2[10];
+		targetOffsets = new Vector3[10];
 
 		for (int i = 0; i < 10; i++)
 		{
@@ -123,30 +123,30 @@ public class Portal : BaseBehaviour
 
 			yield return null;
 		}
+
+		// switch offsets to positions
+		for (int i = 0; i < 10; i++)
+			targetOffsets[i] = pieces[i].position;
 	}
 
 	IEnumerator SecondPartAnimRoutine(Transform player, Transform[] pieces)
 	{
-		// children pieces to portal
-		foreach (Transform piece in pieces)
-			piece.SetParent(transform);
-
 		// move pieces to portal
 		while (GetPercent() < secondAnimPercentDuration)
 		{
 			float secondAnimPercent = (GetPercent() - firstAnimPercentDuration) / (secondAnimPercentDuration - firstAnimPercentDuration);
 
-			for (int i = 0; i < 10; i++)
-			{
-				Transform piece = pieces[i];
-				Vector3 initialPosition = new Vector3(player.position.x, player.position.y, piece.position.z);
-				float currentPercent = secondPartAnimCurve.Evaluate(secondAnimPercent);
+			float currentPercent = secondPartAnimCurve.Evaluate(secondAnimPercent);
 
-				piece.position = Vector3.Lerp(initialPosition, targetPositions[i].position, currentPercent);
-			}
+			for (int i = 0; i < 10; i++)
+				pieces[i].position = Vector3.Lerp(targetOffsets[i], targetPositions[i].position, currentPercent);
 
 			yield return null;
 		}
+
+		// children pieces to portal
+		foreach (Transform piece in pieces)
+			piece.SetParent(transform);
 
 		// links snake pieces
 		for (int i = 0; i < 9; i++)
