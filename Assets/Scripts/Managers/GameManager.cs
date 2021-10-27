@@ -143,6 +143,8 @@ public class GameManager : MonoBehaviour
 
 				snake.Reset();
 				terrainManager.Reset();
+
+				scoreManager.Reset();
 			},
 			amount => scoreManager.GiveMoney(amount),
 			amount =>

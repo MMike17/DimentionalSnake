@@ -78,5 +78,6 @@ public class DifficultyManager : BaseBehaviour
 			return;
 
 		forceDifficulty = false;
+		currentDifficulty = 0;
 	}
 }

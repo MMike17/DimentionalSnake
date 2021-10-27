@@ -103,4 +103,13 @@ public class ScoreManager : BaseBehaviour
 
 		return useDefaultHighscore ? 0 : playerHighscore;
 	}
+
+	public void Reset()
+	{
+		if(!CheckInitialized())
+			return;
+
+		currentPlayerScore = 0;
+		passedHighscore = false;
+	}
 }

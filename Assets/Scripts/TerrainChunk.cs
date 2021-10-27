@@ -70,6 +70,9 @@ public class TerrainChunk : BaseBehaviour
 
 	List<int> GetSelectedIndexes(int arrayCount, int pickCount)
 	{
+		if(arrayCount == 0)
+			return new List<int>();
+
 		List<int> selectedIndexes = new List<int>();
 		List<int> availableIndexes = new List<int>();
 
@@ -78,6 +81,7 @@ public class TerrainChunk : BaseBehaviour
 
 		for (int i = 0; i < pickCount; i++)
 		{
+			Debug.Log(availableIndexes.Count);
 			int selectedIndex = availableIndexes[Random.Range(0, availableIndexes.Count)];
 
 			selectedIndexes.Add(selectedIndex);

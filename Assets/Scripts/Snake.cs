@@ -18,11 +18,10 @@ public class Snake : BaseBehaviour
 	public float horizontalSpeed, zPieceDistanceFromCore, fallZPos;
 	[Range(0, 1)]
 	public float smoothingPercent, minSpeedRatio, headAlignmentPercent;
-	public Vector3 checkGroundBoxSize;
 
 	[Header("Scene references")]
 	public SnakePiece head;
-	public Transform checkGroundBoxPos;
+	public Transform[] checkGroundPoints;
 
 	List<SnakePiece> spawnedPieces;
 	List<ReferencePoint> referencePoints;
@@ -48,10 +47,10 @@ public class Snake : BaseBehaviour
 			Gizmos.DrawLine(Vector3.up * 0.5f + Vector3.right * smoothMaxX - Vector3.forward * 5, Vector3.up * 0.5f + Vector3.right * smoothMaxX + Vector3.forward * 5);
 		}
 
-		if(checkGroundBoxPos != null)
+		if(checkGroundPoints != null)
 		{
-			SetGizmosAlpha(0.5f);
-			Gizmos.DrawCube(checkGroundBoxPos.position, checkGroundBoxSize);
+			foreach (Transform point in checkGroundPoints)
+				Gizmos.DrawLine(point.position, point.position - Vector3.up);
 		}
 	}
 
@@ -197,31 +196,24 @@ public class Snake : BaseBehaviour
 
 	void CheckFalling()
 	{
-		Collider[] contacts = Physics.OverlapBox(checkGroundBoxPos.position, checkGroundBoxSize / 2);
-
-		// short circuit's the checking method for performance optimization
-		if(contacts.Length == 0)
-		{
-			shouldFall = true;
-			rigid.useGravity = true;
+		if(shouldFall)
 			return;
-		}
 
-		bool hasGround = false;
+		RaycastHit[] hits = new RaycastHit[checkGroundPoints.Length];
 
-		foreach (Collider detected in contacts)
+		for (int i = 0; i < checkGroundPoints.Length; i++)
+			Physics.Raycast(checkGroundPoints[i].position, -Vector3.up, out hits[i]);
+
+		// at least one is good
+		shouldFall = true;
+
+		foreach (RaycastHit hit in hits)
 		{
-			if(detected.CompareTag(GROUND_TAG))
+			if(hit.transform != null && hit.transform.CompareTag(GROUND_TAG))
 			{
-				hasGround = true;
+				shouldFall = false;
 				break;
 			}
-		}
-
-		if(!hasGround)
-		{
-			shouldFall = true;
-			rigid.useGravity = true;
 		}
 	}
 
