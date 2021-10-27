@@ -14,4 +14,5 @@ x Pieces count doesn't change after portal opening
 x End portal shows up on normal world when it shouldn't
 x Pieces trail animation is active for pieces which stay on snake
 x End portal texture bug
-- Bug on end portal touch
+x Bug on end portal touch
+x End portal outside texture bug

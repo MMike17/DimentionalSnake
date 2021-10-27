@@ -255,6 +255,6 @@ public class TerrainManager : BaseBehaviour
 		if(!CheckInitialized())
 			return;
 
-		spawnedChunks[spawnedChunks.Count - 1].gameObject.SetActive(false);
+		spawnedChunks[0].gameObject.SetActive(false);
 	}
 }

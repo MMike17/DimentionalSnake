@@ -29,9 +29,9 @@ public class Snake : BaseBehaviour
 	List<ReferencePoint> referencePoints;
 	Rigidbody rigid;
 	Func<float> GetCurrentSpeed;
-	Action<Portal> StartWarpLevel;
+	Action<Portal> StartWarpLevel, ExitBonus;
 	Action<int> UpdatePieceCount;
-	Action GetMoney, LoseGame, LoseGameByFall, StartPortal, ExitBonus;
+	Action GetMoney, LoseGame, LoseGameByFall, StartPortal;
 	Vector3 initialPos, targetPos;
 	float minX, maxX, smoothMinX, smoothMaxX, currentSpeed;
 	bool canMove, shouldFall, startedPortal;
@@ -55,7 +55,7 @@ public class Snake : BaseBehaviour
 		}
 	}
 
-	public void Init(float minX, float maxX, Action getMoney, Action loseGame, Action loseGameByFall, Action startPortal, Action exitBonus, Action<int> updatePieceCount, Action<Portal> startWarpLevel, Func<float> getCurrentSpeed)
+	public void Init(float minX, float maxX, Action getMoney, Action loseGame, Action loseGameByFall, Action startPortal, Action<Portal> exitBonus, Action<int> updatePieceCount, Action<Portal> startWarpLevel, Func<float> getCurrentSpeed)
 	{
 		this.minX = minX;
 		this.maxX = maxX;
@@ -285,7 +285,7 @@ public class Snake : BaseBehaviour
 				if(startedPortal)
 					StartWarpLevel(other.GetComponentInParent<Portal>());
 				else
-					ExitBonus();
+					ExitBonus(other.GetComponentInParent<Portal>());
 
 				startedPortal = false;
 				break;

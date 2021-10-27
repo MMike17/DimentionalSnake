@@ -23,12 +23,13 @@ public class BonusTerrainManager : BaseBehaviour
 	Action<Renderer, bool> SetRendererToCamera;
 	Action<float> AddDistance;
 	float currentSpeed;
-	int layer;
+	int bonusLayer, normalLayer;
 	bool inBonus;
 
-	public void Init(int layer, Action<float> addDistance, Action<Renderer, bool> setRendererToCamera, Func<float> getCurrentSpeed, Func<Vector3, bool> isBehindCamera, Func<Vector3, float> getPositionPercent)
+	public void Init(int bonusLayer, int normalLayer, Action<float> addDistance, Action<Renderer, bool> setRendererToCamera, Func<float> getCurrentSpeed, Func<Vector3, bool> isBehindCamera, Func<Vector3, float> getPositionPercent)
 	{
-		this.layer = layer;
+		this.bonusLayer = bonusLayer;
+		this.normalLayer = normalLayer;
 
 		AddDistance = addDistance;
 		SetRendererToCamera = setRendererToCamera;
@@ -175,7 +176,7 @@ public class BonusTerrainManager : BaseBehaviour
 		}
 
 		// make portal only visible inside bonus
-		endPortal.SetLayer(layer);
+		endPortal.SetLayer(bonusLayer);
 
 		// link pieces
 		for (int i = 0; i < 9; i++)
@@ -184,13 +185,17 @@ public class BonusTerrainManager : BaseBehaviour
 		copiedPieces[copiedPieces.Length - 1].GetComponent<SnakePiece>().Init(copiedPieces[0], 0);
 	}
 
-	public void DestroyTerrain()
+	public void StopBonus()
 	{
 		if(!CheckInitialized())
 			return;
 
+		inBonus = false;
+
 		spawnedChunks.ForEach(item => Destroy(item.gameObject));
 		spawnedChunks.Clear();
+
+		endPortal.SetLayer(normalLayer);
 	}
 
 	public void StartBonus()
@@ -199,6 +204,6 @@ public class BonusTerrainManager : BaseBehaviour
 			return;
 
 		inBonus = true;
-		startPortal.SetLayer(layer);
+		startPortal.SetLayer(bonusLayer);
 	}
 }
