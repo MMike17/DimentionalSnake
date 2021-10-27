@@ -205,6 +205,10 @@ public class TerrainManager : BaseBehaviour
 
 		// puts list in right order
 		spawnedChunks.Reverse();
+
+		// destroy heighscore banner
+		if(newHighscoreTransform != null)
+			Destroy(newHighscoreTransform.gameObject);
 	}
 
 	public void Freeze()

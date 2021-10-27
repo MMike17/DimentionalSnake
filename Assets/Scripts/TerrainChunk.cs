@@ -24,7 +24,6 @@ public class TerrainChunk : BaseBehaviour
 		// decide which obstacles need to be spawned
 		if(obstacles.Length > 0)
 		{
-			Debug.Log("Obstacles");
 			int obstaclesDifficulty = GetObstaclesDifficulty(difficulty);
 			selectedIndexes = GetSelectedIndexes(obstacles.Length, obstaclesDifficulty);
 
@@ -35,7 +34,6 @@ public class TerrainChunk : BaseBehaviour
 		// decide which pieces need to be spawned
 		if(pieces.Length > 0)
 		{
-			Debug.Log("Pieces");
 			int piecesDifficulty = GetPiecesDifficulty(difficulty);
 			selectedIndexes = GetSelectedIndexes(pieces.Length, piecesDifficulty);
 
@@ -78,12 +76,12 @@ public class TerrainChunk : BaseBehaviour
 		for (int i = 0; i < arrayCount; i++)
 			availableIndexes.Add(i);
 
-		// failsafe
-		if(availableIndexes.Count <= 0)
-			return new List<int>();
-
 		for (int i = 0; i < pickCount; i++)
 		{
+			// failsafe
+			if(availableIndexes.Count <= 0)
+				return new List<int>();
+
 			int selectedIndex = availableIndexes[Random.Range(0, availableIndexes.Count)];
 
 			selectedIndexes.Add(selectedIndex);
